@@ -1,0 +1,107 @@
+services:
+  # Laravel Backend API (Production)
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    container_name: attendance_backend_prod
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=https://your-domain.com
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=attendance_system
+      - DB_USERNAME=attendance_user
+      - DB_PASSWORD=attendance_pass
+      - CACHE_DRIVER=redis
+      - SESSION_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+      - REDIS_HOST=redis
+    networks:
+      - attendance_network
+    depends_on:
+      - postgres
+      - redis
+
+  # Face Recognition Microservice (Production)
+  face_service:
+    build:
+      context: .
+      dockerfile: docker/face-recognition.Dockerfile
+    container_name: attendance_face_service_prod
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      - face_encodings:/app/storage/encodings
+      - employee_photos:/app/storage/photos
+    environment:
+      - PYTHONPATH=/app
+      - ENVIRONMENT=production
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - DATABASE_URL=postgresql://attendance_user:attendance_pass@postgres:5432/attendance_system
+      - APP_DEBUG=false
+      - LOG_LEVEL=INFO
+      - APP_HOST=0.0.0.0
+      - APP_PORT=8001
+      - REDIS_URL=redis://redis:6379/1
+    networks:
+      - attendance_network
+    depends_on:
+      - postgres
+      - redis
+
+  # PostgreSQL Database (Production)
+  postgres:
+    image: postgres:16-alpine
+    container_name: attendance_postgres_prod
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=attendance_system
+      - POSTGRES_USER=attendance_user
+      - POSTGRES_PASSWORD=attendance_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    networks:
+      - attendance_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U attendance_user -d attendance_system"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis for caching and sessions
+  redis:
+    image: redis:7-alpine
+    container_name: attendance_redis_prod
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks:
+      - attendance_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  face_encodings:
+    driver: local
+  employee_photos:
+    driver: local
+
+networks:
+  attendance_network:
+    driver: bridge

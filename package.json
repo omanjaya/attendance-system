@@ -1,0 +1,33 @@
+{
+  "name": "attendance-system-webhook",
+  "version": "1.0.0",
+  "description": "Webhook server for automated deployment",
+  "main": "webhook-server.js",
+  "scripts": {
+    "start": "node webhook-server.js",
+    "dev": "nodemon webhook-server.js",
+    "install-service": "node install-service.js",
+    "test": "node test-webhook.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/attendance-system.git"
+  },
+  "keywords": [
+    "webhook",
+    "deployment",
+    "automation",
+    "github"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

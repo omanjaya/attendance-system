@@ -1,0 +1,115 @@
+services:
+  # Laravel Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    container_name: attendance_backend_dev
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      # Mount source code for hot reload
+      - ./backend:/var/www/html:cached
+      - /var/www/html/vendor
+      - ./backend/storage:/var/www/html/storage
+      # Skip database directory due to WSL permission issues
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_URL=http://localhost:8000
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=attendance_system
+      - DB_USERNAME=attendance_user
+      - DB_PASSWORD=attendance_pass
+      - CACHE_DRIVER=file
+      - SESSION_DRIVER=file
+      - QUEUE_CONNECTION=database
+    networks:
+      - attendance_network
+    depends_on:
+      - postgres
+
+  # Face Recognition Microservice
+  face_service:
+    build:
+      context: .
+      dockerfile: docker/face-recognition.Dockerfile
+    container_name: attendance_face_service_dev
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      # Mount source code for hot reload
+      - ./services/face-recognition-service:/app:cached
+      - /app/__pycache__
+      # Mount storage for face encodings and photos
+      - ./storage/face_encodings:/app/storage/encodings
+      - ./storage/employee_photos:/app/storage/photos
+    environment:
+      - PYTHONPATH=/app
+      - ENVIRONMENT=development
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - DATABASE_URL=postgresql://attendance_user:attendance_pass@postgres:5432/attendance_system
+      - APP_DEBUG=true
+      - LOG_LEVEL=INFO
+      - APP_HOST=0.0.0.0
+      - APP_PORT=8001
+    networks:
+      - attendance_network
+    depends_on:
+      - postgres
+
+  # Frontend Development Server
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    container_name: attendance_frontend_dev
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/web:/var/www/html:cached
+      - /var/www/html/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:8000
+      - VITE_FACE_API_URL=http://localhost:8001
+    networks:
+      - attendance_network
+    command: npm run dev
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: attendance_postgres_dev
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=attendance_system
+      - POSTGRES_USER=attendance_user
+      - POSTGRES_PASSWORD=attendance_pass
+      - POSTGRES_ROOT_PASSWORD=attendance_root_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    networks:
+      - attendance_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U attendance_user -d attendance_system"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  attendance_network:
+    driver: bridge

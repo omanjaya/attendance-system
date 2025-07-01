@@ -1,0 +1,83 @@
+# Version control
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Environment files
+.env.example
+.env.backup
+
+# Node modules and build files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# PHP dependencies that will be installed in container (allow composer files)
+backend/vendor/
+vendor/
+!backend/composer.json
+!backend/composer.lock
+
+# Python virtual environments (VERY LARGE)
+face-detection-service/venv/
+face-detection-service/__pycache__/
+face_detection/venv/
+face_detection/__pycache__/
+**/*venv*/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Laravel specific
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+bootstrap/cache/*
+
+# Testing (but allow backend tests and phpunit)
+tests/
+.phpunit.result.cache
+!backend/phpunit.xml
+
+# Docker files (we don't need these in the container)
+docker-compose.yml
+docker-compose.override.yml
+docker-compose.dev.yml
+Dockerfile*
+.dockerignore
+
+# Development tools
+.editorconfig
+.styleci.yml
+
+# Face detection temp files
+face_detection/uploads/*
+face_detection/face_encodings/*
+face_detection/employee_photos/*
+
+# Large directories that should not be copied
+face-detection-service/
+contextbyman/
+
+# Logs
+*.log
+logs/

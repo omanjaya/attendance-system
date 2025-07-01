@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # Laravel Backend
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend-fixed.Dockerfile
+    container_name: attendance_backend
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      # Mount storage for persistence
+      - ./backend/storage:/var/www/html/storage
+      - ./backend/.env:/var/www/html/.env
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_URL=http://localhost:8000
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=attendance_system
+      - DB_USERNAME=attendance_user
+      - DB_PASSWORD=attendance_pass
+    networks:
+      - attendance_network
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health.php"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: attendance_postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=attendance_system
+      - POSTGRES_USER=attendance_user
+      - POSTGRES_PASSWORD=attendance_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - attendance_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U attendance_user -d attendance_system"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Frontend (if needed)
+  frontend:
+    image: node:20-alpine
+    container_name: attendance_frontend
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/web:/app
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:8000/api
+    networks:
+      - attendance_network
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  attendance_network:
+    driver: bridge

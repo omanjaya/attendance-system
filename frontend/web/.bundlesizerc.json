@@ -1,0 +1,33 @@
+{
+  "files": [
+    {
+      "path": "dist/assets/index-*.js",
+      "maxSize": "250KB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/assets/vendor-vue-*.js",
+      "maxSize": "65KB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/assets/vendor-charts-*.js",
+      "maxSize": "70KB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/assets/layout-*.js",
+      "maxSize": "30KB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/assets/index-*.css",
+      "maxSize": "80KB",
+      "compression": "gzip"
+    }
+  ],
+  "ci": {
+    "trackBranches": ["main", "develop"],
+    "repoBranchBase": "main"
+  }
+}

@@ -1,0 +1,117 @@
+version: '3.8'
+
+services:
+  # Laravel Application
+  app:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    container_name: attendance_app
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./storage:/var/www/html/storage
+      - ./database:/var/www/html/database
+      - app_logs:/var/log
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=http://localhost:8000
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres_prod
+      - DB_PORT=5432
+      - DB_DATABASE=attendance_system
+      - DB_USERNAME=attendance_user
+      - DB_PASSWORD=attendance_pass
+      - CACHE_DRIVER=file
+      - SESSION_DRIVER=file
+      - QUEUE_CONNECTION=database
+    networks:
+      - attendance_network
+    depends_on:
+      - face_service
+      - postgres_prod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"] 
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Python Face Recognition Service
+  face_service:
+    build:
+      context: ./face_detection
+      dockerfile: Dockerfile
+    container_name: attendance_face_service
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./face_detection/face_encodings:/app/face_encodings
+      - ./face_detection/employee_photos:/app/employee_photos
+    environment:
+      - PYTHONPATH=/app
+      - ENVIRONMENT=production
+    networks:
+      - attendance_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001"] 
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Nginx reverse proxy for better performance
+  nginx:
+    image: nginx:alpine
+    container_name: attendance_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - nginx_logs:/var/log/nginx
+    networks:
+      - attendance_network
+    depends_on:
+      - app
+      - face_service
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL Database for production
+  postgres_prod:
+    image: postgres:16-alpine
+    container_name: attendance_postgres_prod
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=attendance_system
+      - POSTGRES_USER=attendance_user
+      - POSTGRES_PASSWORD=attendance_pass
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    networks:
+      - attendance_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U attendance_user -d attendance_system"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  app_logs:
+    driver: local
+  nginx_logs:
+    driver: local
+  postgres_prod_data:
+    driver: local
+
+networks:
+  attendance_network:
+    driver: bridge
