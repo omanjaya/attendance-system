@@ -1,9 +1,9 @@
 <template>
   <div class="pull-to-refresh-container">
     <!-- Pull indicator -->
-    <div 
+    <div
       class="pull-indicator"
-      :class="{ 
+      :class="{
         'pull-active': isPulling,
         'pull-triggered': isTriggered,
         'pull-refreshing': isRefreshing
@@ -11,7 +11,11 @@
       :style="{ transform: `translateY(${pullDistance}px)` }"
     >
       <div class="pull-content">
-        <div v-if="!isRefreshing" class="pull-arrow" :style="{ transform: `rotate(${arrowRotation}deg)` }">
+        <div
+          v-if="!isRefreshing"
+          class="pull-arrow"
+          :style="{ transform: `rotate(${arrowRotation}deg)` }"
+        >
           <TablerIcon name="arrow-down" />
         </div>
         <div v-else class="pull-spinner">
@@ -20,9 +24,9 @@
         <span class="pull-text">{{ pullText }}</span>
       </div>
     </div>
-    
+
     <!-- Main content -->
-    <div 
+    <div
       ref="contentRef"
       class="pull-content-wrapper"
       :style="{ transform: `translateY(${contentOffset}px)` }"
@@ -36,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import TablerIcon from './TablerIcon.vue'
 
 const props = defineProps({
@@ -86,47 +90,47 @@ const pullText = computed(() => {
 })
 
 // Touch handlers
-const handleTouchStart = (e) => {
+const handleTouchStart = e => {
   if (props.disabled || isRefreshing.value) return
-  
+
   // Only start pulling if at top of page
   if (window.scrollY > 0) return
-  
+
   const touch = e.touches[0]
   touchStartY.value = touch.clientY
   lastTouchY.value = touch.clientY
 }
 
-const handleTouchMove = (e) => {
+const handleTouchMove = e => {
   if (props.disabled || isRefreshing.value) return
-  
+
   const touch = e.touches[0]
   const deltaY = touch.clientY - touchStartY.value
-  
+
   // Only pull if moving down and at top of page
   if (deltaY > 0 && window.scrollY === 0) {
     e.preventDefault()
-    
+
     isPulling.value = true
-    
+
     // Apply dampening effect
     pullDistance.value = deltaY * props.dampening
-    
+
     // Check if threshold is reached
     isTriggered.value = pullDistance.value >= props.threshold
-    
+
     // Limit maximum pull distance
     if (pullDistance.value > props.maxDistance) {
       pullDistance.value = props.maxDistance
     }
   }
-  
+
   lastTouchY.value = touch.clientY
 }
 
 const handleTouchEnd = () => {
   if (props.disabled || isRefreshing.value || !isPulling.value) return
-  
+
   if (isTriggered.value) {
     // Trigger refresh
     startRefresh()
@@ -139,7 +143,7 @@ const handleTouchEnd = () => {
 // Methods
 const startRefresh = async () => {
   isRefreshing.value = true
-  
+
   try {
     // Emit refresh event
     await emit('refresh')
@@ -162,7 +166,7 @@ const resetPull = () => {
   isPulling.value = false
   isTriggered.value = false
   pullDistance.value = 0
-  
+
   // Smooth reset animation
   nextTick(() => {
     if (contentRef.value) {

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import Modal from '@/components/common/Modal.vue'
 
@@ -31,14 +31,14 @@ describe('Modal.vue', () => {
   describe('Basic Functionality', () => {
     it('renders modal when visible is true', async () => {
       wrapper = createWrapper({ visible: true })
-      
+
       expect(wrapper.find('.modal.show').exists()).toBe(true)
       expect(wrapper.find('.modal-backdrop').exists()).toBe(true)
     })
 
     it('does not render modal when visible is false', () => {
       wrapper = createWrapper({ visible: false })
-      
+
       expect(wrapper.find('.modal').exists()).toBe(false)
       expect(wrapper.find('.modal-backdrop').exists()).toBe(false)
     })
@@ -355,31 +355,40 @@ describe('Modal.vue', () => {
 
   describe('Slots', () => {
     it('renders custom header content', () => {
-      wrapper = createWrapper({
-        visible: true
-      }, {
-        header: '<h3>Custom Header</h3>'
-      })
+      wrapper = createWrapper(
+        {
+          visible: true
+        },
+        {
+          header: '<h3>Custom Header</h3>'
+        }
+      )
 
       expect(wrapper.find('.modal-header h3').text()).toBe('Custom Header')
     })
 
     it('renders custom footer content', () => {
-      wrapper = createWrapper({
-        visible: true
-      }, {
-        footer: '<button class="custom-btn">Custom Button</button>'
-      })
+      wrapper = createWrapper(
+        {
+          visible: true
+        },
+        {
+          footer: '<button class="custom-btn">Custom Button</button>'
+        }
+      )
 
       expect(wrapper.find('.modal-footer .custom-btn').exists()).toBe(true)
     })
 
     it('renders custom body content', () => {
-      wrapper = createWrapper({
-        visible: true
-      }, {
-        default: '<div class="custom-content">Custom Content</div>'
-      })
+      wrapper = createWrapper(
+        {
+          visible: true
+        },
+        {
+          default: '<div class="custom-content">Custom Content</div>'
+        }
+      )
 
       expect(wrapper.find('.modal-body .custom-content').text()).toBe('Custom Content')
     })

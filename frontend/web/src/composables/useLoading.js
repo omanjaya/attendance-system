@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 // Global loading states
 const globalLoadingStates = ref(new Map())
@@ -9,13 +9,13 @@ let loadingId = 0
  */
 export const useLoading = (namespace = 'default') => {
   const localStates = ref(new Map())
-  
+
   /**
    * Set loading state for a specific key
    */
   const setLoading = (key, state = true, options = {}) => {
     const id = typeof key === 'string' ? key : `loading-${++loadingId}`
-    
+
     if (state) {
       localStates.value.set(id, {
         id,
@@ -28,41 +28,41 @@ export const useLoading = (namespace = 'default') => {
     } else {
       localStates.value.delete(id)
     }
-    
+
     // Trigger reactivity
     localStates.value = new Map(localStates.value)
-    
+
     return id
   }
-  
+
   /**
    * Get loading state for a specific key
    */
-  const getLoading = (key) => {
+  const getLoading = key => {
     return localStates.value.get(key) || null
   }
-  
+
   /**
    * Check if a specific key is loading
    */
-  const isLoading = (key) => {
+  const isLoading = key => {
     return localStates.value.has(key)
   }
-  
+
   /**
    * Check if any operation is loading
    */
   const isAnyLoading = computed(() => {
     return localStates.value.size > 0
   })
-  
+
   /**
    * Get all loading states
    */
   const getAllLoading = computed(() => {
     return Array.from(localStates.value.values())
   })
-  
+
   /**
    * Update loading state
    */
@@ -73,15 +73,15 @@ export const useLoading = (namespace = 'default') => {
       localStates.value = new Map(localStates.value)
     }
   }
-  
+
   /**
    * Clear specific loading state
    */
-  const clearLoading = (key) => {
+  const clearLoading = key => {
     localStates.value.delete(key)
     localStates.value = new Map(localStates.value)
   }
-  
+
   /**
    * Clear all loading states
    */
@@ -89,13 +89,13 @@ export const useLoading = (namespace = 'default') => {
     localStates.value.clear()
     localStates.value = new Map()
   }
-  
+
   /**
    * Wrap an async function with loading state
    */
   const withLoading = async (key, asyncFn, options = {}) => {
     const loadingId = setLoading(key, true, options)
-    
+
     try {
       const result = await asyncFn()
       return result
@@ -103,16 +103,16 @@ export const useLoading = (namespace = 'default') => {
       clearLoading(loadingId)
     }
   }
-  
+
   /**
    * Create a loading wrapper for API calls
    */
   const createLoadingWrapper = (key, options = {}) => {
-    return async (asyncFn) => {
+    return async asyncFn => {
       return withLoading(key, asyncFn, options)
     }
   }
-  
+
   return {
     // State management
     setLoading,
@@ -123,11 +123,11 @@ export const useLoading = (namespace = 'default') => {
     updateLoading,
     clearLoading,
     clearAllLoading,
-    
+
     // Utilities
     withLoading,
     createLoadingWrapper,
-    
+
     // Reactive state
     states: computed(() => localStates.value)
   }
@@ -139,7 +139,7 @@ export const useLoading = (namespace = 'default') => {
 export const useGlobalLoading = () => {
   const setGlobalLoading = (key, state = true, options = {}) => {
     const id = typeof key === 'string' ? key : `global-loading-${++loadingId}`
-    
+
     if (state) {
       globalLoadingStates.value.set(id, {
         id,
@@ -152,31 +152,31 @@ export const useGlobalLoading = () => {
     } else {
       globalLoadingStates.value.delete(id)
     }
-    
+
     // Trigger reactivity
     globalLoadingStates.value = new Map(globalLoadingStates.value)
-    
+
     return id
   }
-  
+
   const isGlobalLoading = computed(() => {
     return globalLoadingStates.value.size > 0
   })
-  
+
   const getAllGlobalLoading = computed(() => {
     return Array.from(globalLoadingStates.value.values())
   })
-  
-  const clearGlobalLoading = (key) => {
+
+  const clearGlobalLoading = key => {
     globalLoadingStates.value.delete(key)
     globalLoadingStates.value = new Map(globalLoadingStates.value)
   }
-  
+
   const clearAllGlobalLoading = () => {
     globalLoadingStates.value.clear()
     globalLoadingStates.value = new Map()
   }
-  
+
   return {
     setGlobalLoading,
     isGlobalLoading,
@@ -202,7 +202,7 @@ export const loadingPatterns = {
       ...options
     }
   },
-  
+
   /**
    * Form submission loading
    */
@@ -215,7 +215,7 @@ export const loadingPatterns = {
       ...options
     }
   },
-  
+
   /**
    * Data fetch loading
    */
@@ -227,7 +227,7 @@ export const loadingPatterns = {
       ...options
     }
   },
-  
+
   /**
    * File upload loading
    */
@@ -240,7 +240,7 @@ export const loadingPatterns = {
       ...options
     }
   },
-  
+
   /**
    * Page navigation loading
    */
@@ -253,7 +253,7 @@ export const loadingPatterns = {
       ...options
     }
   },
-  
+
   /**
    * Search loading
    */
@@ -272,11 +272,11 @@ export const loadingPatterns = {
  */
 export const useApiLoading = () => {
   const { setLoading, clearLoading, isLoading, withLoading } = useLoading('api')
-  
+
   const apiCall = async (key, asyncFn, options = {}) => {
     return withLoading(key, asyncFn, loadingPatterns.apiRequest(key, options))
   }
-  
+
   return {
     setLoading,
     clearLoading,
@@ -287,11 +287,11 @@ export const useApiLoading = () => {
 
 export const useFormLoading = () => {
   const { setLoading, clearLoading, isLoading, withLoading } = useLoading('form')
-  
+
   const submitForm = async (action, asyncFn, options = {}) => {
     return withLoading(action, asyncFn, loadingPatterns.formSubmit(action, options))
   }
-  
+
   return {
     setLoading,
     clearLoading,
@@ -302,15 +302,15 @@ export const useFormLoading = () => {
 
 export const usePageLoading = () => {
   const { setGlobalLoading, clearGlobalLoading, isGlobalLoading } = useGlobalLoading()
-  
+
   const showPageLoading = (message = 'Loading page...') => {
     return setGlobalLoading('page', true, loadingPatterns.pageNavigation({ message }))
   }
-  
+
   const hidePageLoading = () => {
     clearGlobalLoading('page')
   }
-  
+
   return {
     showPageLoading,
     hidePageLoading,
@@ -324,38 +324,38 @@ export const usePageLoading = () => {
 export const loadingDirective = {
   mounted(el, binding) {
     const { value, modifiers } = binding
-    
+
     if (value) {
       el.classList.add('loading')
-      
+
       if (modifiers.overlay) {
         el.style.position = 'relative'
-        
+
         const overlay = document.createElement('div')
         overlay.className = 'loading-overlay'
         overlay.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>'
-        
+
         el.appendChild(overlay)
         el._loadingOverlay = overlay
       }
     }
   },
-  
+
   updated(el, binding) {
     const { value, modifiers } = binding
-    
+
     if (value) {
       el.classList.add('loading')
     } else {
       el.classList.remove('loading')
-      
+
       if (el._loadingOverlay) {
         el.removeChild(el._loadingOverlay)
         delete el._loadingOverlay
       }
     }
   },
-  
+
   unmounted(el) {
     if (el._loadingOverlay) {
       el.removeChild(el._loadingOverlay)

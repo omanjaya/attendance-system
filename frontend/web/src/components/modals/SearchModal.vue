@@ -1,13 +1,24 @@
 <template>
   <!-- Exact Tabler.io Search Modal -->
-  <div v-if="isVisible" class="modal modal-blur fade show" style="display: block;" tabindex="-1">
+  <div v-if="isVisible" class="modal modal-blur fade show" style="display: block" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="M21 21l-4.35-4.35"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon me-2"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
             </svg>
             Search
           </h5>
@@ -17,23 +28,34 @@
           <!-- Search Input -->
           <div class="mb-3">
             <div class="input-group input-group-flat">
-              <input 
-                type="search" 
-                class="form-control form-control-lg" 
-                placeholder="Search employees, attendance, schedules..."
+              <input
+                ref="searchInput"
                 v-model="searchQuery"
+                type="search"
+                class="form-control form-control-lg"
+                placeholder="Search employees, attendance, schedules..."
+                autocomplete="off"
                 @input="performSearch"
                 @keydown.enter="selectFirstResult"
                 @keydown.arrow-down.prevent="navigateDown"
                 @keydown.arrow-up.prevent="navigateUp"
                 @keydown.escape="close"
-                ref="searchInput"
-                autocomplete="off"
-              >
+              />
               <span class="input-group-text">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"/>
-                  <path d="M21 21l-4.35-4.35"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="M21 21l-4.35-4.35" />
                 </svg>
               </span>
             </div>
@@ -52,33 +74,64 @@
               <!-- Employees -->
               <div v-if="results.employees.length > 0" class="search-category mb-4">
                 <h6 class="text-muted mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/>
-                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                    <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-sm me-1"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
                   </svg>
                   Employees
                 </h6>
                 <div class="list-group list-group-flush">
-                  <a 
-                    v-for="(employee, index) in results.employees" 
-                    :key="'employee-' + employee.id" 
-                    href="#" 
+                  <a
+                    v-for="(employee, index) in results.employees"
+                    :key="'employee-' + employee.id"
+                    href="#"
                     class="list-group-item list-group-item-action d-flex align-items-center"
-                    :class="{ 'active': selectedIndex === getGlobalIndex('employees', index) }"
+                    :class="{ active: selectedIndex === getGlobalIndex('employees', index) }"
                     @click.prevent="navigateToEmployee(employee)"
                   >
-                    <span class="avatar avatar-sm me-3" :style="employee.avatar ? `background-image: url(${employee.avatar})` : ''" :class="!employee.avatar ? 'bg-primary-lt' : ''">
+                    <span
+                      class="avatar avatar-sm me-3"
+                      :style="employee.avatar ? `background-image: url(${employee.avatar})` : ''"
+                      :class="!employee.avatar ? 'bg-primary-lt' : ''"
+                    >
                       {{ employee.avatar ? '' : getInitials(employee.name) }}
                     </span>
                     <div class="flex-fill">
-                      <div class="font-weight-medium" v-html="highlightMatch(employee.name, searchQuery)"></div>
-                      <div class="text-muted small">{{ employee.employee_id }} • {{ employee.department }}</div>
+                      <div
+                        class="font-weight-medium"
+                        v-html="highlightMatch(employee.name, searchQuery)"
+                      ></div>
+                      <div class="text-muted small">
+                        {{ employee.employee_id }} • {{ employee.department }}
+                      </div>
                     </div>
                     <div class="text-muted">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 18 15 12 9 6"/>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="9 18 15 12 9 6" />
                       </svg>
                     </div>
                   </a>
@@ -88,34 +141,74 @@
               <!-- Attendance Records -->
               <div v-if="results.attendance.length > 0" class="search-category mb-4">
                 <h6 class="text-muted mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M8 3v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-1"/>
-                    <path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"/>
-                    <path d="M10 14l2 2l4 -4"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-sm me-1"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M8 3v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-1" />
+                    <path
+                      d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"
+                    />
+                    <path d="M10 14l2 2l4 -4" />
                   </svg>
                   Attendance
                 </h6>
                 <div class="list-group list-group-flush">
-                  <a 
-                    v-for="(record, index) in results.attendance" 
-                    :key="'attendance-' + record.id" 
-                    href="#" 
+                  <a
+                    v-for="(record, index) in results.attendance"
+                    :key="'attendance-' + record.id"
+                    href="#"
                     class="list-group-item list-group-item-action d-flex align-items-center"
-                    :class="{ 'active': selectedIndex === getGlobalIndex('attendance', index) }"
+                    :class="{ active: selectedIndex === getGlobalIndex('attendance', index) }"
                     @click.prevent="navigateToAttendance(record)"
                   >
                     <span class="avatar avatar-sm me-3 bg-success-lt">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 12l2 2l4 -4"/>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M9 12l2 2l4 -4" />
                       </svg>
                     </span>
                     <div class="flex-fill">
-                      <div class="font-weight-medium" v-html="highlightMatch(record.employee.name, searchQuery)"></div>
-                      <div class="text-muted small">{{ formatDate(record.date) }} • {{ record.status }}</div>
+                      <div
+                        class="font-weight-medium"
+                        v-html="highlightMatch(record.employee.name, searchQuery)"
+                      ></div>
+                      <div class="text-muted small">
+                        {{ formatDate(record.date) }} • {{ record.status }}
+                      </div>
                     </div>
                     <div class="text-muted">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 18 15 12 9 6"/>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="9 18 15 12 9 6" />
                       </svg>
                     </div>
                   </a>
@@ -125,36 +218,74 @@
               <!-- Schedules -->
               <div v-if="results.schedules.length > 0" class="search-category mb-4">
                 <h6 class="text-muted mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="4" y="5" width="16" height="16" rx="2"/>
-                    <line x1="16" y1="3" x2="16" y2="7"/>
-                    <line x1="8" y1="3" x2="8" y2="7"/>
-                    <line x1="4" y1="11" x2="20" y2="11"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-sm me-1"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="4" y="5" width="16" height="16" rx="2" />
+                    <line x1="16" y1="3" x2="16" y2="7" />
+                    <line x1="8" y1="3" x2="8" y2="7" />
+                    <line x1="4" y1="11" x2="20" y2="11" />
                   </svg>
                   Schedules
                 </h6>
                 <div class="list-group list-group-flush">
-                  <a 
-                    v-for="(schedule, index) in results.schedules" 
-                    :key="'schedule-' + schedule.id" 
-                    href="#" 
+                  <a
+                    v-for="(schedule, index) in results.schedules"
+                    :key="'schedule-' + schedule.id"
+                    href="#"
                     class="list-group-item list-group-item-action d-flex align-items-center"
-                    :class="{ 'active': selectedIndex === getGlobalIndex('schedules', index) }"
+                    :class="{ active: selectedIndex === getGlobalIndex('schedules', index) }"
                     @click.prevent="navigateToSchedule(schedule)"
                   >
                     <span class="avatar avatar-sm me-3 bg-warning-lt">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="9"/>
-                        <polyline points="12,7 12,12 15,15"/>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="9" />
+                        <polyline points="12,7 12,12 15,15" />
                       </svg>
                     </span>
                     <div class="flex-fill">
-                      <div class="font-weight-medium" v-html="highlightMatch(schedule.name, searchQuery)"></div>
-                      <div class="text-muted small">{{ schedule.employee.name }} • {{ schedule.department }}</div>
+                      <div
+                        class="font-weight-medium"
+                        v-html="highlightMatch(schedule.name, searchQuery)"
+                      ></div>
+                      <div class="text-muted small">
+                        {{ schedule.employee.name }} • {{ schedule.department }}
+                      </div>
                     </div>
                     <div class="text-muted">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 18 15 12 9 6"/>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="9 18 15 12 9 6" />
                       </svg>
                     </div>
                   </a>
@@ -165,15 +296,24 @@
             <!-- No Results -->
             <div v-else class="empty py-4">
               <div class="empty-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"/>
-                  <path d="M21 21l-4.35-4.35"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="M21 21l-4.35-4.35" />
                 </svg>
               </div>
               <p class="empty-title">No results found</p>
-              <p class="empty-subtitle text-muted">
-                Try searching with different keywords
-              </p>
+              <p class="empty-subtitle text-muted">Try searching with different keywords</p>
             </div>
           </div>
 
@@ -199,7 +339,7 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -226,14 +366,25 @@ const mockData = {
   employees: [
     { id: 1, name: 'John Doe', employee_id: 'EMP001', department: 'Mathematics', avatar: null },
     { id: 2, name: 'Jane Smith', employee_id: 'EMP002', department: 'Science', avatar: null },
-    { id: 3, name: 'Ahmad Rahman', employee_id: 'EMP003', department: 'Administration', avatar: null }
+    {
+      id: 3,
+      name: 'Ahmad Rahman',
+      employee_id: 'EMP003',
+      department: 'Administration',
+      avatar: null
+    }
   ],
   attendance: [
     { id: 1, employee: { name: 'John Doe' }, date: '2024-01-15', status: 'Present' },
     { id: 2, employee: { name: 'Jane Smith' }, date: '2024-01-15', status: 'Late' }
   ],
   schedules: [
-    { id: 1, name: 'Regular Teaching Schedule', employee: { name: 'John Doe' }, department: 'Mathematics' },
+    {
+      id: 1,
+      name: 'Regular Teaching Schedule',
+      employee: { name: 'John Doe' },
+      department: 'Mathematics'
+    },
     { id: 2, name: 'Part-time Schedule', employee: { name: 'Jane Smith' }, department: 'Science' }
   ]
 }
@@ -247,13 +398,19 @@ const results = ref({
 
 // Computed
 const hasResults = computed(() => {
-  return results.value.employees.length > 0 || 
-         results.value.attendance.length > 0 || 
-         results.value.schedules.length > 0
+  return (
+    results.value.employees.length > 0 ||
+    results.value.attendance.length > 0 ||
+    results.value.schedules.length > 0
+  )
 })
 
 const totalResults = computed(() => {
-  return results.value.employees.length + results.value.attendance.length + results.value.schedules.length
+  return (
+    results.value.employees.length +
+    results.value.attendance.length +
+    results.value.schedules.length
+  )
 })
 
 // Methods
@@ -272,24 +429,33 @@ const performSearch = async () => {
   const query = searchQuery.value.toLowerCase()
 
   // Search employees
-  results.value.employees = mockData.employees.filter(emp =>
-    emp.name.toLowerCase().includes(query) ||
-    emp.employee_id.toLowerCase().includes(query) ||
-    emp.department.toLowerCase().includes(query)
-  ).slice(0, 5)
+  results.value.employees = mockData.employees
+    .filter(
+      emp =>
+        emp.name.toLowerCase().includes(query) ||
+        emp.employee_id.toLowerCase().includes(query) ||
+        emp.department.toLowerCase().includes(query)
+    )
+    .slice(0, 5)
 
   // Search attendance
-  results.value.attendance = mockData.attendance.filter(record =>
-    record.employee.name.toLowerCase().includes(query) ||
-    record.status.toLowerCase().includes(query)
-  ).slice(0, 5)
+  results.value.attendance = mockData.attendance
+    .filter(
+      record =>
+        record.employee.name.toLowerCase().includes(query) ||
+        record.status.toLowerCase().includes(query)
+    )
+    .slice(0, 5)
 
   // Search schedules
-  results.value.schedules = mockData.schedules.filter(schedule =>
-    schedule.name.toLowerCase().includes(query) ||
-    schedule.employee.name.toLowerCase().includes(query) ||
-    schedule.department.toLowerCase().includes(query)
-  ).slice(0, 5)
+  results.value.schedules = mockData.schedules
+    .filter(
+      schedule =>
+        schedule.name.toLowerCase().includes(query) ||
+        schedule.employee.name.toLowerCase().includes(query) ||
+        schedule.department.toLowerCase().includes(query)
+    )
+    .slice(0, 5)
 
   isSearching.value = false
 }
@@ -300,11 +466,16 @@ const highlightMatch = (text, query) => {
   return text.replace(regex, '<mark>$1</mark>')
 }
 
-const getInitials = (name) => {
-  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+const getInitials = name => {
+  return name
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
 }
 
-const formatDate = (date) => {
+const formatDate = date => {
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -345,7 +516,7 @@ const executeSelection = () => {
   if (selectedIndex.value === -1) return
 
   let currentIndex = 0
-  
+
   // Check employees
   if (selectedIndex.value < results.value.employees.length) {
     const employee = results.value.employees[selectedIndex.value]
@@ -370,17 +541,17 @@ const executeSelection = () => {
   }
 }
 
-const navigateToEmployee = (employee) => {
+const navigateToEmployee = employee => {
   close()
   router.push(`/employees/${employee.id}`)
 }
 
-const navigateToAttendance = (record) => {
+const navigateToAttendance = record => {
   close()
   router.push('/attendance')
 }
 
-const navigateToSchedule = (schedule) => {
+const navigateToSchedule = schedule => {
   close()
   router.push(`/schedules/${schedule.id}`)
 }
@@ -401,9 +572,9 @@ const focusInput = async () => {
 }
 
 // Keyboard event handler
-const handleKeydown = (e) => {
+const handleKeydown = e => {
   if (!props.isVisible) return
-  
+
   if (e.key === 'Escape') {
     close()
   } else if (e.ctrlKey && e.key === 'k') {

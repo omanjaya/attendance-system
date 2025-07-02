@@ -4,14 +4,14 @@
     <button
       class="quick-actions-trigger"
       :class="{ 'is-open': isOpen }"
-      @click="toggleActions"
       :title="triggerTitle"
+      @click="toggleActions"
     >
-      <svg class="quick-actions-icon" :class="{ 'rotate': isOpen }">
+      <svg class="quick-actions-icon" :class="{ rotate: isOpen }">
         <use href="#tabler-plus"></use>
       </svg>
     </button>
-    
+
     <!-- Actions Menu -->
     <transition name="quick-actions-menu">
       <div v-if="isOpen" class="quick-actions-menu">
@@ -21,8 +21,8 @@
             :key="action.key"
             class="quick-action-item"
             :class="action.class"
-            @click="executeAction(action)"
             :disabled="action.disabled"
+            @click="executeAction(action)"
           >
             <div class="quick-action-icon">
               <svg class="action-icon">
@@ -40,7 +40,7 @@
             </div>
           </button>
         </div>
-        
+
         <!-- Quick Stats -->
         <div v-if="showStats" class="quick-stats">
           <div class="quick-stats-title">Today's Overview</div>
@@ -61,19 +61,15 @@
         </div>
       </div>
     </transition>
-    
+
     <!-- Backdrop -->
-    <div
-      v-if="isOpen"
-      class="quick-actions-backdrop"
-      @click="closeActions"
-    ></div>
+    <div v-if="isOpen" class="quick-actions-backdrop" @click="closeActions"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const props = defineProps({
   // Show today's stats in menu
@@ -81,18 +77,18 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  
+
   // Custom actions to include
   customActions: {
     type: Array,
     default: () => []
   },
-  
+
   // Position of the menu
   position: {
     type: String,
     default: 'bottom-right',
-    validator: (value) => ['bottom-right', 'bottom-left', 'top-right', 'top-left'].includes(value)
+    validator: value => ['bottom-right', 'bottom-left', 'top-right', 'top-left'].includes(value)
   }
 })
 
@@ -129,7 +125,7 @@ const availableActions = computed(() => {
     {
       key: 'take-attendance',
       title: 'Take Attendance',
-      subtitle: 'Record today\'s attendance',
+      subtitle: "Record today's attendance",
       icon: 'calendar-check',
       action: () => router.push('/attendance/today'),
       show: true,
@@ -192,14 +188,14 @@ const availableActions = computed(() => {
       badgeColor: 'danger'
     }
   ]
-  
+
   // Add custom actions
   const customActions = props.customActions.map(action => ({
     ...action,
     show: true,
     class: action.class || 'quick-action-custom'
   }))
-  
+
   // Filter actions based on show property and current context
   return [...baseActions, ...customActions].filter(action => action.show)
 })
@@ -213,13 +209,13 @@ const closeActions = () => {
   isOpen.value = false
 }
 
-const executeAction = (action) => {
+const executeAction = action => {
   emit('action', action)
-  
+
   if (action.action) {
     action.action()
   }
-  
+
   closeActions()
 }
 
@@ -239,7 +235,7 @@ const loadTodayStats = async () => {
     // TODO: Replace with actual API call
     // const response = await axios.get('/api/v1/dashboard/today-stats')
     // todayStats.value = response.data.stats
-    
+
     // Mock data for now
     todayStats.value = {
       present: Math.floor(Math.random() * 100) + 80,
@@ -252,7 +248,7 @@ const loadTodayStats = async () => {
 }
 
 // Keyboard shortcuts
-const handleKeydown = (event) => {
+const handleKeydown = event => {
   // Toggle with 'Q' key
   if (event.key.toLowerCase() === 'q' && !event.ctrlKey && !event.metaKey && !event.altKey) {
     // Only if not in an input field
@@ -261,7 +257,7 @@ const handleKeydown = (event) => {
       toggleActions()
     }
   }
-  
+
   // Close with Escape
   if (event.key === 'Escape' && isOpen.value) {
     closeActions()
@@ -518,32 +514,32 @@ onUnmounted(() => {
     bottom: 1rem;
     right: 1rem;
   }
-  
+
   .quick-actions-trigger {
     width: 3rem;
     height: 3rem;
   }
-  
+
   .quick-actions-icon {
     width: 1.25rem;
     height: 1.25rem;
   }
-  
+
   .quick-actions-menu {
     width: calc(100vw - 2rem);
     right: -1rem;
     bottom: 4rem;
   }
-  
+
   .quick-action-item {
     padding: var(--space-3) var(--space-2);
   }
-  
+
   .quick-action-icon {
     width: 2rem;
     height: 2rem;
   }
-  
+
   .action-icon {
     width: 1rem;
     height: 1rem;
@@ -557,7 +553,7 @@ onUnmounted(() => {
     right: 1rem;
     width: auto;
   }
-  
+
   .quick-stats-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-2);
@@ -565,15 +561,15 @@ onUnmounted(() => {
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .quick-action-item:hover {
+[data-theme='dark'] .quick-action-item:hover {
   background-color: var(--color-gray-800);
 }
 
-[data-theme="dark"] .quick-stats {
+[data-theme='dark'] .quick-stats {
   background-color: var(--color-gray-900);
 }
 
-[data-theme="dark"] .quick-action-dark .quick-action-icon {
+[data-theme='dark'] .quick-action-dark .quick-action-icon {
   background-color: var(--color-gray-800);
   color: var(--color-gray-300);
 }
@@ -583,7 +579,7 @@ onUnmounted(() => {
   .quick-actions-trigger {
     border: 2px solid var(--color-white);
   }
-  
+
   .quick-actions-menu {
     border-width: 2px;
   }

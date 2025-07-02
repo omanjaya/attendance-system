@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi, computed } from 'vitest'
+import { beforeEach, computed, describe, expect, it, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { mount } from '@vue/test-utils'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -44,10 +44,10 @@ describe('Auth Integration Tests', () => {
     setActivePinia(pinia)
     authStore = useAuthStore()
     router = createTestRouter()
-    
+
     vi.clearAllMocks()
     mockShowNotification.mockClear()
-    
+
     // Clear localStorage mock
     localStorage.clear()
     vi.clearAllMocks()
@@ -80,7 +80,8 @@ describe('Auth Integration Tests', () => {
           plugins: [pinia, router],
           stubs: {
             FormField: {
-              template: '<div><input v-bind="$attrs" @input="$emit(\'update:modelValue\', $event.target.value)" /></div>',
+              template:
+                '<div><input v-bind="$attrs" @input="$emit(\'update:modelValue\', $event.target.value)" /></div>',
               emits: ['update:modelValue']
             },
             LoadingSpinner: true
@@ -91,7 +92,7 @@ describe('Auth Integration Tests', () => {
       // Fill in login form
       const emailInput = wrapper.find('input[type="email"]')
       const passwordInput = wrapper.find('input[type="password"]')
-      
+
       await emailInput.setValue('john@example.com')
       await passwordInput.setValue('password123')
 
@@ -109,7 +110,9 @@ describe('Auth Integration Tests', () => {
 
       // Verify localStorage was called
       expect(localStorage.getItem('auth_token')).toBe('mock-token-123')
-      expect(JSON.parse(localStorage.getItem('user_data'))).toEqual(mockLoginResponse.data.data.user)
+      expect(JSON.parse(localStorage.getItem('user_data'))).toEqual(
+        mockLoginResponse.data.data.user
+      )
 
       // Verify notification was shown
       expect(mockShowNotification).toHaveBeenCalledWith({
@@ -136,7 +139,8 @@ describe('Auth Integration Tests', () => {
           plugins: [pinia, router],
           stubs: {
             FormField: {
-              template: '<div><input v-bind="$attrs" @input="$emit(\'update:modelValue\', $event.target.value)" /></div>',
+              template:
+                '<div><input v-bind="$attrs" @input="$emit(\'update:modelValue\', $event.target.value)" /></div>',
               emits: ['update:modelValue']
             },
             LoadingSpinner: true
@@ -246,10 +250,10 @@ describe('Auth Integration Tests', () => {
 
       // Should show manager-specific menu items
       expect(wrapper.text()).toContain('Manager User')
-      
+
       // Mock logout functionality
       authStore.logout = vi.fn().mockResolvedValue()
-      
+
       // Test logout integration
       const logoutTrigger = wrapper.find('[data-testid="logout-trigger"]')
       if (logoutTrigger.exists()) {
@@ -268,7 +272,7 @@ describe('Auth Integration Tests', () => {
         email: 'stored@example.com',
         roles: [{ name: 'employee' }]
       }
-      
+
       localStorage.setItem('auth_token', 'stored-token')
       localStorage.setItem('user_data', JSON.stringify(storedUser))
 
@@ -306,7 +310,7 @@ describe('Auth Integration Tests', () => {
       expect(result).toBe(false)
       expect(authStore.user).toBe(null)
       expect(authStore.token).toBe(null)
-      
+
       // Verify localStorage was cleared
       expect(localStorage.getItem('auth_token')).toBe(null)
       expect(localStorage.getItem('user_data')).toBe(null)
@@ -332,10 +336,10 @@ describe('Auth Integration Tests', () => {
 
       expect(result).toBe(true)
       expect(authStore.token).toBe('new-token')
-      
+
       // Verify new token was persisted
       expect(localStorage.getItem('auth_token')).toBe('new-token')
-      
+
       // Verify auth header was updated
       expect(axios.defaults.headers.common['Authorization']).toBe('Bearer new-token')
     })
@@ -353,7 +357,7 @@ describe('Auth Integration Tests', () => {
       expect(result).toBe(false)
       expect(authStore.user).toBe(null)
       expect(authStore.token).toBe(null)
-      
+
       // Verify cleanup was performed
       expect(localStorage.getItem('auth_token')).toBe(null)
       expect(localStorage.getItem('user_data')).toBe(null)
@@ -391,7 +395,7 @@ describe('Auth Integration Tests', () => {
 
       expect(result.success).toBe(true)
       expect(authStore.user).toEqual(updatedUser)
-      
+
       // Verify updated user data was persisted
       expect(JSON.parse(localStorage.getItem('user_data'))).toEqual(updatedUser)
 

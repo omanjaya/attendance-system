@@ -11,31 +11,31 @@ export const payrollService = {
     const response = await apiUtils.get('/payroll', { params })
     return response.data
   },
-  
+
   // Get payroll by ID
   async getById(id) {
     const response = await apiUtils.get(`/payroll/${id}`)
     return response.data
   },
-  
+
   // Calculate payroll
   async calculate(params) {
     const response = await apiUtils.post('/payroll/calculate', params)
     return response.data
   },
-  
+
   // Generate payroll
   async generate(periodId) {
     const response = await apiUtils.post('/payroll/generate', { periodId })
     return response.data
   },
-  
+
   // Approve payroll
   async approve(id) {
     const response = await apiUtils.put(`/payroll/${id}/approve`)
     return response.data
   },
-  
+
   // Export payroll
   async export(format = 'excel', filters = {}) {
     return apiUtils.download('/payroll/export', `payroll.${format}`, {
@@ -65,7 +65,7 @@ export const payrollService = {
       employee_id: employee.id,
       employee_name: employee.name,
       employee_type: employee.type,
-      period: period,
+      period,
       base_salary: parseFloat(employee.base_salary || 0),
       hourly_rate: parseFloat(employee.hourly_rate || 0),
       overtime_rate: parseFloat(employee.overtime_rate || employee.hourly_rate * 1.5 || 0),
@@ -90,12 +90,12 @@ export const payrollService = {
     attendanceData.forEach(record => {
       if (record.status === 'present') {
         calculation.attendance_summary.present_days++
-        
+
         const workHours = this.calculateWorkHours(record)
         calculation.total_hours += workHours.total
         calculation.regular_hours += workHours.regular
         calculation.overtime_hours += workHours.overtime
-        
+
         if (record.scheduled_hours) {
           calculation.scheduled_hours += record.scheduled_hours
         }
@@ -114,23 +114,20 @@ export const payrollService = {
 
     // Calculate payable hours based on employee type
     switch (employee.type) {
-      case 'honorary_teacher':
-      case 'honorary_staff':
-        // Honorary employees: paid only for scheduled teaching hours
-        calculation.payable_hours = Math.min(
-          calculation.total_hours,
-          calculation.scheduled_hours
-        )
-        break
-      
-      case 'permanent_teacher':
-      case 'permanent_staff':
-        // Permanent employees: salary + overtime
-        calculation.payable_hours = calculation.total_hours
-        break
-      
-      default:
-        calculation.payable_hours = calculation.total_hours
+    case 'honorary_teacher':
+    case 'honorary_staff':
+      // Honorary employees: paid only for scheduled teaching hours
+      calculation.payable_hours = Math.min(calculation.total_hours, calculation.scheduled_hours)
+      break
+
+    case 'permanent_teacher':
+    case 'permanent_staff':
+      // Permanent employees: salary + overtime
+      calculation.payable_hours = calculation.total_hours
+      break
+
+    default:
+      calculation.payable_hours = calculation.total_hours
     }
 
     // Calculate gross pay
@@ -138,7 +135,7 @@ export const payrollService = {
       // Salary-based calculation
       const dailyRate = calculation.base_salary / 22 // Assuming 22 working days per month
       calculation.gross_pay = calculation.attendance_summary.present_days * dailyRate
-      
+
       // Add overtime pay
       calculation.gross_pay += calculation.overtime_hours * calculation.overtime_rate
     } else {
@@ -148,14 +145,20 @@ export const payrollService = {
 
     // Calculate deductions
     calculation.deductions = this.calculateDeductions(calculation, employee)
-    
+
     // Calculate allowances
     calculation.allowances = this.calculateAllowances(calculation, employee)
 
     // Calculate net pay
-    const totalDeductions = Object.values(calculation.deductions).reduce((sum, amount) => sum + amount, 0)
-    const totalAllowances = Object.values(calculation.allowances).reduce((sum, amount) => sum + amount, 0)
-    
+    const totalDeductions = Object.values(calculation.deductions).reduce(
+      (sum, amount) => sum + amount,
+      0
+    )
+    const totalAllowances = Object.values(calculation.allowances).reduce(
+      (sum, amount) => sum + amount,
+      0
+    )
+
     calculation.net_pay = calculation.gross_pay + totalAllowances - totalDeductions
 
     return calculation
@@ -170,7 +173,7 @@ export const payrollService = {
     const clockIn = new Date(attendanceRecord.clock_in)
     const clockOut = new Date(attendanceRecord.clock_out)
     const totalMinutes = (clockOut - clockIn) / (1000 * 60)
-    
+
     // Subtract break time (default 1 hour)
     const breakMinutes = attendanceRecord.break_minutes || 60
     const workMinutes = Math.max(0, totalMinutes - breakMinutes)
@@ -191,9 +194,10 @@ export const payrollService = {
   // Calculate deductions
   calculateDeductions(calculation, employee) {
     const deductions = {}
-    
+
     // Tax calculation (simplified Indonesian tax)
-    if (calculation.gross_pay > 4500000) { // Indonesian tax threshold
+    if (calculation.gross_pay > 4500000) {
+      // Indonesian tax threshold
       deductions.income_tax = calculation.gross_pay * 0.05 // 5% tax rate
     }
 
@@ -237,7 +241,10 @@ export const payrollService = {
     }
 
     // Perfect attendance bonus
-    if (calculation.attendance_summary.absent_days === 0 && calculation.attendance_summary.late_days === 0) {
+    if (
+      calculation.attendance_summary.absent_days === 0 &&
+      calculation.attendance_summary.late_days === 0
+    ) {
       allowances.perfect_attendance = 100000 // 100k bonus
     }
 
@@ -247,7 +254,7 @@ export const payrollService = {
   // Generate payroll report
   generatePayrollReport(payrollData, period) {
     const summary = {
-      period: period,
+      period,
       total_employees: payrollData.length,
       total_gross_pay: 0,
       total_net_pay: 0,
@@ -263,10 +270,16 @@ export const payrollService = {
     payrollData.forEach(payroll => {
       summary.total_gross_pay += payroll.gross_pay
       summary.total_net_pay += payroll.net_pay
-      
-      const totalDeductions = Object.values(payroll.deductions).reduce((sum, amount) => sum + amount, 0)
-      const totalAllowances = Object.values(payroll.allowances).reduce((sum, amount) => sum + amount, 0)
-      
+
+      const totalDeductions = Object.values(payroll.deductions).reduce(
+        (sum, amount) => sum + amount,
+        0
+      )
+      const totalAllowances = Object.values(payroll.allowances).reduce(
+        (sum, amount) => sum + amount,
+        0
+      )
+
       summary.total_deductions += totalDeductions
       summary.total_allowances += totalAllowances
 
@@ -278,7 +291,7 @@ export const payrollService = {
           avg_pay: 0
         }
       }
-      
+
       summary.employee_types[payroll.employee_type].count++
       summary.employee_types[payroll.employee_type].total_pay += payroll.net_pay
 
@@ -305,7 +318,7 @@ export const payrollService = {
   formatCurrency(amount, currency = 'IDR') {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
-      currency: currency,
+      currency,
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(amount)

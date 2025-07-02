@@ -79,7 +79,7 @@ export function useComponentSafety(props = {}, options = {}) {
   const safeIcon = computed(() => {
     if (props.icon) return props.icon
     if (props.notification?.icon) return props.notification.icon
-    
+
     const iconMap = {
       success: 'check',
       error: 'x',
@@ -123,12 +123,12 @@ export function useComponentSafety(props = {}, options = {}) {
   // Attribute helpers
   const safeAttrs = computed(() => {
     const attrs = {}
-    
+
     // Only include non-empty attributes
     if (props.id) attrs.id = props.id
     if (props.class) attrs.class = props.class
     if (props.style) attrs.style = props.style
-    
+
     return attrs
   })
 
@@ -139,18 +139,18 @@ export function useComponentSafety(props = {}, options = {}) {
     safeVariant,
     safeIcon,
     safeAttrs,
-    
+
     // Tooltip utilities
     tooltipEnabled,
     initializeTooltips,
     destroyTooltips,
-    
+
     // Validation utilities
     validateProp,
-    
+
     // Helper methods
-    isEmpty: (value) => !value || value === '' || value === null || value === undefined,
-    isObject: (value) => value && typeof value === 'object' && !Array.isArray(value)
+    isEmpty: value => !value || value === '' || value === null || value === undefined,
+    isObject: value => value && typeof value === 'object' && !Array.isArray(value)
   }
 }
 
@@ -171,10 +171,10 @@ export function useNotificationToast(props) {
 
   const toastClasses = computed(() => {
     const classes = [`toast-${safety.safeVariant.value}`]
-    
+
     if (props.dismissible) classes.push('toast-dismissible')
     if (props.persistent) classes.push('toast-persistent')
-    
+
     return classes
   })
 

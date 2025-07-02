@@ -4,7 +4,7 @@
  */
 
 // Deep clone an object
-export const deepClone = (obj) => {
+export const deepClone = obj => {
   if (obj === null || typeof obj !== 'object') return obj
   if (obj instanceof Date) return new Date(obj.getTime())
   if (obj instanceof Array) return obj.map(item => deepClone(item))
@@ -37,11 +37,11 @@ export const debounce = (func, wait, immediate = false) => {
 // Throttle function
 export const throttle = (func, limit) => {
   let inThrottle
-  return function(...args) {
+  return function (...args) {
     if (!inThrottle) {
       func.apply(this, args)
       inThrottle = true
-      setTimeout(() => inThrottle = false, limit)
+      setTimeout(() => (inThrottle = false), limit)
     }
   }
 }
@@ -52,10 +52,10 @@ export const generateId = () => {
 }
 
 // Sleep function
-export const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 // Check if object is empty
-export const isEmpty = (obj) => {
+export const isEmpty = obj => {
   return Object.keys(obj).length === 0
 }
 
@@ -77,25 +77,25 @@ export const omit = (obj, keys) => {
 }
 
 // Capitalize first letter
-export const capitalize = (str) => {
+export const capitalize = str => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 // Convert string to kebab-case
-export const kebabCase = (str) => {
+export const kebabCase = str => {
   return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
 }
 
 // Convert string to camelCase
-export const camelCase = (str) => {
-  return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase())
+export const camelCase = str => {
+  return str.replace(/-([a-z])/g, g => g[1].toUpperCase())
 }
 
 // Array utilities
 export const arrayUtils = {
   // Remove duplicates
-  unique: (arr) => [...new Set(arr)],
-  
+  unique: arr => [...new Set(arr)],
+
   // Group array by key
   groupBy: (arr, key) => {
     return arr.reduce((groups, item) => {
@@ -105,7 +105,7 @@ export const arrayUtils = {
       return groups
     }, {})
   },
-  
+
   // Sort array by multiple keys
   sortBy: (arr, ...keys) => {
     return arr.sort((a, b) => {
@@ -118,7 +118,7 @@ export const arrayUtils = {
       return 0
     })
   },
-  
+
   // Chunk array into smaller arrays
   chunk: (arr, size) => {
     const chunks = []
@@ -139,7 +139,7 @@ export const storage = {
       return defaultValue
     }
   },
-  
+
   set: (key, value) => {
     try {
       localStorage.setItem(key, JSON.stringify(value))
@@ -148,8 +148,8 @@ export const storage = {
       return false
     }
   },
-  
-  remove: (key) => {
+
+  remove: key => {
     try {
       localStorage.removeItem(key)
       return true
@@ -157,7 +157,7 @@ export const storage = {
       return false
     }
   },
-  
+
   clear: () => {
     try {
       localStorage.clear()

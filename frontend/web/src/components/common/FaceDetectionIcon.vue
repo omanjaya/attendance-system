@@ -1,6 +1,6 @@
 <template>
-  <TablerIcon 
-    :name="iconName" 
+  <TablerIcon
+    :name="iconName"
     :size="size"
     :class="iconClasses"
     :aria-label="ariaLabel"
@@ -16,15 +16,27 @@ const props = defineProps({
   action: {
     type: String,
     required: true,
-    validator: (value) => [
-      'face_recognition', 'camera', 'scanning', 'nod', 'shake', 'smile', 'blink',
-      'detect', 'capture', 'processing', 'success', 'failed', 'timeout'
-    ].includes(value)
+    validator: value =>
+      [
+        'face_recognition',
+        'camera',
+        'scanning',
+        'nod',
+        'shake',
+        'smile',
+        'blink',
+        'detect',
+        'capture',
+        'processing',
+        'success',
+        'failed',
+        'timeout'
+      ].includes(value)
   },
   state: {
     type: String,
     default: 'idle',
-    validator: (value) => ['idle', 'active', 'processing', 'success', 'error'].includes(value)
+    validator: value => ['idle', 'active', 'processing', 'success', 'error'].includes(value)
   },
   size: {
     type: [String, Number],
@@ -103,33 +115,33 @@ const actionDescriptions = {
 const iconName = computed(() => {
   // Handle fallback icons for missing ones
   const baseIcon = actionIconMap[props.action] || 'face-id'
-  
+
   // Special handling for processing state
   if (props.state === 'processing') {
     return 'loader-2'
   }
-  
+
   // Special handling for success/error states
   if (props.state === 'success' && props.action === 'face_recognition') {
     return 'circle-check'
   }
-  
+
   if (props.state === 'error') {
     return 'circle-x'
   }
-  
+
   return baseIcon
 })
 
 const iconClasses = computed(() => {
   const classes = [stateColorMap[props.state] || 'text-muted']
-  
+
   // Add action-specific classes
   classes.push(`face-detection-${props.action.replace('_', '-')}`)
-  
+
   // Add state-specific classes
   classes.push(`face-detection-state-${props.state}`)
-  
+
   // Add animation classes
   if (props.animated) {
     if (props.state === 'processing') {
@@ -138,7 +150,7 @@ const iconClasses = computed(() => {
       classes.push('face-detection-active')
     }
   }
-  
+
   return classes
 })
 
@@ -231,7 +243,8 @@ const ariaLabel = computed(() => {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -242,7 +255,8 @@ const ariaLabel = computed(() => {
 }
 
 @keyframes scan-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.8;
     transform: scale(1);
   }
@@ -253,7 +267,11 @@ const ariaLabel = computed(() => {
 }
 
 @keyframes success-bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
   40% {
@@ -265,13 +283,21 @@ const ariaLabel = computed(() => {
 }
 
 @keyframes error-shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
-  10%, 30%, 50%, 70%, 90% {
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
     transform: translateX(-2px);
   }
-  20%, 40%, 60%, 80% {
+  20%,
+  40%,
+  60%,
+  80% {
     transform: translateX(2px);
   }
 }
@@ -300,10 +326,13 @@ const ariaLabel = computed(() => {
 }
 
 @keyframes nod-hint {
-  0%, 90%, 100% {
+  0%,
+  90%,
+  100% {
     transform: translateY(0);
   }
-  5%, 15% {
+  5%,
+  15% {
     transform: translateY(-2px);
   }
   10% {
@@ -312,10 +341,13 @@ const ariaLabel = computed(() => {
 }
 
 @keyframes shake-hint {
-  0%, 90%, 100% {
+  0%,
+  90%,
+  100% {
     transform: translateX(0);
   }
-  5%, 15% {
+  5%,
+  15% {
     transform: translateX(-2px);
   }
   10% {
@@ -324,7 +356,9 @@ const ariaLabel = computed(() => {
 }
 
 @keyframes smile-hint {
-  0%, 90%, 100% {
+  0%,
+  90%,
+  100% {
     transform: scale(1);
   }
   5% {
@@ -333,7 +367,10 @@ const ariaLabel = computed(() => {
 }
 
 @keyframes blink-hint {
-  0%, 90%, 95%, 100% {
+  0%,
+  90%,
+  95%,
+  100% {
     opacity: 1;
   }
   92.5% {

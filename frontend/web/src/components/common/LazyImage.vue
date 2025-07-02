@@ -1,22 +1,22 @@
 <template>
-  <div 
+  <div
     class="lazy-image-container"
-    :class="{ 'loaded': isLoaded, 'loading': isLoading, 'error': hasError }"
+    :class="{ loaded: isLoaded, loading: isLoading, error: hasError }"
   >
     <img
       ref="imageRef"
+      v-lazy="lazyConfig"
       :src="currentSrc"
       :alt="alt"
       :class="imageClass"
       :style="imageStyle"
       @load="handleLoad"
       @error="handleError"
-      v-lazy="lazyConfig"
     />
-    
+
     <!-- Loading placeholder -->
-    <div 
-      v-if="isLoading && showPlaceholder" 
+    <div
+      v-if="isLoading && showPlaceholder"
       class="lazy-image-placeholder"
       :style="placeholderStyle"
       role="img"
@@ -28,10 +28,10 @@
         </div>
       </slot>
     </div>
-    
+
     <!-- Error placeholder -->
-    <div 
-      v-if="hasError && showErrorPlaceholder" 
+    <div
+      v-if="hasError && showErrorPlaceholder"
       class="lazy-image-error"
       :style="placeholderStyle"
       role="img"
@@ -39,11 +39,22 @@
     >
       <slot name="error">
         <div class="lazy-image-error-content">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-            <line x1="3" y1="3" x2="21" y2="21"/>
-            <path d="M21 15l-6 -6l-2 2l-3 -3l-3 3l-2 -2l-6 6"/>
-            <path d="M3 9l6 6l2 -2l3 3l3 -3l2 2l6 -6"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <line x1="3" y1="3" x2="21" y2="21" />
+            <path d="M21 15l-6 -6l-2 2l-3 -3l-3 3l-2 -2l-6 6" />
+            <path d="M3 9l6 6l2 -2l3 3l3 -3l2 2l6 -6" />
           </svg>
           <span class="text-muted small">Failed to load image</span>
         </div>
@@ -53,7 +64,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { usePerformance } from '@/composables/usePerformance'
 import LoadingState from './LoadingState.vue'
 
@@ -81,7 +92,7 @@ const props = defineProps({
   objectFit: {
     type: String,
     default: 'cover',
-    validator: (value) => ['fill', 'contain', 'cover', 'none', 'scale-down'].includes(value)
+    validator: value => ['fill', 'contain', 'cover', 'none', 'scale-down'].includes(value)
   },
   lazy: {
     type: Boolean,
@@ -162,7 +173,7 @@ const lazyConfig = computed(() => ({
 // Methods
 const loadImage = () => {
   if (!props.src || hasError.value) return
-  
+
   isLoading.value = true
   hasError.value = false
   currentSrc.value = props.src
@@ -173,7 +184,7 @@ const handleLoad = () => {
   isLoaded.value = true
   hasError.value = false
   retryCount.value = 0
-  
+
   emit('load', {
     src: props.src,
     naturalWidth: imageRef.value?.naturalWidth,
@@ -184,7 +195,7 @@ const handleLoad = () => {
 const handleError = () => {
   isLoading.value = false
   hasError.value = true
-  
+
   // Retry logic
   if (retryCount.value < props.retryAttempts) {
     retryCount.value++
@@ -203,7 +214,7 @@ const handleError = () => {
   }
 }
 
-const handleIntersection = (entries) => {
+const handleIntersection = entries => {
   const entry = entries[0]
   if (entry.isIntersecting && !isLoaded.value && !hasError.value) {
     loadImage()
@@ -213,12 +224,12 @@ const handleIntersection = (entries) => {
 
 const setupLazyLoading = () => {
   if (!props.lazy || !imageRef.value) return
-  
+
   intersectionObserver.value = new IntersectionObserver(handleIntersection, {
     threshold: props.threshold,
     rootMargin: props.rootMargin
   })
-  
+
   intersectionObserver.value.observe(imageRef.value)
 }
 
@@ -230,20 +241,23 @@ const cleanup = () => {
 }
 
 // Watchers
-watch(() => props.src, (newSrc, oldSrc) => {
-  if (newSrc !== oldSrc) {
-    isLoaded.value = false
-    hasError.value = false
-    retryCount.value = 0
-    
-    if (props.lazy) {
-      currentSrc.value = props.placeholder || ''
-      setupLazyLoading()
-    } else {
-      loadImage()
+watch(
+  () => props.src,
+  (newSrc, oldSrc) => {
+    if (newSrc !== oldSrc) {
+      isLoaded.value = false
+      hasError.value = false
+      retryCount.value = 0
+
+      if (props.lazy) {
+        currentSrc.value = props.placeholder || ''
+        setupLazyLoading()
+      } else {
+        loadImage()
+      }
     }
   }
-})
+)
 
 // Lifecycle
 onMounted(() => {
@@ -367,7 +381,7 @@ defineExpose({
   .lazy-image-container img {
     transition: none;
   }
-  
+
   .lazy-image-container.loading .lazy-image-placeholder {
     animation: none;
     background: #f0f0f0;
@@ -380,7 +394,7 @@ defineExpose({
     background-color: #343a40;
     border-color: #495057;
   }
-  
+
   .lazy-image-container.loading .lazy-image-placeholder {
     background: linear-gradient(90deg, #343a40 25%, #495057 50%, #343a40 75%);
     background-size: 200% 100%;

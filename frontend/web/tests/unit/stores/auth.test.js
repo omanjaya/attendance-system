@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import axios from 'axios'
@@ -14,7 +14,7 @@ describe('Auth Store', () => {
     setActivePinia(createPinia())
     authStore = useAuthStore()
     vi.clearAllMocks()
-    
+
     // Mock localStorage
     global.localStorage = {
       getItem: vi.fn(),
@@ -251,7 +251,7 @@ describe('Auth Store', () => {
 
   describe('Initialize Auth', () => {
     it('initializes auth from localStorage', async () => {
-      global.localStorage.getItem.mockImplementation((key) => {
+      global.localStorage.getItem.mockImplementation(key => {
         if (key === 'auth_token') return 'stored-token'
         if (key === 'user_data') return JSON.stringify({ id: 1, name: 'John Doe' })
         return null
@@ -273,7 +273,7 @@ describe('Auth Store', () => {
     })
 
     it('clears invalid stored auth', async () => {
-      global.localStorage.getItem.mockImplementation((key) => {
+      global.localStorage.getItem.mockImplementation(key => {
         if (key === 'auth_token') return 'invalid-token'
         if (key === 'user_data') return JSON.stringify({ id: 1, name: 'John Doe' })
         return null
@@ -310,11 +310,14 @@ describe('Auth Store', () => {
       authStore.persistAuth()
 
       expect(global.localStorage.setItem).toHaveBeenCalledWith('auth_token', 'test-token')
-      expect(global.localStorage.setItem).toHaveBeenCalledWith('user_data', JSON.stringify({ id: 1, name: 'John Doe' }))
+      expect(global.localStorage.setItem).toHaveBeenCalledWith(
+        'user_data',
+        JSON.stringify({ id: 1, name: 'John Doe' })
+      )
     })
 
     it('restores auth from localStorage', () => {
-      global.localStorage.getItem.mockImplementation((key) => {
+      global.localStorage.getItem.mockImplementation(key => {
         if (key === 'auth_token') return 'stored-token'
         if (key === 'user_data') return JSON.stringify({ id: 1, name: 'John Doe' })
         return null

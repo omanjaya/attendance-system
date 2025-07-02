@@ -17,21 +17,21 @@ class BundleOptimizer {
 
   async optimize() {
     console.log('🚀 Starting Bundle Optimization...\n')
-    
+
     await this.optimizeViteConfig()
     await this.implementDynamicImports()
     await this.optimizeComponentImports()
     await this.createLazyRoutes()
     await this.optimizeAssets()
-    
+
     this.printSummary()
   }
 
   async optimizeViteConfig() {
     console.log('⚙️ Optimizing Vite Configuration...')
-    
+
     const viteConfigPath = path.join(this.projectRoot, 'vite.config.js')
-    
+
     const optimizedConfig = `import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
@@ -107,13 +107,13 @@ export default defineConfig({
 
   async implementDynamicImports() {
     console.log('📦 Implementing Dynamic Imports...')
-    
+
     // Update router to use dynamic imports
     const routerPath = path.join(this.srcPath, 'router/index.js')
-    
+
     if (fs.existsSync(routerPath)) {
       let routerContent = fs.readFileSync(routerPath, 'utf8')
-      
+
       // Replace static imports with dynamic imports
       const routeUpdates = [
         {
@@ -129,14 +129,14 @@ export default defineConfig({
           dynamic: "() => import('../pages/employees/EmployeeCreate.vue')"
         }
       ]
-      
+
       routeUpdates.forEach(update => {
         if (routerContent.includes(update.static)) {
           routerContent = routerContent.replace(update.static, '')
           routerContent = routerContent.replace(/component:\s*\w+/, `component: ${update.dynamic}`)
         }
       })
-      
+
       fs.writeFileSync(routerPath, routerContent)
       this.optimizations.push('✅ Converted static imports to dynamic imports in router')
     }
@@ -144,10 +144,10 @@ export default defineConfig({
 
   async optimizeComponentImports() {
     console.log('🔧 Optimizing Component Imports...')
-    
+
     // Create optimized component plugin
     const pluginPath = path.join(this.srcPath, 'plugins/components-optimized.js')
-    
+
     const optimizedPlugin = `/**
  * Optimized Component Registration
  * Only registers components that are frequently used globally
@@ -186,7 +186,7 @@ export default {
 
   async createLazyRoutes() {
     console.log('🛣️ Creating Lazy Route Structure...')
-    
+
     const lazyRoutesContent = `/**
  * Lazy Route Definitions
  * All routes use dynamic imports for optimal code splitting
@@ -327,13 +327,13 @@ export const criticalRoutes = ['Dashboard', 'Login', 'EmployeeList']
 
     const lazyRoutesPath = path.join(this.srcPath, 'router/lazy-routes.js')
     fs.writeFileSync(lazyRoutesPath, lazyRoutesContent)
-    
+
     this.optimizations.push('✅ Created lazy route structure with preloading')
   }
 
   async optimizeAssets() {
     console.log('🎨 Optimizing Assets...')
-    
+
     // Create optimized asset imports
     const assetOptimizationContent = `/**
  * Asset Optimization Utilities
@@ -382,26 +382,26 @@ export const purgeCSSConfig = {
 
     const assetUtilsPath = path.join(this.srcPath, 'utils/asset-optimization.js')
     fs.writeFileSync(assetUtilsPath, assetOptimizationContent)
-    
+
     this.optimizations.push('✅ Created asset optimization utilities')
   }
 
   printSummary() {
     console.log('\n🎉 OPTIMIZATION COMPLETE!\n')
     console.log('Applied Optimizations:')
-    console.log('=' + '='.repeat(40))
-    
+    console.log(`=${'='.repeat(40)}`)
+
     this.optimizations.forEach((optimization, index) => {
       console.log(`${index + 1}. ${optimization}`)
     })
-    
+
     console.log('\n📋 Next Steps:')
     console.log('-'.repeat(20))
     console.log('1. Run: npm run build:analyze')
     console.log('2. Test: npm run dev')
     console.log('3. Verify: npm run build')
     console.log('4. Deploy: npm run preview')
-    
+
     console.log('\n💡 Additional Recommendations:')
     console.log('-'.repeat(30))
     console.log('• Update main.js to use optimized component plugin')

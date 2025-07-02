@@ -13,53 +13,53 @@ class ArchitectureMigrator {
     this.srcPath = path.join(__dirname, '../src')
     this.backupPath = path.join(__dirname, '../src-backup')
     this.migrations = []
-    
+
     // New directory structure
     this.newStructure = {
       'components/common': 'Reusable UI components',
-      'components/layout': 'Layout-specific components', 
+      'components/layout': 'Layout-specific components',
       'components/modules/employee': 'Employee feature components',
       'components/modules/attendance': 'Attendance feature components',
       'components/modules/schedule': 'Schedule feature components',
       'components/modules/payroll': 'Payroll feature components',
       'components/modules/face-detection': 'Face detection components',
-      'services': 'API service layer',
-      'utils': 'Utility functions',
-      'types': 'TypeScript definitions',
+      services: 'API service layer',
+      utils: 'Utility functions',
+      types: 'TypeScript definitions',
       'stores/modules': 'Feature-specific stores'
     }
   }
 
   async migrate() {
     console.log('🏗️ Starting Architecture Migration...\n')
-    
+
     // Step 1: Create backup
     await this.createBackup()
-    
+
     // Step 2: Create new directory structure
     await this.createNewStructure()
-    
+
     // Step 3: Migrate components
     await this.migrateComponents()
-    
+
     // Step 4: Create service layer
     await this.createServiceLayer()
-    
+
     // Step 5: Update stores
     await this.enhanceStores()
-    
+
     // Step 6: Create utilities
     await this.createUtilities()
-    
+
     // Step 7: Update imports
     await this.updateImports()
-    
+
     this.printMigrationSummary()
   }
 
   async createBackup() {
     console.log('💾 Creating backup...')
-    
+
     if (!fs.existsSync(this.backupPath)) {
       fs.mkdirSync(this.backupPath, { recursive: true })
       this.copyDirectory(this.srcPath, this.backupPath)
@@ -71,12 +71,12 @@ class ArchitectureMigrator {
 
   async createNewStructure() {
     console.log('📁 Creating new directory structure...')
-    
+
     Object.keys(this.newStructure).forEach(dir => {
       const fullPath = path.join(this.srcPath, dir)
       if (!fs.existsSync(fullPath)) {
         fs.mkdirSync(fullPath, { recursive: true })
-        
+
         // Create index.js for component directories
         if (dir.startsWith('components/')) {
           const indexPath = path.join(fullPath, 'index.js')
@@ -84,13 +84,13 @@ class ArchitectureMigrator {
         }
       }
     })
-    
+
     this.migrations.push('✅ Created new directory structure')
   }
 
   async migrateComponents() {
     console.log('🔄 Migrating components...')
-    
+
     // Migration mapping
     const componentMigrations = {
       'components/base': 'components/common',
@@ -98,52 +98,52 @@ class ArchitectureMigrator {
       'components/charts': 'components/common',
       'components/layout': 'components/layout'
     }
-    
+
     Object.entries(componentMigrations).forEach(([oldDir, newDir]) => {
       const oldPath = path.join(this.srcPath, oldDir)
       const newPath = path.join(this.srcPath, newDir)
-      
+
       if (fs.existsSync(oldPath)) {
         const files = fs.readdirSync(oldPath)
         files.forEach(file => {
           if (file.endsWith('.vue') || file.endsWith('.js')) {
             const oldFilePath = path.join(oldPath, file)
             const newFilePath = path.join(newPath, file)
-            
+
             // Copy file to new location
             fs.copyFileSync(oldFilePath, newFilePath)
           }
         })
       }
     })
-    
+
     // Migrate page components to modules
     this.migratePageComponents()
-    
+
     this.migrations.push('✅ Migrated components to new structure')
   }
 
   migratePageComponents() {
     const pagesPath = path.join(this.srcPath, 'pages')
     const moduleMap = {
-      'employees': 'components/modules/employee',
-      'attendance': 'components/modules/attendance', 
-      'schedules': 'components/modules/schedule',
-      'payroll': 'components/modules/payroll',
+      employees: 'components/modules/employee',
+      attendance: 'components/modules/attendance',
+      schedules: 'components/modules/schedule',
+      payroll: 'components/modules/payroll',
       'face-recognition': 'components/modules/face-detection'
     }
-    
+
     Object.entries(moduleMap).forEach(([pageDir, moduleDir]) => {
       const pagePath = path.join(pagesPath, pageDir)
       const modulePath = path.join(this.srcPath, moduleDir)
-      
+
       if (fs.existsSync(pagePath)) {
         const files = fs.readdirSync(pagePath)
         files.forEach(file => {
           if (file.endsWith('.vue')) {
             const oldFilePath = path.join(pagePath, file)
             const newFilePath = path.join(modulePath, file)
-            
+
             // Copy component-specific parts to modules
             if (this.isComponentCandidate(file)) {
               fs.copyFileSync(oldFilePath, newFilePath)
@@ -163,13 +163,13 @@ class ArchitectureMigrator {
       /Modal\.vue$/,
       /Widget\.vue$/
     ]
-    
+
     return componentPatterns.some(pattern => pattern.test(filename))
   }
 
   async createServiceLayer() {
     console.log('🔧 Creating service layer...')
-    
+
     const services = {
       'api.js': this.generateBaseApiService(),
       'authService.js': this.generateAuthService(),
@@ -178,13 +178,13 @@ class ArchitectureMigrator {
       'scheduleService.js': this.generateScheduleService(),
       'payrollService.js': this.generatePayrollService()
     }
-    
+
     const servicesPath = path.join(this.srcPath, 'services')
     Object.entries(services).forEach(([filename, content]) => {
       const filePath = path.join(servicesPath, filename)
       fs.writeFileSync(filePath, content)
     })
-    
+
     this.migrations.push('✅ Created service layer')
   }
 
@@ -653,13 +653,13 @@ export default payrollService
 
   async enhanceStores() {
     console.log('🏪 Enhancing stores...')
-    
+
     const stores = {
       'modules/employee.js': this.generateEmployeeStore(),
       'modules/attendance.js': this.generateAttendanceStore(),
       'modules/ui.js': this.generateUIStore()
     }
-    
+
     const storesPath = path.join(this.srcPath, 'stores')
     Object.entries(stores).forEach(([filename, content]) => {
       const filePath = path.join(storesPath, filename)
@@ -669,7 +669,7 @@ export default payrollService
       }
       fs.writeFileSync(filePath, content)
     })
-    
+
     this.migrations.push('✅ Enhanced store structure')
   }
 
@@ -1139,20 +1139,20 @@ export const useUIStore = defineStore('ui', () => {
 
   async createUtilities() {
     console.log('🛠️ Creating utilities...')
-    
+
     const utilities = {
       'helpers.js': this.generateHelpers(),
       'constants.js': this.generateConstants(),
       'formatters.js': this.generateFormatters(),
       'validators.js': this.generateValidators()
     }
-    
+
     const utilsPath = path.join(this.srcPath, 'utils')
     Object.entries(utilities).forEach(([filename, content]) => {
       const filePath = path.join(utilsPath, filename)
       fs.writeFileSync(filePath, content)
     })
-    
+
     this.migrations.push('✅ Created utility functions')
   }
 
@@ -1832,7 +1832,7 @@ export const errorMessages = {
 
   async updateImports() {
     console.log('🔗 Updating import paths...')
-    
+
     // This would scan all files and update import paths
     // For now, we'll create a mapping file for reference
     const importMapping = `/**
@@ -1873,10 +1873,10 @@ export const importMappings = {
 // find src -name "*.vue" -o -name "*.js" | xargs sed -i 's|@/components/ui/|@/components/common/|g'
 // find src -name "*.vue" -o -name "*.js" | xargs sed -i 's|@/components/charts/|@/components/common/|g'
 `
-    
+
     const mappingPath = path.join(this.srcPath, 'import-mapping.js')
     fs.writeFileSync(mappingPath, importMapping)
-    
+
     this.migrations.push('✅ Created import mapping reference')
   }
 
@@ -1884,12 +1884,12 @@ export const importMappings = {
     if (!fs.existsSync(dest)) {
       fs.mkdirSync(dest, { recursive: true })
     }
-    
+
     const files = fs.readdirSync(src)
     files.forEach(file => {
       const srcPath = path.join(src, file)
       const destPath = path.join(dest, file)
-      
+
       if (fs.statSync(srcPath).isDirectory()) {
         this.copyDirectory(srcPath, destPath)
       } else {
@@ -1901,18 +1901,18 @@ export const importMappings = {
   printMigrationSummary() {
     console.log('\\n🎉 ARCHITECTURE MIGRATION COMPLETE!\\n')
     console.log('Migration Summary:')
-    console.log('=' + '='.repeat(40))
-    
+    console.log(`=${'='.repeat(40)}`)
+
     this.migrations.forEach((migration, index) => {
-      console.log((index + 1) + '. ' + migration)
+      console.log(`${index + 1}. ${migration}`)
     })
-    
+
     console.log('\\n📁 New Directory Structure:')
     console.log('-'.repeat(30))
     Object.entries(this.newStructure).forEach(([dir, description]) => {
-      console.log(dir + ': ' + description)
+      console.log(`${dir}: ${description}`)
     })
-    
+
     console.log('\\n📋 Next Steps:')
     console.log('-'.repeat(20))
     console.log('1. Review migrated components')
@@ -1920,7 +1920,7 @@ export const importMappings = {
     console.log('3. Test build: npm run build')
     console.log('4. Update component documentation')
     console.log('5. Run: npm run dev to test functionality')
-    
+
     console.log('\\n⚠️ Important Notes:')
     console.log('-'.repeat(25))
     console.log('• Backup created at src-backup/')

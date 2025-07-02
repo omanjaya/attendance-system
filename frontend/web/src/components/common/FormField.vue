@@ -1,24 +1,19 @@
 <template>
   <div class="form-field" :class="fieldWrapperClass">
     <!-- Label -->
-    <label 
-      v-if="label || $slots.label"
-      :for="fieldId"
-      class="form-label"
-      :class="labelClass"
-    >
+    <label v-if="label || $slots.label" :for="fieldId" class="form-label" :class="labelClass">
       <slot name="label">
         {{ label }}
         <span v-if="required" class="text-danger">*</span>
         <span v-if="optional" class="text-muted">(optional)</span>
       </slot>
     </label>
-    
+
     <!-- Help Text (before field) -->
     <div v-if="helpText && helpPosition === 'before'" class="form-text mb-2">
       {{ helpText }}
     </div>
-    
+
     <!-- Field Wrapper -->
     <div class="field-wrapper" :class="wrapperClass">
       <!-- Prefix -->
@@ -27,7 +22,7 @@
           <TablerIcon v-if="prefix" :name="prefix" size="sm" />
         </slot>
       </div>
-      
+
       <!-- Input Field -->
       <input
         v-if="isInputType"
@@ -54,7 +49,7 @@
         @blur="handleBlur"
         @keydown="handleKeydown"
       />
-      
+
       <!-- Textarea -->
       <textarea
         v-else-if="type === 'textarea'"
@@ -76,7 +71,7 @@
         @focus="handleFocus"
         @blur="handleBlur"
       ></textarea>
-      
+
       <!-- Select -->
       <select
         v-else-if="type === 'select'"
@@ -104,7 +99,7 @@
           {{ option.label }}
         </option>
       </select>
-      
+
       <!-- Checkbox -->
       <div v-else-if="type === 'checkbox'" class="form-check" :class="checkClass">
         <input
@@ -127,7 +122,7 @@
           {{ checkboxLabel || label }}
         </label>
       </div>
-      
+
       <!-- Radio Group -->
       <fieldset v-else-if="type === 'radio'" class="radio-group">
         <legend v-if="label" class="sr-only">{{ label }}</legend>
@@ -157,7 +152,7 @@
           </label>
         </div>
       </fieldset>
-      
+
       <!-- File Input -->
       <input
         v-else-if="type === 'file'"
@@ -176,30 +171,30 @@
         @focus="handleFocus"
         @blur="handleBlur"
       />
-      
+
       <!-- Custom Slot -->
       <slot
         v-else-if="type === 'custom'"
         name="field"
-        :fieldId="fieldId"
+        :field-id="fieldId"
         :value="modelValue"
-        :hasError="hasError"
+        :has-error="hasError"
         :disabled="disabled"
         :readonly="readonly"
         :required="required"
-        :handleInput="handleInput"
-        :handleChange="handleChange"
-        :handleFocus="handleFocus"
-        :handleBlur="handleBlur"
+        :handle-input="handleInput"
+        :handle-change="handleChange"
+        :handle-focus="handleFocus"
+        :handle-blur="handleBlur"
       />
-      
+
       <!-- Suffix -->
       <div v-if="$slots.suffix || suffix" class="input-group-text">
         <slot name="suffix">
           <TablerIcon v-if="suffix" :name="suffix" size="sm" />
         </slot>
       </div>
-      
+
       <!-- Clear Button -->
       <button
         v-if="clearable && modelValue && !disabled && !readonly"
@@ -209,23 +204,23 @@
       >
         <TablerIcon name="x" size="sm" />
       </button>
-      
+
       <!-- Loading Indicator -->
       <div v-if="loading" class="input-loading">
         <LoadingSpinner size="sm" />
       </div>
     </div>
-    
+
     <!-- Help Text (after field) -->
     <div v-if="helpText && helpPosition === 'after'" class="form-text">
       {{ helpText }}
     </div>
-    
+
     <!-- Error Message -->
     <div v-if="hasError" class="invalid-feedback d-block">
       {{ errorMessage }}
     </div>
-    
+
     <!-- Success Message -->
     <div v-if="hasSuccess" class="valid-feedback d-block">
       {{ successMessage }}
@@ -234,7 +229,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { generateId } from '@/utils/helpers'
 import TablerIcon from './TablerIcon.vue'
 import LoadingSpinner from './LoadingSpinner.vue'
@@ -245,22 +240,39 @@ const props = defineProps({
     type: [String, Number, Boolean, Array, File],
     default: ''
   },
-  
+
   // Field configuration
   type: {
     type: String,
     default: 'text',
-    validator: (value) => [
-      'text', 'email', 'password', 'number', 'tel', 'url', 'search',
-      'textarea', 'select', 'checkbox', 'radio', 'file', 'date',
-      'datetime-local', 'time', 'month', 'week', 'color', 'range',
-      'custom'
-    ].includes(value)
+    validator: value =>
+      [
+        'text',
+        'email',
+        'password',
+        'number',
+        'tel',
+        'url',
+        'search',
+        'textarea',
+        'select',
+        'checkbox',
+        'radio',
+        'file',
+        'date',
+        'datetime-local',
+        'time',
+        'month',
+        'week',
+        'color',
+        'range',
+        'custom'
+      ].includes(value)
   },
   name: String,
   label: String,
   placeholder: String,
-  
+
   // Field attributes
   required: Boolean,
   optional: Boolean,
@@ -268,19 +280,19 @@ const props = defineProps({
   readonly: Boolean,
   clearable: Boolean,
   loading: Boolean,
-  
+
   // Validation
   error: [String, Boolean],
   success: [String, Boolean],
-  
+
   // Help text
   helpText: String,
   helpPosition: {
     type: String,
     default: 'after',
-    validator: (value) => ['before', 'after'].includes(value)
+    validator: value => ['before', 'after'].includes(value)
   },
-  
+
   // Input constraints
   min: [String, Number],
   max: [String, Number],
@@ -288,53 +300,46 @@ const props = defineProps({
   pattern: String,
   accept: String,
   autocomplete: String,
-  
+
   // Textarea specific
   rows: {
     type: Number,
     default: 3
   },
   cols: Number,
-  
+
   // Select/Radio options
   options: Array,
   multiple: Boolean,
-  
+
   // Checkbox specific
   checkboxValue: {
     type: [String, Number, Boolean],
     default: true
   },
   checkboxLabel: String,
-  
+
   // Styling
   size: {
     type: String,
     default: 'md',
-    validator: (value) => ['sm', 'md', 'lg'].includes(value)
+    validator: value => ['sm', 'md', 'lg'].includes(value)
   },
   variant: {
     type: String,
     default: 'default'
   },
-  
+
   // Layout
   inline: Boolean,
   switch: Boolean, // For checkbox styling
-  
+
   // Icons
   prefix: String,
   suffix: String
 })
 
-const emit = defineEmits([
-  'update:modelValue',
-  'change',
-  'focus',
-  'blur',
-  'clear',
-  'keydown'
-])
+const emit = defineEmits(['update:modelValue', 'change', 'focus', 'blur', 'clear', 'keydown'])
 
 // State
 const fieldRef = ref(null)
@@ -344,8 +349,20 @@ const isFocused = ref(false)
 // Computed
 const isInputType = computed(() => {
   const inputTypes = [
-    'text', 'email', 'password', 'number', 'tel', 'url', 'search',
-    'date', 'datetime-local', 'time', 'month', 'week', 'color', 'range'
+    'text',
+    'email',
+    'password',
+    'number',
+    'tel',
+    'url',
+    'search',
+    'date',
+    'datetime-local',
+    'time',
+    'month',
+    'week',
+    'color',
+    'range'
   ]
   return inputTypes.includes(props.type)
 })
@@ -379,32 +396,32 @@ const labelClass = computed(() => ({
 
 const wrapperClass = computed(() => {
   const classes = []
-  
+
   if (props.prefix || props.suffix || props.$slots.prefix || props.$slots.suffix) {
     classes.push('input-group')
   }
-  
+
   if (props.size !== 'md') {
     classes.push(`input-group-${props.size}`)
   }
-  
+
   return classes
 })
 
 const fieldClass = computed(() => {
   const baseClass = props.type === 'select' ? 'form-select' : 'form-control'
   const classes = [baseClass]
-  
+
   if (props.size !== 'md') {
     classes.push(`${baseClass}-${props.size}`)
   }
-  
+
   if (hasError.value) {
     classes.push('is-invalid')
   } else if (hasSuccess.value) {
     classes.push('is-valid')
   }
-  
+
   return classes
 })
 
@@ -415,7 +432,7 @@ const checkClass = computed(() => ({
 
 const normalizedOptions = computed(() => {
   if (!props.options) return []
-  
+
   return props.options.map(option => {
     if (typeof option === 'string' || typeof option === 'number') {
       return { label: option, value: option }
@@ -430,80 +447,80 @@ const normalizedOptions = computed(() => {
 
 const ariaDescribedBy = computed(() => {
   const ids = []
-  
+
   if (props.helpText) {
     ids.push(`${fieldId.value}-help`)
   }
-  
+
   if (hasError.value) {
     ids.push(`${fieldId.value}-error`)
   }
-  
+
   if (hasSuccess.value) {
     ids.push(`${fieldId.value}-success`)
   }
-  
+
   return ids.length > 0 ? ids.join(' ') : undefined
 })
 
 // Methods
-const handleInput = (event) => {
+const handleInput = event => {
   const value = event.target.value
   emit('update:modelValue', value)
 }
 
-const handleChange = (event) => {
+const handleChange = event => {
   const value = event.target.value
   emit('update:modelValue', value)
   emit('change', value)
 }
 
-const handleSelectChange = (event) => {
+const handleSelectChange = event => {
   const value = props.multiple
     ? Array.from(event.target.selectedOptions, option => option.value)
     : event.target.value
-  
+
   emit('update:modelValue', value)
   emit('change', value)
 }
 
-const handleCheckboxChange = (event) => {
+const handleCheckboxChange = event => {
   const value = event.target.checked ? props.checkboxValue : false
   emit('update:modelValue', value)
   emit('change', value)
 }
 
-const handleRadioChange = (event) => {
+const handleRadioChange = event => {
   const value = event.target.value
   emit('update:modelValue', value)
   emit('change', value)
 }
 
-const handleFileChange = (event) => {
+const handleFileChange = event => {
   const files = event.target.files
   const value = props.multiple ? Array.from(files) : files[0]
   emit('update:modelValue', value)
   emit('change', value)
 }
 
-const handleFocus = (event) => {
+const handleFocus = event => {
   isFocused.value = true
   emit('focus', event)
 }
 
-const handleBlur = (event) => {
+const handleBlur = event => {
   isFocused.value = false
   emit('blur', event)
 }
 
-const handleKeydown = (event) => {
+const handleKeydown = event => {
   emit('keydown', event)
 }
 
 const clearField = () => {
   emit('update:modelValue', '')
   emit('clear')
-  
+
   nextTick(() => {
     if (fieldRef.value) {
       fieldRef.value.focus()
@@ -524,11 +541,14 @@ const blur = () => {
 }
 
 // Watch for external value changes
-watch(() => props.modelValue, (newValue) => {
-  if (fieldRef.value && fieldRef.value.value !== newValue) {
-    fieldRef.value.value = newValue || ''
+watch(
+  () => props.modelValue,
+  newValue => {
+    if (fieldRef.value && fieldRef.value.value !== newValue) {
+      fieldRef.value.value = newValue || ''
+    }
   }
-})
+)
 
 // Expose methods
 defineExpose({

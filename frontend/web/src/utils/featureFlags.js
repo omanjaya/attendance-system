@@ -42,7 +42,7 @@ class FeatureFlagManager {
   // Feature flag evaluation
   isEnabled(flagName, context = {}) {
     const startTime = performance.now()
-    
+
     try {
       const flag = this.getFlag(flagName)
       if (!flag) {
@@ -51,11 +51,11 @@ class FeatureFlagManager {
       }
 
       const result = this.evaluateFlag(flag, context)
-      
+
       if (result) {
         this.recordExposure(flagName, context)
       }
-      
+
       this.recordMetric('flagChecks', flagName, { result, context })
       return result
     } finally {
@@ -87,8 +87,8 @@ class FeatureFlagManager {
 
     // User segment check
     if (flag.userSegments && flag.userSegments.length > 0) {
-      const hasSegment = flag.userSegments.some(segment => 
-        this.userSegments.has(segment) || this.config.userSegments.includes(segment)
+      const hasSegment = flag.userSegments.some(
+        segment => this.userSegments.has(segment) || this.config.userSegments.includes(segment)
       )
       if (!hasSegment) {
         return false
@@ -131,7 +131,7 @@ class FeatureFlagManager {
     const userId = this.config.userId || this.getSessionId()
     const hash = this.hashString(`${flagName}:${userId}`)
     const bucket = hash % 100
-    
+
     return bucket < percentage
   }
 
@@ -139,22 +139,22 @@ class FeatureFlagManager {
   evaluateRules(rules, context) {
     return rules.every(rule => {
       switch (rule.operator) {
-        case 'equals':
-          return context[rule.field] === rule.value
-        case 'not_equals':
-          return context[rule.field] !== rule.value
-        case 'contains':
-          return String(context[rule.field] || '').includes(rule.value)
-        case 'greater_than':
-          return Number(context[rule.field]) > Number(rule.value)
-        case 'less_than':
-          return Number(context[rule.field]) < Number(rule.value)
-        case 'in':
-          return Array.isArray(rule.value) && rule.value.includes(context[rule.field])
-        case 'regex':
-          return new RegExp(rule.value).test(String(context[rule.field] || ''))
-        default:
-          return false
+      case 'equals':
+        return context[rule.field] === rule.value
+      case 'not_equals':
+        return context[rule.field] !== rule.value
+      case 'contains':
+        return String(context[rule.field] || '').includes(rule.value)
+      case 'greater_than':
+        return Number(context[rule.field]) > Number(rule.value)
+      case 'less_than':
+        return Number(context[rule.field]) < Number(rule.value)
+      case 'in':
+        return Array.isArray(rule.value) && rule.value.includes(context[rule.field])
+      case 'regex':
+        return new RegExp(rule.value).test(String(context[rule.field] || ''))
+      default:
+        return false
       }
     })
   }
@@ -254,7 +254,11 @@ class FeatureFlagManager {
   // Flag management
   async fetchFlags() {
     // Skip API calls in development mode or if no API endpoint is configured
-    if (this.config.environment === 'development' || !this.config.apiEndpoint || this.config.apiEndpoint.startsWith('/api/')) {
+    if (
+      this.config.environment === 'development' ||
+      !this.config.apiEndpoint ||
+      this.config.apiEndpoint.startsWith('/api/')
+    ) {
       console.log('Using fallback feature flags (development mode)')
       this.loadFallbackFlags()
       return
@@ -360,7 +364,7 @@ class FeatureFlagManager {
       const stored = localStorage.getItem('featureFlags')
       if (stored) {
         const data = JSON.parse(stored)
-        
+
         // Check if cache is still valid
         if (Date.now() - data.timestamp < this.config.cacheTimeout) {
           this.flags = new Map(Object.entries(data.flags || {}))
@@ -385,7 +389,7 @@ class FeatureFlagManager {
     let hash = 0
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i)
-      hash = ((hash << 5) - hash) + char
+      hash = (hash << 5) - hash + char
       hash = hash & hash // Convert to 32bit integer
     }
     return Math.abs(hash)
@@ -433,7 +437,8 @@ class FeatureFlagManager {
       currentPhase,
       rolloutProgress: {
         totalPhases: this.rolloutPhases.size,
-        completedPhases: Array.from(this.rolloutPhases.values()).filter(phase => phase.isActive).length,
+        completedPhases: Array.from(this.rolloutPhases.values()).filter(phase => phase.isActive)
+          .length,
         currentPercentage: currentPhase?.percentage || 0
       },
       flagUsage: Object.fromEntries(flagUsage),
@@ -450,8 +455,9 @@ class FeatureFlagManager {
     const currentPhase = this.getCurrentPhase()
 
     // Check for unused flags
-    const unusedFlags = Array.from(this.flags.keys()).filter(flagName => 
-      !this.metrics.flagChecks.has(flagName) || this.metrics.flagChecks.get(flagName).length === 0
+    const unusedFlags = Array.from(this.flags.keys()).filter(
+      flagName =>
+        !this.metrics.flagChecks.has(flagName) || this.metrics.flagChecks.get(flagName).length === 0
     )
 
     if (unusedFlags.length > 0) {
@@ -468,7 +474,7 @@ class FeatureFlagManager {
     this.metrics.flagChecks.forEach((checks, flagName) => {
       const trueResults = checks.filter(check => check.result === true).length
       const exposureRate = checks.length > 0 ? (trueResults / checks.length) * 100 : 0
-      
+
       if (exposureRate < 10 && checks.length > 50) {
         lowExposureFlags.push({ flagName, exposureRate })
       }
@@ -491,7 +497,7 @@ class FeatureFlagManager {
           type: 'rollout',
           priority: 'high',
           message: `Ready to proceed to ${nextPhase.name}?`,
-          nextPhase: nextPhase
+          nextPhase
         })
       }
     }
@@ -502,12 +508,12 @@ class FeatureFlagManager {
   getNextPhase(currentPhaseId) {
     const phases = Array.from(this.rolloutPhases.entries())
     const currentIndex = phases.findIndex(([id]) => id === currentPhaseId)
-    
+
     if (currentIndex >= 0 && currentIndex < phases.length - 1) {
       const [nextId, nextPhase] = phases[currentIndex + 1]
       return { id: nextId, ...nextPhase }
     }
-    
+
     return null
   }
 
@@ -559,7 +565,7 @@ export function useFeatureFlags() {
     variant: (flag, variants, context) => featureFlags.variant(flag, variants, context),
     getCurrentPhase: () => featureFlags.getCurrentPhase(),
     getMetrics: () => featureFlags.getMetrics(),
-    addUserSegment: (segment) => featureFlags.addUserSegment(segment),
+    addUserSegment: segment => featureFlags.addUserSegment(segment),
     setUser: (userId, segments) => featureFlags.setUser(userId, segments)
   }
 }

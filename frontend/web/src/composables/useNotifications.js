@@ -1,4 +1,4 @@
-import { ref, nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { createApp } from 'vue'
 import NotificationToast from '@/components/common/NotificationToast.vue'
 
@@ -17,21 +17,21 @@ const defaultConfig = {
 /**
  * Create and mount a toast notification
  */
-const createToast = (options) => {
+const createToast = options => {
   const id = String(++notificationId)
-  
+
   // Merge with defaults
   const config = {
     ...defaultConfig,
     ...options,
     id
   }
-  
+
   // Create a container for this toast
   const container = document.createElement('div')
   container.id = `toast-${id}`
   document.body.appendChild(container)
-  
+
   // Create Vue app instance for the toast
   const app = createApp(NotificationToast, {
     ...config,
@@ -41,29 +41,29 @@ const createToast = (options) => {
       if (index > -1) {
         notifications.value.splice(index, 1)
       }
-      
+
       // Cleanup
       app.unmount()
       if (container.parentNode) {
         container.parentNode.removeChild(container)
       }
-      
+
       // Call user-provided dismiss handler
       if (config.onDismiss) {
         config.onDismiss()
       }
     },
-    onAction: (action) => {
+    onAction: action => {
       // Call user-provided action handler
       if (config.onAction) {
         config.onAction(action)
       }
     }
   })
-  
+
   // Mount the toast
   app.mount(container)
-  
+
   // Add to notifications array
   const notification = {
     id,
@@ -77,9 +77,9 @@ const createToast = (options) => {
       }
     }
   }
-  
+
   notifications.value.push(notification)
-  
+
   return notification
 }
 
@@ -136,7 +136,7 @@ export const showInfo = (message, options = {}) => {
 /**
  * Show a custom notification
  */
-export const showNotification = (options) => {
+export const showNotification = options => {
   return createToast(options)
 }
 
@@ -168,7 +168,7 @@ export const updateNotification = (notification, updates) => {
 /**
  * Dismiss a specific notification
  */
-export const dismissNotification = (notification) => {
+export const dismissNotification = notification => {
   if (notification && typeof notification.dismiss === 'function') {
     notification.dismiss()
   }
@@ -203,7 +203,7 @@ export const notificationPatterns = {
       title: 'Success'
     })
   },
-  
+
   /**
    * Show a delete success notification
    */
@@ -212,7 +212,7 @@ export const notificationPatterns = {
       title: 'Deleted'
     })
   },
-  
+
   /**
    * Show a validation error notification
    */
@@ -221,7 +221,7 @@ export const notificationPatterns = {
       title: 'Validation Error'
     })
   },
-  
+
   /**
    * Show a network error notification
    */
@@ -238,7 +238,7 @@ export const notificationPatterns = {
       ]
     })
   },
-  
+
   /**
    * Show an action confirmation
    */
@@ -258,14 +258,14 @@ export const notificationPatterns = {
           variant: 'warning'
         }
       ],
-      onAction: (action) => {
+      onAction: action => {
         if (action.key === 'confirm' && onConfirm) {
           onConfirm()
         }
       }
     })
   },
-  
+
   /**
    * Show an undo notification
    */
@@ -279,7 +279,7 @@ export const notificationPatterns = {
           variant: 'primary'
         }
       ],
-      onAction: (action) => {
+      onAction: action => {
         if (action.key === 'undo' && onUndo) {
           onUndo()
         }
@@ -300,16 +300,16 @@ export const useNotifications = () => {
     showInfo,
     showNotification,
     showLoading,
-    
+
     // Management methods
     updateNotification,
     dismissNotification,
     dismissAll,
     getNotifications,
-    
+
     // Common patterns
     ...notificationPatterns,
-    
+
     // Reactive state
     notifications
   }
@@ -330,11 +330,6 @@ export const $notify = {
 }
 
 // Auto-import for common use cases
-export {
-  showSuccess as success,
-  showError as error,
-  showWarning as warning,
-  showInfo as info
-}
+export { showSuccess as success, showError as error, showWarning as warning, showInfo as info }
 
 export default useNotifications

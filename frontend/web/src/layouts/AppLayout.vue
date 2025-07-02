@@ -1,14 +1,14 @@
 <template>
   <div class="page">
     <!-- Sidebar -->
-    <Sidebar 
+    <Sidebar
       :navigation="navigation"
       :is-active-group="isActiveGroup"
       @toggle-mobile="toggleMobileSidebar"
     />
 
     <!-- Header -->
-    <Header 
+    <Header
       :user="currentUser"
       :show-mobile-toggle="true"
       @toggle-sidebar="toggleMobileSidebar"
@@ -19,17 +19,17 @@
     <!-- Main Content -->
     <div class="page-wrapper">
       <!-- Page header -->
-      <div class="page-header d-print-none" v-if="showPageHeader">
+      <div v-if="showPageHeader" class="page-header d-print-none">
         <div class="container-xl">
           <!-- Breadcrumbs -->
           <Breadcrumbs :quick-actions="breadcrumbActions" />
-          
+
           <div class="row g-2 align-items-center">
             <div class="col">
-              <div class="page-pretitle" v-if="pageSubtitle">{{ pageSubtitle }}</div>
+              <div v-if="pageSubtitle" class="page-pretitle">{{ pageSubtitle }}</div>
               <h2 class="page-title">{{ pageTitle }}</h2>
             </div>
-            <div class="col-12 col-md-auto ms-auto d-print-none" v-if="$slots.actions">
+            <div v-if="$slots.actions" class="col-12 col-md-auto ms-auto d-print-none">
               <div class="btn-list">
                 <slot name="actions"></slot>
               </div>
@@ -37,14 +37,14 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Page body -->
       <div class="page-body">
         <div class="container-xl">
           <!-- Loading overlay for route transitions -->
           <LoadingState v-if="isRouteLoading" overlay />
-          
-          <main id="main-content" tabindex="-1" ref="mainContent">
+
+          <main id="main-content" ref="mainContent" tabindex="-1">
             <router-view v-slot="{ Component }">
               <transition name="fade" mode="out-in">
                 <component :is="Component" />
@@ -53,7 +53,7 @@
           </main>
         </div>
       </div>
-      
+
       <!-- Footer -->
       <footer class="footer footer-transparent d-print-none">
         <div class="container-xl">
@@ -70,38 +70,31 @@
             </div>
             <div class="col-12 col-lg-auto mt-3 mt-lg-0">
               <ul class="list-inline list-inline-dots mb-0">
-                <li class="list-inline-item">
-                  © {{ currentYear }} Presensiari
-                </li>
-                <li class="list-inline-item">
-                  Version 1.0.0
-                </li>
+                <li class="list-inline-item">© {{ currentYear }} Presensiari</li>
+                <li class="list-inline-item">Version 1.0.0</li>
               </ul>
             </div>
           </div>
         </div>
       </footer>
     </div>
-    
+
     <!-- Quick Actions -->
-    <QuickActions 
-      :show-stats="true" 
+    <QuickActions
+      :show-stats="true"
       :custom-actions="quickActionsData"
       @action="handleQuickAction"
     />
-    
+
     <!-- Keyboard Shortcuts Help -->
-    <ShortcutHelp 
-      :visible="showShortcutHelp"
-      @close="showShortcutHelp = false"
-    />
-    
+    <ShortcutHelp :visible="showShortcutHelp" @close="showShortcutHelp = false" />
+
     <!-- Mobile Bottom Navigation -->
     <MobileBottomNav />
-    
+
     <!-- Notification Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-      <NotificationToast 
+      <NotificationToast
         v-for="notification in notifications"
         :key="notification.id"
         :notification="notification"
@@ -112,7 +105,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useUIStore } from '@/stores/modules/ui'
@@ -148,7 +141,12 @@ const currentYear = new Date().getFullYear()
 const currentUser = computed(() => ({
   name: authStore.userName,
   email: authStore.userEmail,
-  initials: authStore.userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2),
+  initials: authStore.userName
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2),
   avatar: authStore.userAvatar
 }))
 
@@ -250,7 +248,7 @@ const navigation = [
 ]
 
 // Check if a navigation group is active
-const isActiveGroup = (item) => {
+const isActiveGroup = item => {
   if (item.to && item.exact) {
     return route.path === item.to
   }
@@ -258,9 +256,7 @@ const isActiveGroup = (item) => {
     return route.path.startsWith(item.to)
   }
   if (item.children) {
-    return item.children.some(child => 
-      child.to && route.path.startsWith(child.to)
-    )
+    return item.children.some(child => child.to && route.path.startsWith(child.to))
   }
   return false
 }
@@ -268,7 +264,7 @@ const isActiveGroup = (item) => {
 // Dynamic breadcrumb actions
 const breadcrumbActions = computed(() => {
   const actions = []
-  
+
   if (route.path === '/employees') {
     actions.push({
       key: 'add-employee',
@@ -286,14 +282,14 @@ const breadcrumbActions = computed(() => {
       variant: 'outline-primary'
     })
   }
-  
+
   return actions
 })
 
 // Quick actions data
 const quickActionsData = computed(() => {
   const customActions = []
-  
+
   if (route.path.startsWith('/employees')) {
     customActions.push({
       key: 'export-employees',
@@ -304,7 +300,7 @@ const quickActionsData = computed(() => {
       class: 'quick-action-info'
     })
   }
-  
+
   return customActions
 })
 
@@ -322,34 +318,37 @@ const logout = async () => {
   router.push('/login')
 }
 
-const handleQuickAction = (action) => {
+const handleQuickAction = action => {
   console.log('Quick action executed:', action)
 }
 
-const handleExport = (type) => {
+const handleExport = type => {
   console.log('Exporting:', type)
   // Implement export logic
 }
 
 // Route change handling
-watch(() => route.path, async (newPath, oldPath) => {
-  if (newPath !== oldPath) {
-    isRouteLoading.value = true
-    
-    // Announce route change for screen readers
-    announceRoute(pageTitle.value)
-    
-    // Focus main content on route change
-    await nextTick()
-    if (mainContent.value) {
-      mainContent.value.focus()
+watch(
+  () => route.path,
+  async (newPath, oldPath) => {
+    if (newPath !== oldPath) {
+      isRouteLoading.value = true
+
+      // Announce route change for screen readers
+      announceRoute(pageTitle.value)
+
+      // Focus main content on route change
+      await nextTick()
+      if (mainContent.value) {
+        mainContent.value.focus()
+      }
+
+      setTimeout(() => {
+        isRouteLoading.value = false
+      }, 300)
     }
-    
-    setTimeout(() => {
-      isRouteLoading.value = false
-    }, 300)
   }
-})
+)
 
 // Global keyboard shortcuts
 const setupKeyboardShortcuts = () => {
@@ -362,7 +361,7 @@ const setupKeyboardShortcuts = () => {
       showShortcutHelp.value = !showShortcutHelp.value
     }
   })
-  
+
   // Global search
   registerShortcut({
     key: 'search',
@@ -372,7 +371,7 @@ const setupKeyboardShortcuts = () => {
       document.dispatchEvent(new Event('focus-global-search'))
     }
   })
-  
+
   // Navigation shortcuts
   registerShortcut({
     key: 'go-dashboard',
@@ -380,14 +379,14 @@ const setupKeyboardShortcuts = () => {
     description: 'Go to Dashboard',
     handler: () => router.push('/')
   })
-  
+
   registerShortcut({
     key: 'go-employees',
     keys: ['g', 'e'],
     description: 'Go to Employees',
     handler: () => router.push('/employees')
   })
-  
+
   registerShortcut({
     key: 'go-attendance',
     keys: ['g', 'a'],
@@ -400,16 +399,16 @@ const setupKeyboardShortcuts = () => {
 onMounted(() => {
   // Initialize accessibility features
   detectPreferences()
-  
+
   // Skip links removed for pure Tabler.io implementation
   // skipLinks.addToPage([
   //   { target: 'main-content', text: 'Skip to main content' },
   //   { target: 'sidebar-menu', text: 'Skip to navigation' }
   // ])
-  
+
   // Setup keyboard shortcuts
   setupKeyboardShortcuts()
-  
+
   // Apply saved theme
   if (uiStore.theme === 'dark') {
     document.documentElement.classList.add('dark')

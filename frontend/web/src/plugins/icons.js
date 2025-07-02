@@ -17,48 +17,48 @@ export default {
     // Global TablerIcon component registration
     app.component('TablerIcon', TablerIcon)
     app.component('TIcon', TablerIcon) // Short alias
-    
+
     // Global properties for icon utilities
     app.config.globalProperties.$icon = {
       resolve: resolveIconName,
       validate: validateIconProps,
-      preregister: (iconName) => {
+      preregister: iconName => {
         preregisteredIcons.add(resolveIconName(iconName))
       },
-      isPreregistered: (iconName) => {
+      isPreregistered: iconName => {
         return preregisteredIcons.has(resolveIconName(iconName))
       }
     }
-    
+
     // Global icon directive for simple icon rendering
     app.directive('icon', {
       mounted(el, binding) {
         const iconName = resolveIconName(binding.value)
         const size = binding.arg || 'md'
         const modifiers = binding.modifiers
-        
+
         // Create icon element
         const iconComponent = app.component('TablerIcon')
         if (iconComponent) {
           const iconEl = document.createElement('span')
           iconEl.innerHTML = `<tabler-icon name="${iconName}" size="${size}"></tabler-icon>`
-          
+
           // Apply modifier classes
           if (modifiers.inline) iconEl.classList.add('icon-inline')
           if (modifiers.spin) iconEl.classList.add('icon-spin')
           if (modifiers.pulse) iconEl.classList.add('icon-pulse')
-          
+
           el.appendChild(iconEl)
         }
       },
-      
+
       updated(el, binding) {
         // Re-render if binding value changes
         el.innerHTML = ''
         this.mounted(el, binding)
       }
     })
-    
+
     // Configure options
     const config = {
       preloadCommonIcons: true,
@@ -66,10 +66,10 @@ export default {
       showWarnings: process.env.NODE_ENV === 'development',
       ...options
     }
-    
+
     // Store config in app
     app.provide('iconConfig', config)
-    
+
     // Preload common icons if enabled
     if (config.preloadCommonIcons) {
       preloadIcons(commonIcons.essential)
@@ -86,7 +86,7 @@ function preloadIcons(iconNames) {
   if (process.env.NODE_ENV === 'production') {
     return Promise.resolve()
   }
-  
+
   console.log(`Registering ${iconNames.length} common icons for preload`)
   // Icons will be loaded on-demand via the TablerIcon component
   return Promise.resolve()
@@ -100,10 +100,10 @@ export function useIcons() {
     // Icon utilities
     resolve: resolveIconName,
     validate: validateIconProps,
-    
+
     // Common icon sets
     common: commonIcons,
-    
+
     // Preload helper
     preload: preloadIcons
   }
@@ -118,7 +118,7 @@ export function useIcons() {
 export function createIcon(iconName, props = {}) {
   return {
     name: 'DynamicIcon',
-    template: `<TablerIcon :name="iconName" v-bind="iconProps" />`,
+    template: '<TablerIcon :name="iconName" v-bind="iconProps" />',
     data() {
       return {
         iconName: resolveIconName(iconName),
@@ -152,18 +152,18 @@ export const IconAliases = {
   BackIcon: { name: 'arrow-left' },
   ForwardIcon: { name: 'arrow-right' },
   MenuIcon: { name: 'menu' },
-  
+
   // User management
   UserIcon: { name: 'user' },
   UsersIcon: { name: 'users' },
   AddUserIcon: { name: 'user-plus' },
-  
+
   // Attendance
   ClockIcon: { name: 'clock' },
   CheckInIcon: { name: 'clock-check' },
   CheckOutIcon: { name: 'clock-x' },
   CalendarIcon: { name: 'calendar' },
-  
+
   // Actions
   AddIcon: { name: 'plus' },
   EditIcon: { name: 'edit' },
@@ -171,13 +171,13 @@ export const IconAliases = {
   SaveIcon: { name: 'device-floppy' },
   CancelIcon: { name: 'x' },
   ConfirmIcon: { name: 'check' },
-  
+
   // Status
   SuccessIcon: { name: 'circle-check' },
   ErrorIcon: { name: 'circle-x' },
   WarningIcon: { name: 'alert-triangle' },
   InfoIcon: { name: 'info-circle' },
-  
+
   // System
   SettingsIcon: { name: 'settings' },
   LogoutIcon: { name: 'logout' },

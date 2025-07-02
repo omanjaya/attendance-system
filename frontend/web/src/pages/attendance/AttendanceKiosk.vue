@@ -16,9 +16,20 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12,6 12,12 16,14"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="icon me-2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12,6 12,12 16,14" />
                 </svg>
                 Today's Attendance Status
               </h3>
@@ -29,7 +40,9 @@
                   <div class="mb-3">
                     <label class="form-label">Clock In Time</label>
                     <div class="form-control-plaintext">
-                      {{ todayStatus.clock_in ? formatTime(todayStatus.clock_in) : 'Not clocked in' }}
+                      {{
+                        todayStatus.clock_in ? formatTime(todayStatus.clock_in) : 'Not clocked in'
+                      }}
                     </div>
                   </div>
                 </div>
@@ -37,14 +50,16 @@
                   <div class="mb-3">
                     <label class="form-label">Clock Out Time</label>
                     <div class="form-control-plaintext">
-                      {{ todayStatus.clock_out ? formatTime(todayStatus.clock_out) : 'Not clocked out' }}
+                      {{
+                        todayStatus.clock_out
+                          ? formatTime(todayStatus.clock_out)
+                          : 'Not clocked out'
+                      }}
                     </div>
                   </div>
                 </div>
               </div>
-              <div v-else class="text-muted">
-                No attendance record for today
-              </div>
+              <div v-else class="text-muted">No attendance record for today</div>
             </div>
           </div>
         </div>
@@ -56,9 +71,20 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title text-success">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-2">
-                  <path d="M9 12l2 2 4-4"/>
-                  <circle cx="12" cy="12" r="10"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="icon me-2"
+                >
+                  <path d="M9 12l2 2 4-4" />
+                  <circle cx="12" cy="12" r="10" />
                 </svg>
                 Clock In
               </h3>
@@ -66,22 +92,41 @@
             <div class="card-body text-center">
               <p class="text-muted mb-3">Start your workday</p>
               <div class="btn-list">
-                <button 
+                <button
                   class="btn btn-success btn-lg"
-                  :disabled="isLoading || (todayStatus && todayStatus.clock_in && !todayStatus.clock_out)"
+                  :disabled="
+                    isLoading || (todayStatus && todayStatus.clock_in && !todayStatus.clock_out)
+                  "
                   @click="clockIn"
                 >
                   <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                  {{ todayStatus && todayStatus.clock_in && !todayStatus.clock_out ? 'Already Clocked In' : 'Clock In' }}
+                  {{
+                    todayStatus && todayStatus.clock_in && !todayStatus.clock_out
+                      ? 'Already Clocked In'
+                      : 'Clock In'
+                  }}
                 </button>
-                <button 
+                <button
                   class="btn btn-outline-success"
-                  :disabled="isLoading || (todayStatus && todayStatus.clock_in && !todayStatus.clock_out)"
+                  :disabled="
+                    isLoading || (todayStatus && todayStatus.clock_in && !todayStatus.clock_out)
+                  "
                   @click="showFaceClockIn = true"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-2">
-                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-                    <circle cx="12" cy="12" r="3"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="icon me-2"
+                  >
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
                   </svg>
                   Face Clock In
                 </button>
@@ -94,24 +139,42 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title text-danger">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M15 9l-6 6"/>
-                  <path d="M9 9l6 6"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="icon me-2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M15 9l-6 6" />
+                  <path d="M9 9l6 6" />
                 </svg>
                 Clock Out
               </h3>
             </div>
             <div class="card-body text-center">
               <p class="text-muted mb-3">End your workday</p>
-              <button 
+              <button
                 class="btn btn-danger btn-lg"
-                :disabled="isLoading || !todayStatus || !todayStatus.clock_in || todayStatus.clock_out"
+                :disabled="
+                  isLoading || !todayStatus || !todayStatus.clock_in || todayStatus.clock_out
+                "
                 @click="clockOut"
               >
                 <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                {{ !todayStatus || !todayStatus.clock_in ? 'Clock In First' : 
-                   todayStatus.clock_out ? 'Already Clocked Out' : 'Clock Out' }}
+                {{
+                  !todayStatus || !todayStatus.clock_in
+                    ? 'Clock In First'
+                    : todayStatus.clock_out
+                      ? 'Already Clocked Out'
+                      : 'Clock Out'
+                }}
               </button>
             </div>
           </div>
@@ -124,8 +187,19 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-2">
-                  <path d="M3 3h18v18H3zM21 9H3"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="icon me-2"
+                >
+                  <path d="M3 3h18v18H3zM21 9H3" />
                 </svg>
                 Recent Attendance
               </h3>
@@ -149,11 +223,14 @@
                       <td>{{ record.clock_out ? formatTime(record.clock_out) : '-' }}</td>
                       <td>{{ record.total_hours || '0' }} hours</td>
                       <td>
-                        <span class="badge" :class="{
-                          'bg-success': record.status === 'present',
-                          'bg-warning': record.status === 'late',
-                          'bg-danger': record.status === 'absent'
-                        }">
+                        <span
+                          class="badge"
+                          :class="{
+                            'bg-success': record.status === 'present',
+                            'bg-warning': record.status === 'late',
+                            'bg-danger': record.status === 'absent'
+                          }"
+                        >
                           {{ record.status }}
                         </span>
                       </td>
@@ -161,9 +238,7 @@
                   </tbody>
                 </table>
               </div>
-              <div v-else class="text-muted text-center py-4">
-                No attendance records found
-              </div>
+              <div v-else class="text-muted text-center py-4">No attendance records found</div>
             </div>
           </div>
         </div>
@@ -171,7 +246,12 @@
     </div>
 
     <!-- Face Recognition Modal -->
-    <div v-if="showFaceClockIn" class="modal modal-blur fade show" style="display: block;" tabindex="-1">
+    <div
+      v-if="showFaceClockIn"
+      class="modal modal-blur fade show"
+      style="display: block"
+      tabindex="-1"
+    >
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -184,35 +264,82 @@
                 <div class="text-center">
                   <div v-if="!cameraActive" class="mb-3">
                     <button class="btn btn-primary" @click="startCamera">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-2">
-                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                        <circle cx="12" cy="13" r="4"/>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="icon me-2"
+                      >
+                        <path
+                          d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+                        />
+                        <circle cx="12" cy="13" r="4" />
                       </svg>
                       Start Camera
                     </button>
                   </div>
                   <div v-else class="position-relative">
-                    <video ref="videoElement" autoplay muted class="img-fluid rounded" style="max-height: 300px;"></video>
+                    <video
+                      ref="videoElement"
+                      autoplay
+                      muted
+                      class="img-fluid rounded"
+                      style="max-height: 300px"
+                    ></video>
                     <div class="position-absolute top-0 end-0 p-2">
                       <button class="btn btn-sm btn-danger" @click="stopCamera">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-                          <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-                          <path d="m9 9 6 6"/>
-                          <path d="m15 9-6 6"/>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="icon"
+                        >
+                          <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                          <path d="m9 9 6 6" />
+                          <path d="m15 9-6 6" />
                         </svg>
                       </button>
                     </div>
                   </div>
                   <div v-if="cameraActive" class="mb-3">
-                    <button 
-                      class="btn btn-success" 
-                      @click="captureAndVerify"
+                    <button
+                      class="btn btn-success"
                       :disabled="faceVerifying"
+                      @click="captureAndVerify"
                     >
-                      <span v-if="faceVerifying" class="spinner-border spinner-border-sm me-2"></span>
-                      <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-2">
-                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                        <circle cx="12" cy="13" r="4"/>
+                      <span
+                        v-if="faceVerifying"
+                        class="spinner-border spinner-border-sm me-2"
+                      ></span>
+                      <svg
+                        v-else
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="icon me-2"
+                      >
+                        <path
+                          d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+                        />
+                        <circle cx="12" cy="13" r="4" />
                       </svg>
                       {{ faceVerifying ? 'Verifying...' : 'Capture & Verify' }}
                     </button>
@@ -230,27 +357,47 @@
                     </div>
                     <div v-else-if="faceResult.success" class="text-success">
                       <div class="d-flex align-items-center mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-2">
-                          <polyline points="20 6 9 17 4 12"/>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="icon me-2"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
                         </svg>
                         <strong>Recognized!</strong>
                       </div>
                       <div class="mb-2">
                         <strong>Employee:</strong> {{ faceResult.employee_name }}
                       </div>
-                      <div class="mb-2">
-                        <strong>ID:</strong> {{ faceResult.employee_id }}
-                      </div>
+                      <div class="mb-2"><strong>ID:</strong> {{ faceResult.employee_id }}</div>
                       <div class="mb-2">
                         <strong>Confidence:</strong> {{ Math.round(faceResult.confidence * 100) }}%
                       </div>
                     </div>
                     <div v-else class="text-danger">
                       <div class="d-flex align-items-center mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon me-2">
-                          <circle cx="12" cy="12" r="10"/>
-                          <path d="m15 9-6 6"/>
-                          <path d="m9 9 6 6"/>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="icon me-2"
+                        >
+                          <circle cx="12" cy="12" r="10" />
+                          <path d="m15 9-6 6" />
+                          <path d="m9 9 6 6" />
                         </svg>
                         <strong>Not Recognized</strong>
                       </div>
@@ -263,11 +410,11 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" @click="closeFaceModal">Cancel</button>
-            <button 
-              type="button" 
-              class="btn btn-success" 
-              @click="faceClockIn"
+            <button
+              type="button"
+              class="btn btn-success"
               :disabled="!faceResult || !faceResult.success || isLoading"
+              @click="faceClockIn"
             >
               <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
               Clock In with Face ID
@@ -282,16 +429,31 @@
 
     <!-- Success/Error Alerts -->
     <div v-if="alertMessage" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
-      <div class="alert" :class="{
-        'alert-success': alertType === 'success',
-        'alert-danger': alertType === 'error'
-      }" role="alert">
+      <div
+        class="alert"
+        :class="{
+          'alert-success': alertType === 'success',
+          'alert-danger': alertType === 'error'
+        }"
+        role="alert"
+      >
         <div class="d-flex">
           <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path v-if="alertType === 'success'" d="M9 12l2 2 4-4"/>
-              <path v-else d="M18 6L6 18M6 6l12 12"/>
-              <circle cx="12" cy="12" r="10"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon alert-icon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path v-if="alertType === 'success'" d="M9 12l2 2 4-4" />
+              <path v-else d="M18 6L6 18M6 6l12 12" />
+              <circle cx="12" cy="12" r="10" />
             </svg>
           </div>
           <div>
@@ -306,7 +468,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { attendanceService } from '@/services/attendanceService'
 import { faceRecognitionService } from '@/services/faceRecognitionService'
 import { locationService } from '@/services/locationService'
@@ -351,7 +513,7 @@ const updateCurrentTime = () => {
   })
 }
 
-const formatTime = (datetime) => {
+const formatTime = datetime => {
   if (!datetime) return '-'
   return new Date(datetime).toLocaleTimeString('en-US', {
     hour: '2-digit',
@@ -359,7 +521,7 @@ const formatTime = (datetime) => {
   })
 }
 
-const formatDate = (date) => {
+const formatDate = date => {
   if (!date) return '-'
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -405,24 +567,26 @@ const fetchRecentAttendance = async () => {
 
 const clockIn = async () => {
   // Validate location first
-  if (!await validateCurrentLocation()) {
+  if (!(await validateCurrentLocation())) {
     return
   }
 
   isLoading.value = true
   try {
-    const locationData = currentLocation.value ? {
-      latitude: currentLocation.value.latitude,
-      longitude: currentLocation.value.longitude,
-      accuracy: currentLocation.value.accuracy,
-      location_name: locationValid.value?.location || 'Office'
-    } : { location_name: 'Office' }
+    const locationData = currentLocation.value
+      ? {
+        latitude: currentLocation.value.latitude,
+        longitude: currentLocation.value.longitude,
+        accuracy: currentLocation.value.accuracy,
+        location_name: locationValid.value?.location || 'Office'
+      }
+      : { location_name: 'Office' }
 
     const response = await attendanceService.clockIn({
       ...locationData,
       notes: 'Clocked in from kiosk with location validation'
     })
-    
+
     if (response.success) {
       showAlert('Successfully clocked in!', 'success')
       await fetchTodayStatus()
@@ -445,7 +609,7 @@ const clockOut = async () => {
       location: 'Office',
       notes: 'Clocked out from kiosk'
     })
-    
+
     if (response.success) {
       showAlert('Successfully clocked out!', 'success')
       await fetchTodayStatus()
@@ -464,14 +628,14 @@ const clockOut = async () => {
 // Face recognition methods
 const startCamera = async () => {
   try {
-    cameraStream.value = await navigator.mediaDevices.getUserMedia({ 
-      video: { 
-        width: 640, 
+    cameraStream.value = await navigator.mediaDevices.getUserMedia({
+      video: {
+        width: 640,
         height: 480,
-        facingMode: 'user' 
-      } 
+        facingMode: 'user'
+      }
     })
-    
+
     if (videoElement.value) {
       videoElement.value.srcObject = cameraStream.value
       cameraActive.value = true
@@ -503,17 +667,17 @@ const captureAndVerify = async () => {
     const canvas = document.createElement('canvas')
     canvas.width = videoElement.value.videoWidth
     canvas.height = videoElement.value.videoHeight
-    
+
     const ctx = canvas.getContext('2d')
     ctx.drawImage(videoElement.value, 0, 0)
-    
+
     // Convert to base64
     const base64Image = canvas.toDataURL('image/jpeg', 0.8)
-    
+
     // Verify with face recognition service
     const result = await faceRecognitionService.verifyFace(base64Image)
     faceResult.value = result
-    
+
     if (result.success) {
       showAlert(`Face recognized: ${result.employee_name}`, 'success')
     } else {
@@ -542,9 +706,12 @@ const faceClockIn = async () => {
       employee_id: faceResult.value.employee_id,
       confidence: faceResult.value.confidence
     })
-    
+
     if (response.success) {
-      showAlert(`Successfully clocked in with face recognition: ${faceResult.value.employee_name}`, 'success')
+      showAlert(
+        `Successfully clocked in with face recognition: ${faceResult.value.employee_name}`,
+        'success'
+      )
       closeFaceModal()
       await fetchTodayStatus()
       await fetchRecentAttendance()
@@ -571,22 +738,22 @@ const getCurrentLocation = async () => {
   try {
     const position = await locationService.getCurrentPosition()
     currentLocation.value = position
-    
+
     // Validate against allowed locations
     const validation = locationService.validateLocation(
       position.latitude,
       position.longitude,
       allowedLocations.value
     )
-    
+
     locationValid.value = validation
-    
+
     if (validation.valid) {
       showAlert(`Location verified: ${validation.location}`, 'success')
     } else {
       showAlert(validation.message || 'Location not within allowed area', 'error')
     }
-    
+
     return validation.valid
   } catch (error) {
     console.error('Location error:', error)
@@ -623,7 +790,7 @@ const validateCurrentLocation = async () => {
 onMounted(async () => {
   updateCurrentTime()
   timeInterval.value = setInterval(updateCurrentTime, 1000)
-  
+
   // Fetch initial data
   await Promise.all([
     fetchTodayStatus(),
@@ -636,7 +803,7 @@ onUnmounted(() => {
   if (timeInterval.value) {
     clearInterval(timeInterval.value)
   }
-  
+
   // Clean up camera stream
   if (cameraStream.value) {
     cameraStream.value.getTracks().forEach(track => track.stop())

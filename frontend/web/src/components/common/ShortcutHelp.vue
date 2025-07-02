@@ -1,32 +1,22 @@
 <template>
   <Teleport to="body">
-    <div
-      v-if="visible"
-      class="shortcut-help-overlay"
-      @click="close"
-    >
-      <div 
+    <div v-if="visible" class="shortcut-help-overlay" @click="close">
+      <div
         class="shortcut-help-modal"
-        @click.stop
         role="dialog"
         aria-labelledby="shortcut-help-title"
         aria-modal="true"
+        @click.stop
       >
         <div class="shortcut-help-header">
-          <h2 id="shortcut-help-title" class="shortcut-help-title">
-            Keyboard Shortcuts
-          </h2>
-          <button
-            class="shortcut-help-close"
-            @click="close"
-            aria-label="Close shortcuts help"
-          >
+          <h2 id="shortcut-help-title" class="shortcut-help-title">Keyboard Shortcuts</h2>
+          <button class="shortcut-help-close" aria-label="Close shortcuts help" @click="close">
             <svg class="shortcut-help-close-icon">
               <use href="#tabler-x"></use>
             </svg>
           </button>
         </div>
-        
+
         <div class="shortcut-help-content">
           <div class="shortcut-help-search">
             <input
@@ -37,9 +27,9 @@
               @keydown.esc="searchQuery = ''"
             />
           </div>
-          
+
           <div class="shortcut-help-body">
-            <div 
+            <div
               v-for="category in filteredCategories"
               :key="category.name"
               class="shortcut-category"
@@ -52,7 +42,7 @@
                   class="shortcut-item"
                 >
                   <div class="shortcut-keys">
-                    <kbd 
+                    <kbd
                       v-for="(key, index) in parseKeys(shortcut.keys)"
                       :key="index"
                       class="shortcut-key"
@@ -66,20 +56,18 @@
                 </div>
               </div>
             </div>
-            
+
             <div v-if="filteredCategories.length === 0" class="shortcut-no-results">
               <div class="shortcut-no-results-icon">
                 <svg class="shortcut-icon">
                   <use href="#tabler-search-off"></use>
                 </svg>
               </div>
-              <div class="shortcut-no-results-text">
-                No shortcuts found for "{{ searchQuery }}"
-              </div>
+              <div class="shortcut-no-results-text">No shortcuts found for "{{ searchQuery }}"</div>
             </div>
           </div>
         </div>
-        
+
         <div class="shortcut-help-footer">
           <div class="shortcut-help-tip">
             <svg class="shortcut-tip-icon">
@@ -94,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useGlobalShortcuts } from '@/composables/useKeyboardShortcuts'
 
 const props = defineProps({
@@ -102,7 +90,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  
+
   customShortcuts: {
     type: Array,
     default: () => []
@@ -119,26 +107,26 @@ const { getGlobalShortcuts } = useGlobalShortcuts()
 const allShortcuts = computed(() => {
   const global = getGlobalShortcuts()
   const custom = props.customShortcuts
-  
+
   return [...global, ...custom]
 })
 
 const categorizedShortcuts = computed(() => {
   const categories = {
-    'Navigation': [],
+    Navigation: [],
     'Search & Actions': [],
     'Data Management': [],
     'UI Controls': [],
-    'General': []
+    General: []
   }
-  
+
   allShortcuts.value.forEach(shortcut => {
     const category = categorizeShortcut(shortcut)
     if (categories[category]) {
       categories[category].push(shortcut)
     }
   })
-  
+
   // Convert to array format and filter out empty categories
   return Object.entries(categories)
     .filter(([_, shortcuts]) => shortcuts.length > 0)
@@ -152,15 +140,16 @@ const filteredCategories = computed(() => {
   if (!searchQuery.value.trim()) {
     return categorizedShortcuts.value
   }
-  
+
   const query = searchQuery.value.toLowerCase()
-  
+
   return categorizedShortcuts.value
     .map(category => ({
       ...category,
-      shortcuts: category.shortcuts.filter(shortcut =>
-        shortcut.description.toLowerCase().includes(query) ||
-        shortcut.keys.toLowerCase().includes(query)
+      shortcuts: category.shortcuts.filter(
+        shortcut =>
+          shortcut.description.toLowerCase().includes(query) ||
+          shortcut.keys.toLowerCase().includes(query)
       )
     }))
     .filter(category => category.shortcuts.length > 0)
@@ -171,55 +160,79 @@ const close = () => {
   emit('close')
 }
 
-const categorizeShortcut = (shortcut) => {
+const categorizeShortcut = shortcut => {
   const { keys, description } = shortcut
   const desc = description.toLowerCase()
-  
+
   if (desc.includes('go to') || desc.includes('navigate') || keys.startsWith('g ')) {
     return 'Navigation'
   }
-  
-  if (desc.includes('search') || desc.includes('quick actions') || keys.includes('ctrl+k') || keys === 'q') {
+
+  if (
+    desc.includes('search') ||
+    desc.includes('quick actions') ||
+    keys.includes('ctrl+k') ||
+    keys === 'q'
+  ) {
     return 'Search & Actions'
   }
-  
-  if (desc.includes('save') || desc.includes('delete') || desc.includes('create') || desc.includes('edit')) {
+
+  if (
+    desc.includes('save') ||
+    desc.includes('delete') ||
+    desc.includes('create') ||
+    desc.includes('edit')
+  ) {
     return 'Data Management'
   }
-  
-  if (desc.includes('close') || desc.includes('modal') || desc.includes('toggle') || desc.includes('sidebar')) {
+
+  if (
+    desc.includes('close') ||
+    desc.includes('modal') ||
+    desc.includes('toggle') ||
+    desc.includes('sidebar')
+  ) {
     return 'UI Controls'
   }
-  
+
   return 'General'
 }
 
-const parseKeys = (keys) => {
+const parseKeys = keys => {
   return keys.split('+').map(key => key.trim())
 }
 
-const formatKey = (key) => {
+const formatKey = key => {
   const keyMap = {
-    'ctrl': isMac() ? '⌘' : 'Ctrl',
-    'alt': isMac() ? '⌥' : 'Alt',
-    'shift': isMac() ? '⇧' : 'Shift',
-    'meta': '⌘',
-    'cmd': '⌘',
-    'space': 'Space',
-    'enter': 'Enter',
-    'esc': 'Esc',
-    'tab': 'Tab',
-    'del': 'Del',
-    'backspace': '⌫',
-    'up': '↑',
-    'down': '↓',
-    'left': '←',
-    'right': '→',
-    'f1': 'F1', 'f2': 'F2', 'f3': 'F3', 'f4': 'F4',
-    'f5': 'F5', 'f6': 'F6', 'f7': 'F7', 'f8': 'F8',
-    'f9': 'F9', 'f10': 'F10', 'f11': 'F11', 'f12': 'F12'
+    ctrl: isMac() ? '⌘' : 'Ctrl',
+    alt: isMac() ? '⌥' : 'Alt',
+    shift: isMac() ? '⇧' : 'Shift',
+    meta: '⌘',
+    cmd: '⌘',
+    space: 'Space',
+    enter: 'Enter',
+    esc: 'Esc',
+    tab: 'Tab',
+    del: 'Del',
+    backspace: '⌫',
+    up: '↑',
+    down: '↓',
+    left: '←',
+    right: '→',
+    f1: 'F1',
+    f2: 'F2',
+    f3: 'F3',
+    f4: 'F4',
+    f5: 'F5',
+    f6: 'F6',
+    f7: 'F7',
+    f8: 'F8',
+    f9: 'F9',
+    f10: 'F10',
+    f11: 'F11',
+    f12: 'F12'
   }
-  
+
   return keyMap[key.toLowerCase()] || key.charAt(0).toUpperCase() + key.slice(1)
 }
 
@@ -227,7 +240,7 @@ const isMac = () => {
   return navigator.platform.toUpperCase().indexOf('MAC') >= 0
 }
 
-const handleKeydown = (event) => {
+const handleKeydown = event => {
   if (event.key === 'Escape' && props.visible) {
     close()
   }
@@ -243,16 +256,19 @@ onUnmounted(() => {
 })
 
 // Focus search input when opened
-watch(() => props.visible, (visible) => {
-  if (visible) {
-    setTimeout(() => {
-      const searchInput = document.querySelector('.shortcut-search-input')
-      if (searchInput) {
-        searchInput.focus()
-      }
-    }, 100)
+watch(
+  () => props.visible,
+  visible => {
+    if (visible) {
+      setTimeout(() => {
+        const searchInput = document.querySelector('.shortcut-search-input')
+        if (searchInput) {
+          searchInput.focus()
+        }
+      }, 100)
+    }
   }
-})
+)
 </script>
 
 <style scoped>
@@ -497,33 +513,33 @@ watch(() => props.visible, (visible) => {
   .shortcut-help-overlay {
     padding: var(--space-2);
   }
-  
+
   .shortcut-help-modal {
     max-height: 95vh;
   }
-  
+
   .shortcut-help-header {
     padding: var(--space-4) var(--space-4) 0;
   }
-  
+
   .shortcut-help-search {
     padding: var(--space-3) var(--space-4);
   }
-  
+
   .shortcut-help-body {
     padding: var(--space-3) var(--space-4);
   }
-  
+
   .shortcut-help-footer {
     padding: var(--space-3) var(--space-4);
   }
-  
+
   .shortcut-item {
     grid-template-columns: 1fr;
     gap: var(--space-2);
     text-align: left;
   }
-  
+
   .shortcut-keys {
     min-width: auto;
     justify-content: flex-start;
@@ -534,11 +550,11 @@ watch(() => props.visible, (visible) => {
   .shortcut-help-title {
     font-size: var(--font-size-lg);
   }
-  
+
   .shortcut-category-title {
     font-size: var(--font-size-base);
   }
-  
+
   .shortcut-key {
     min-width: 1.25rem;
     height: 1.25rem;
@@ -547,21 +563,21 @@ watch(() => props.visible, (visible) => {
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .shortcut-item:hover {
+[data-theme='dark'] .shortcut-item:hover {
   background: var(--color-gray-800);
 }
 
-[data-theme="dark"] .shortcut-key {
+[data-theme='dark'] .shortcut-key {
   background: var(--color-gray-800);
   border-color: var(--border-dark);
   border-bottom-color: var(--color-gray-600);
 }
 
-[data-theme="dark"] .shortcut-help-footer {
+[data-theme='dark'] .shortcut-help-footer {
   background: var(--color-gray-900);
 }
 
-[data-theme="dark"] .shortcut-help-close:hover {
+[data-theme='dark'] .shortcut-help-close:hover {
   background: var(--color-gray-800);
 }
 
@@ -571,7 +587,7 @@ watch(() => props.visible, (visible) => {
     border-width: 2px;
     border-bottom-width: 3px;
   }
-  
+
   .shortcut-help-modal {
     border-width: 2px;
   }
@@ -593,13 +609,13 @@ watch(() => props.visible, (visible) => {
     background: none;
     backdrop-filter: none;
   }
-  
+
   .shortcut-help-modal {
     box-shadow: none;
     border: 1px solid #000;
     max-height: none;
   }
-  
+
   .shortcut-help-search,
   .shortcut-help-footer {
     display: none;

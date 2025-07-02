@@ -8,16 +8,16 @@ export function useErrorHandler() {
 
   const handleApiError = (error, context = 'Operation') => {
     console.error(`${context} error:`, error)
-    
+
     let message = `${context} failed. Please try again.`
-    
+
     if (error.response?.status === 400) {
       message = error.response.data?.message || 'Bad request. Please check your input.'
     } else if (error.response?.status === 401) {
       message = 'Unauthorized. Please login again.'
       // Could trigger logout here
     } else if (error.response?.status === 403) {
-      message = 'Access denied. You don\'t have permission to perform this action.'
+      message = "Access denied. You don't have permission to perform this action."
     } else if (error.response?.status === 404) {
       message = 'Resource not found.'
     } else if (error.response?.status === 422) {
@@ -37,17 +37,17 @@ export function useErrorHandler() {
     } else if (error.response?.data?.message) {
       message = error.response.data.message
     }
-    
+
     error.value = message
     showError(message)
-    
+
     return message
   }
 
   const handleAsyncOperation = async (operation, context = 'Operation') => {
     isLoading.value = true
     error.value = ''
-    
+
     try {
       const result = await operation()
       return result
@@ -63,7 +63,7 @@ export function useErrorHandler() {
     error.value = ''
   }
 
-  const showValidationErrors = (errors) => {
+  const showValidationErrors = errors => {
     if (typeof errors === 'object') {
       const messages = Object.values(errors).flat()
       messages.forEach(message => showError(message))

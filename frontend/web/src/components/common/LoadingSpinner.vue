@@ -6,19 +6,19 @@
         <span class="visually-hidden">{{ loadingText }}</span>
       </div>
     </div>
-    
+
     <!-- Dots -->
     <div v-else-if="type === 'dots'" class="dots-spinner" :class="sizeClass">
       <div class="dot" :class="variantClass"></div>
       <div class="dot" :class="variantClass"></div>
       <div class="dot" :class="variantClass"></div>
     </div>
-    
+
     <!-- Pulse -->
     <div v-else-if="type === 'pulse'" class="pulse-spinner" :class="sizeClass">
       <div class="pulse" :class="variantClass"></div>
     </div>
-    
+
     <!-- Bars -->
     <div v-else-if="type === 'bars'" class="bars-spinner" :class="sizeClass">
       <div class="bar" :class="variantClass"></div>
@@ -26,7 +26,7 @@
       <div class="bar" :class="variantClass"></div>
       <div class="bar" :class="variantClass"></div>
     </div>
-    
+
     <!-- Ring -->
     <div v-else-if="type === 'ring'" class="ring-spinner" :class="sizeClass">
       <div class="ring" :class="variantClass">
@@ -36,7 +36,7 @@
         <div></div>
       </div>
     </div>
-    
+
     <!-- Ripple -->
     <div v-else-if="type === 'ripple'" class="ripple-spinner" :class="sizeClass">
       <div class="ripple" :class="variantClass">
@@ -44,12 +44,12 @@
         <div></div>
       </div>
     </div>
-    
+
     <!-- Icon Spinner -->
     <div v-else-if="type === 'icon'" class="icon-spinner" :class="sizeClass">
       <TablerIcon :name="icon" :class="['spin', variantClass]" />
     </div>
-    
+
     <!-- Text -->
     <div v-if="showText" class="loading-text" :class="textClass">
       {{ loadingText }}
@@ -66,29 +66,33 @@ const props = defineProps({
   type: {
     type: String,
     default: 'spinner',
-    validator: (value) => ['spinner', 'dots', 'pulse', 'bars', 'ring', 'ripple', 'icon'].includes(value)
+    validator: value =>
+      ['spinner', 'dots', 'pulse', 'bars', 'ring', 'ripple', 'icon'].includes(value)
   },
-  
+
   // Size
   size: {
     type: String,
     default: 'md',
-    validator: (value) => ['xs', 'sm', 'md', 'lg', 'xl'].includes(value)
+    validator: value => ['xs', 'sm', 'md', 'lg', 'xl'].includes(value)
   },
-  
+
   // Color variant
   variant: {
     type: String,
     default: 'primary',
-    validator: (value) => ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'].includes(value)
+    validator: value =>
+      ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'].includes(
+        value
+      )
   },
-  
+
   // Icon for icon type
   icon: {
     type: String,
     default: 'loader'
   },
-  
+
   // Text
   loadingText: {
     type: String,
@@ -98,7 +102,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  
+
   // Layout
   center: {
     type: Boolean,
@@ -112,7 +116,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  
+
   // Styling
   color: String,
   backgroundColor: String
@@ -241,11 +245,17 @@ const textClass = computed(() => ({
   animation: dots-bounce 1.4s ease-in-out infinite both;
 }
 
-.dot:nth-child(1) { animation-delay: -0.32s; }
-.dot:nth-child(2) { animation-delay: -0.16s; }
+.dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
 
 @keyframes dots-bounce {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0.8);
     opacity: 0.5;
   }
@@ -255,10 +265,22 @@ const textClass = computed(() => ({
   }
 }
 
-.spinner-xs .dot { width: 0.3rem; height: 0.3rem; }
-.spinner-sm .dot { width: 0.4rem; height: 0.4rem; }
-.spinner-lg .dot { width: 0.75rem; height: 0.75rem; }
-.spinner-xl .dot { width: 1rem; height: 1rem; }
+.spinner-xs .dot {
+  width: 0.3rem;
+  height: 0.3rem;
+}
+.spinner-sm .dot {
+  width: 0.4rem;
+  height: 0.4rem;
+}
+.spinner-lg .dot {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+.spinner-xl .dot {
+  width: 1rem;
+  height: 1rem;
+}
 
 /* Pulse Spinner */
 .pulse {
@@ -270,7 +292,8 @@ const textClass = computed(() => ({
 }
 
 @keyframes pulse-scale {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
@@ -280,10 +303,22 @@ const textClass = computed(() => ({
   }
 }
 
-.spinner-xs .pulse { width: 1rem; height: 1rem; }
-.spinner-sm .pulse { width: 1.5rem; height: 1.5rem; }
-.spinner-lg .pulse { width: 3rem; height: 3rem; }
-.spinner-xl .pulse { width: 4rem; height: 4rem; }
+.spinner-xs .pulse {
+  width: 1rem;
+  height: 1rem;
+}
+.spinner-sm .pulse {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.spinner-lg .pulse {
+  width: 3rem;
+  height: 3rem;
+}
+.spinner-xl .pulse {
+  width: 4rem;
+  height: 4rem;
+}
 
 /* Bars Spinner */
 .bars-spinner {
@@ -299,13 +334,23 @@ const textClass = computed(() => ({
   animation: bars-stretch 1.2s ease-in-out infinite;
 }
 
-.bar:nth-child(1) { animation-delay: -1.1s; }
-.bar:nth-child(2) { animation-delay: -1.0s; }
-.bar:nth-child(3) { animation-delay: -0.9s; }
-.bar:nth-child(4) { animation-delay: -0.8s; }
+.bar:nth-child(1) {
+  animation-delay: -1.1s;
+}
+.bar:nth-child(2) {
+  animation-delay: -1s;
+}
+.bar:nth-child(3) {
+  animation-delay: -0.9s;
+}
+.bar:nth-child(4) {
+  animation-delay: -0.8s;
+}
 
 @keyframes bars-stretch {
-  0%, 40%, 100% {
+  0%,
+  40%,
+  100% {
     transform: scaleY(0.4);
   }
   20% {
@@ -313,10 +358,22 @@ const textClass = computed(() => ({
   }
 }
 
-.spinner-xs .bar { width: 0.15rem; height: 0.75rem; }
-.spinner-sm .bar { width: 0.18rem; height: 0.875rem; }
-.spinner-lg .bar { width: 0.25rem; height: 1.5rem; }
-.spinner-xl .bar { width: 0.3rem; height: 2rem; }
+.spinner-xs .bar {
+  width: 0.15rem;
+  height: 0.75rem;
+}
+.spinner-sm .bar {
+  width: 0.18rem;
+  height: 0.875rem;
+}
+.spinner-lg .bar {
+  width: 0.25rem;
+  height: 1.5rem;
+}
+.spinner-xl .bar {
+  width: 0.3rem;
+  height: 2rem;
+}
 
 /* Ring Spinner */
 .ring {
@@ -333,23 +390,53 @@ const textClass = computed(() => ({
   border-color: currentColor transparent transparent transparent;
 }
 
-.ring div:nth-child(1) { animation-delay: -0.45s; }
-.ring div:nth-child(2) { animation-delay: -0.3s; }
-.ring div:nth-child(3) { animation-delay: -0.15s; }
-
-@keyframes ring-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.ring div:nth-child(3) {
+  animation-delay: -0.15s;
 }
 
-.spinner-xs .ring { width: 1rem; height: 1rem; }
-.spinner-xs .ring div { border-width: 0.1rem; }
-.spinner-sm .ring { width: 1.5rem; height: 1.5rem; }
-.spinner-sm .ring div { border-width: 0.15rem; }
-.spinner-lg .ring { width: 3rem; height: 3rem; }
-.spinner-lg .ring div { border-width: 0.3rem; }
-.spinner-xl .ring { width: 4rem; height: 4rem; }
-.spinner-xl .ring div { border-width: 0.4rem; }
+@keyframes ring-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-xs .ring {
+  width: 1rem;
+  height: 1rem;
+}
+.spinner-xs .ring div {
+  border-width: 0.1rem;
+}
+.spinner-sm .ring {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.spinner-sm .ring div {
+  border-width: 0.15rem;
+}
+.spinner-lg .ring {
+  width: 3rem;
+  height: 3rem;
+}
+.spinner-lg .ring div {
+  border-width: 0.3rem;
+}
+.spinner-xl .ring {
+  width: 4rem;
+  height: 4rem;
+}
+.spinner-xl .ring div {
+  border-width: 0.4rem;
+}
 
 /* Ripple Spinner */
 .ripple {
@@ -387,14 +474,34 @@ const textClass = computed(() => ({
   }
 }
 
-.spinner-xs .ripple { width: 1rem; height: 1rem; }
-.spinner-xs .ripple div { border-width: 0.1rem; }
-.spinner-sm .ripple { width: 1.5rem; height: 1.5rem; }
-.spinner-sm .ripple div { border-width: 0.15rem; }
-.spinner-lg .ripple { width: 3rem; height: 3rem; }
-.spinner-lg .ripple div { border-width: 0.3rem; }
-.spinner-xl .ripple { width: 4rem; height: 4rem; }
-.spinner-xl .ripple div { border-width: 0.4rem; }
+.spinner-xs .ripple {
+  width: 1rem;
+  height: 1rem;
+}
+.spinner-xs .ripple div {
+  border-width: 0.1rem;
+}
+.spinner-sm .ripple {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.spinner-sm .ripple div {
+  border-width: 0.15rem;
+}
+.spinner-lg .ripple {
+  width: 3rem;
+  height: 3rem;
+}
+.spinner-lg .ripple div {
+  border-width: 0.3rem;
+}
+.spinner-xl .ripple {
+  width: 4rem;
+  height: 4rem;
+}
+.spinner-xl .ripple div {
+  border-width: 0.4rem;
+}
 
 /* Icon Spinner */
 .spin {
@@ -402,8 +509,12 @@ const textClass = computed(() => ({
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Loading Text */
@@ -413,10 +524,18 @@ const textClass = computed(() => ({
   margin-top: 0.5rem;
 }
 
-.text-xs { font-size: 0.75rem; }
-.text-sm { font-size: 0.875rem; }
-.text-lg { font-size: 1.125rem; }
-.text-xl { font-size: 1.25rem; }
+.text-xs {
+  font-size: 0.75rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+}
+.text-lg {
+  font-size: 1.125rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+}
 
 /* Dark mode support */
 :root.dark .loading-overlay {

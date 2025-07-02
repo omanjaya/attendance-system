@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
-    },
+      '@': resolve(__dirname, './src')
+    }
   },
   test: {
     environment: 'jsdom',
@@ -40,12 +40,6 @@ export default defineConfig({
       'tests/integration/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
       'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'
     ],
-    exclude: [
-      'node_modules/',
-      'dist/',
-      '.idea/',
-      '.git/',
-      '.cache/'
-    ]
+    exclude: ['node_modules/', 'dist/', '.idea/', '.git/', '.cache/']
   }
 })

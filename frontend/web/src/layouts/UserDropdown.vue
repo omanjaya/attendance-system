@@ -6,7 +6,7 @@
       data-bs-toggle="dropdown"
       aria-label="Open user menu"
     >
-      <span 
+      <span
         class="avatar avatar-sm"
         :style="displayUser.avatar ? `background-image: url(${displayUser.avatar})` : ''"
       >
@@ -20,7 +20,7 @@
     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
       <!-- User Info -->
       <div class="dropdown-header d-flex flex-column align-items-center">
-        <span 
+        <span
           class="avatar avatar-lg mb-2"
           :style="displayUser.avatar ? `background-image: url(${displayUser.avatar})` : ''"
         >
@@ -35,30 +35,21 @@
         </div>
       </div>
       <div class="dropdown-divider"></div>
-      
+
       <!-- User Menu Items -->
       <template v-for="item in userMenuItems" :key="item.label">
-        <router-link 
-          v-if="item.route" 
-          :to="item.route" 
-          class="dropdown-item"
-        >
+        <router-link v-if="item.route" :to="item.route" class="dropdown-item">
           <TablerIcon :name="item.icon" class="dropdown-item-icon" />
           {{ item.label }}
         </router-link>
-        <a 
-          v-else
-          href="#" 
-          class="dropdown-item" 
-          @click.prevent="handleMenuClick(item)"
-        >
+        <a v-else href="#" class="dropdown-item" @click.prevent="handleMenuClick(item)">
           <TablerIcon :name="item.icon" class="dropdown-item-icon" />
           {{ item.label }}
         </a>
       </template>
-      
+
       <div class="dropdown-divider"></div>
-      
+
       <!-- Quick Access Items -->
       <template v-for="item in quickMenuItems" :key="item.label">
         <router-link :to="item.route" class="dropdown-item">
@@ -69,16 +60,16 @@
           </span>
         </router-link>
       </template>
-      
+
       <div class="dropdown-divider"></div>
-      
-      <a href="#" @click.prevent="handleLogout" class="dropdown-item text-danger">
+
+      <a href="#" class="dropdown-item text-danger" @click.prevent="handleLogout">
         <TablerIcon name="logout" class="dropdown-item-icon" />
         <span v-if="isLoggingOut">Logging out...</span>
         <span v-else>Logout</span>
       </a>
     </div>
-    
+
     <!-- Logout Confirmation Modal -->
     <Modal
       v-model:visible="showLogoutModal"
@@ -109,11 +100,11 @@ const props = defineProps({
 })
 
 const router = useRouter()
-const { 
-  user, 
-  logout, 
-  isLoggingOut, 
-  hasRole, 
+const {
+  user,
+  logout,
+  isLoggingOut,
+  hasRole,
   hasPermission,
   getUserDisplayName,
   getUserAvatarUrl,
@@ -157,7 +148,7 @@ const userMenuItems = computed(() => {
       visible: true
     }
   ]
-  
+
   return items.filter(item => item.visible)
 })
 
@@ -189,7 +180,7 @@ const quickMenuItems = computed(() => {
       visible: hasAnyRole(['manager', 'admin'])
     }
   ]
-  
+
   return items.filter(item => item.visible)
 })
 
@@ -207,7 +198,7 @@ const showShortcuts = () => {
   window.dispatchEvent(new Event('shortcuts-help-toggle'))
 }
 
-const handleMenuClick = (item) => {
+const handleMenuClick = item => {
   if (item.route) {
     router.push(item.route)
   } else if (item.action) {
@@ -215,7 +206,7 @@ const handleMenuClick = (item) => {
   }
 }
 
-const hasAnyRole = (roles) => {
+const hasAnyRole = roles => {
   return roles.some(role => hasRole(role))
 }
 </script>

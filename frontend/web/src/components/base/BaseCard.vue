@@ -1,7 +1,11 @@
 <template>
   <div :class="cardClasses" v-bind="$attrs">
     <!-- Card Header -->
-    <div v-if="$slots.header || title || subtitle || $slots.actions" class="card-header" :class="headerClasses">
+    <div
+      v-if="$slots.header || title || subtitle || $slots.actions"
+      class="card-header"
+      :class="headerClasses"
+    >
       <div v-if="$slots.header" class="card-header-content">
         <slot name="header" />
       </div>
@@ -9,22 +13,22 @@
         <h3 v-if="title" class="card-title">{{ title }}</h3>
         <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
       </div>
-      
+
       <div v-if="$slots.actions" class="card-actions">
         <slot name="actions" />
       </div>
     </div>
-    
+
     <!-- Card Body -->
     <div v-if="$slots.default" class="card-body" :class="bodyClasses">
       <slot />
     </div>
-    
+
     <!-- Card Footer -->
     <div v-if="$slots.footer" class="card-footer" :class="footerClasses">
       <slot name="footer" />
     </div>
-    
+
     <!-- Loading Overlay -->
     <div v-if="loading" class="card-loading">
       <div class="card-loading-content">
@@ -46,82 +50,81 @@ const props = defineProps({
     type: String,
     default: null
   },
-  
+
   subtitle: {
     type: String,
     default: null
   },
-  
+
   // Card variants
   variant: {
     type: String,
     default: 'default',
-    validator: (value) => [
-      'default', 'primary', 'secondary', 'success', 'warning', 'danger', 'info'
-    ].includes(value)
+    validator: value =>
+      ['default', 'primary', 'secondary', 'success', 'warning', 'danger', 'info'].includes(value)
   },
-  
+
   // Card styles
   shadow: {
     type: String,
     default: 'sm',
-    validator: (value) => ['none', 'sm', 'base', 'md', 'lg', 'xl'].includes(value)
+    validator: value => ['none', 'sm', 'base', 'md', 'lg', 'xl'].includes(value)
   },
-  
+
   border: {
     type: Boolean,
     default: true
   },
-  
+
   rounded: {
     type: String,
     default: 'lg',
-    validator: (value) => ['none', 'sm', 'base', 'md', 'lg', 'xl', 'full'].includes(value)
+    validator: value => ['none', 'sm', 'base', 'md', 'lg', 'xl', 'full'].includes(value)
   },
-  
+
   // Card states
   loading: {
     type: Boolean,
     default: false
   },
-  
+
   loadingText: {
     type: String,
     default: null
   },
-  
+
   disabled: {
     type: Boolean,
     default: false
   },
-  
+
   hoverable: {
     type: Boolean,
     default: false
   },
-  
+
   clickable: {
     type: Boolean,
     default: false
   },
-  
+
   // Layout options
   flush: {
     type: Boolean,
     default: false
   },
-  
+
   compact: {
     type: Boolean,
     default: false
   },
-  
+
   // Header options
   headerBorder: {
     type: Boolean,
     default: true
   },
-  
+
   // Footer options
   footerBorder: {
     type: Boolean,
@@ -134,91 +137,91 @@ const emit = defineEmits(['click'])
 // Card classes
 const cardClasses = computed(() => {
   const classes = ['card']
-  
+
   // Variant classes
   if (props.variant !== 'default') {
     classes.push(`card-${props.variant}`)
   }
-  
+
   // Shadow classes
   if (props.shadow !== 'none') {
     classes.push(`shadow-${props.shadow}`)
   }
-  
+
   // Border classes
   if (!props.border) {
     classes.push('card-borderless')
   }
-  
+
   // Rounded classes
   if (props.rounded !== 'base') {
     classes.push(`rounded-${props.rounded}`)
   }
-  
+
   // State classes
   if (props.disabled) {
     classes.push('card-disabled')
   }
-  
+
   if (props.hoverable) {
     classes.push('card-hoverable')
   }
-  
+
   if (props.clickable) {
     classes.push('card-clickable')
   }
-  
+
   if (props.loading) {
     classes.push('card-loading-state')
   }
-  
+
   // Layout classes
   if (props.flush) {
     classes.push('card-flush')
   }
-  
+
   if (props.compact) {
     classes.push('card-compact')
   }
-  
+
   return classes
 })
 
 // Header classes
 const headerClasses = computed(() => {
   const classes = []
-  
+
   if (!props.headerBorder) {
     classes.push('card-header-borderless')
   }
-  
+
   return classes
 })
 
 // Body classes
 const bodyClasses = computed(() => {
   const classes = []
-  
+
   if (props.compact) {
     classes.push('card-body-compact')
   }
-  
+
   return classes
 })
 
 // Footer classes
 const footerClasses = computed(() => {
   const classes = []
-  
+
   if (!props.footerBorder) {
     classes.push('card-footer-borderless')
   }
-  
+
   return classes
 })
 
 // Handle click event
-const handleClick = (event) => {
+const handleClick = event => {
   if (props.clickable && !props.disabled && !props.loading) {
     emit('click', event)
   }
@@ -418,17 +421,17 @@ const handleClick = (event) => {
     align-items: flex-start;
     gap: var(--space-3);
   }
-  
+
   .card-actions {
     width: 100%;
     justify-content: flex-end;
     margin-left: 0;
   }
-  
+
   .card-body {
     padding: var(--space-4);
   }
-  
+
   .card-header,
   .card-footer {
     padding: var(--space-4);
@@ -436,7 +439,7 @@ const handleClick = (event) => {
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .card-loading {
+[data-theme='dark'] .card-loading {
   background-color: rgba(35, 39, 48, 0.9);
 }
 </style>

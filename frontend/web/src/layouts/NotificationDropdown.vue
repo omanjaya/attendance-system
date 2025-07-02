@@ -8,10 +8,7 @@
       aria-label="Show notifications"
     >
       <TablerIcon name="bell" />
-      <span 
-        v-if="unreadCount > 0"
-        class="badge bg-red badge-pill badge-notification"
-      >
+      <span v-if="unreadCount > 0" class="badge bg-red badge-pill badge-notification">
         {{ unreadCount > 9 ? '9+' : unreadCount }}
       </span>
     </a>
@@ -20,7 +17,7 @@
         <div class="card-header">
           <h3 class="card-title">Notifications</h3>
           <div class="card-actions">
-            <a 
+            <a
               v-if="unreadCount > 0"
               href="#"
               class="btn btn-sm btn-link"
@@ -30,8 +27,8 @@
             </a>
           </div>
         </div>
-        
-        <div class="list-group list-group-flush" v-if="notifications.length > 0">
+
+        <div v-if="notifications.length > 0" class="list-group list-group-flush">
           <a
             v-for="notification in displayedNotifications"
             :key="notification.id"
@@ -42,7 +39,7 @@
           >
             <div class="row align-items-center">
               <div class="col-auto">
-                <span 
+                <span
                   class="status-dot"
                   :class="`status-dot-${notification.type}`"
                   :data-bs-toggle="tooltip.enabled ? 'tooltip' : undefined"
@@ -68,13 +65,13 @@
             </div>
           </a>
         </div>
-        
+
         <div v-else class="card-body text-center py-4">
           <TablerIcon name="bell-off" size="lg" class="text-muted mb-2" />
           <p class="text-muted">No notifications</p>
         </div>
-        
-        <div class="card-footer text-center" v-if="notifications.length > 5">
+
+        <div v-if="notifications.length > 5" class="card-footer text-center">
           <router-link to="/notifications" class="text-primary">
             View all notifications
           </router-link>
@@ -85,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TablerIcon from '@/components/common/TablerIcon.vue'
 import { formatters } from '@/utils/formatters'
@@ -116,7 +113,7 @@ const notifications = ref([
     id: 3,
     type: 'info',
     title: 'Schedule Updated',
-    message: 'Next week\'s schedule has been published',
+    message: "Next week's schedule has been published",
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
     read: true,
     action: '/schedules'
@@ -133,34 +130,30 @@ const notifications = ref([
 ])
 
 // Computed
-const unreadCount = computed(() => 
-  notifications.value.filter(n => !n.read).length
-)
+const unreadCount = computed(() => notifications.value.filter(n => !n.read).length)
 
-const displayedNotifications = computed(() => 
-  notifications.value.slice(0, 5)
-)
+const displayedNotifications = computed(() => notifications.value.slice(0, 5))
 
 // Methods
-const formatTime = (timestamp) => {
+const formatTime = timestamp => {
   const now = new Date()
   const diff = now - timestamp
   const minutes = Math.floor(diff / 60000)
   const hours = Math.floor(diff / 3600000)
   const days = Math.floor(diff / 86400000)
-  
+
   if (minutes < 1) return 'Just now'
   if (minutes < 60) return `${minutes}m ago`
   if (hours < 24) return `${hours}h ago`
   if (days < 7) return `${days}d ago`
-  
+
   return formatters.date(timestamp)
 }
 
-const handleNotificationClick = (notification) => {
+const handleNotificationClick = notification => {
   // Mark as read
   notification.read = true
-  
+
   // Navigate if action exists
   if (notification.action) {
     router.push(notification.action)

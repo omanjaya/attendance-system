@@ -21,7 +21,7 @@ export default {
     app.component('BaseCard', BaseCard)
     app.component('BaseInput', BaseInput)
     app.component('LoadingState', LoadingState)
-    
+
     // Register lazy components
     app.component('LazyImage', LazyImage)
     app.component('VirtualScroll', VirtualScroll)

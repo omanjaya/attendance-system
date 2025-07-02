@@ -17,15 +17,15 @@
                 class="form-control"
                 :placeholder="searchPlaceholder"
                 @input="handleSearch"
-              >
+              />
               <button class="btn btn-outline-secondary" type="button">
                 <TablerIcon name="search" size="sm" />
               </button>
             </div>
-            
+
             <!-- Export -->
             <div v-if="exportable" class="dropdown">
-              <button 
+              <button
                 class="btn btn-outline-secondary btn-sm dropdown-toggle"
                 type="button"
                 data-bs-toggle="dropdown"
@@ -39,29 +39,30 @@
                 <li><a class="dropdown-item" href="#" @click="exportData('pdf')">PDF</a></li>
               </ul>
             </div>
-            
+
             <!-- Refresh -->
-            <button 
+            <button
               v-if="refreshable"
               class="btn btn-outline-secondary btn-sm"
-              @click="refresh"
               :disabled="loading"
+              @click="refresh"
             >
-              <TablerIcon name="refresh" size="sm" :class="{ 'spin': loading }" />
+              <TablerIcon name="refresh" size="sm" :class="{ spin: loading }" />
             </button>
-            
+
             <!-- Custom Actions -->
             <slot name="actions" />
           </div>
         </div>
       </div>
     </div>
-    
+
     <!-- Table Controls -->
     <div v-if="showControls" class="table-controls">
       <div class="row align-items-center">
         <div class="col-sm-auto">
-          <label class="form-label">Show 
+          <label class="form-label"
+            >Show
             <select v-model="pageSize" class="form-select form-select-sm d-inline-block w-auto">
               <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
             </select>
@@ -70,26 +71,26 @@
         </div>
         <div class="col-sm-auto ms-auto">
           <div class="btn-group btn-group-sm" role="group">
-            <input 
-              type="radio" 
-              class="btn-check" 
-              name="view-mode" 
-              id="table-view" 
+            <input
+              id="table-view"
+              type="radio"
+              class="btn-check"
+              name="view-mode"
               :checked="viewMode === 'table'"
               @change="viewMode = 'table'"
-            >
+            />
             <label class="btn btn-outline-secondary" for="table-view">
               <TablerIcon name="table" size="sm" />
             </label>
-            
-            <input 
-              type="radio" 
-              class="btn-check" 
-              name="view-mode" 
+
+            <input
               id="card-view"
+              type="radio"
+              class="btn-check"
+              name="view-mode"
               :checked="viewMode === 'card'"
               @change="viewMode = 'card'"
-            >
+            />
             <label class="btn btn-outline-secondary" for="card-view">
               <TablerIcon name="layout-grid" size="sm" />
             </label>
@@ -97,10 +98,10 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Loading State -->
     <LoadingState v-if="loading && !data.length" />
-    
+
     <!-- Empty State -->
     <div v-else-if="!loading && !data.length" class="empty-state text-center py-5">
       <TablerIcon name="database" size="lg" class="text-muted mb-3" />
@@ -108,7 +109,7 @@
       <p class="text-muted">{{ emptyMessage }}</p>
       <slot name="empty-actions" />
     </div>
-    
+
     <!-- Table View -->
     <div v-else-if="viewMode === 'table'" class="table-responsive">
       <table class="table table-vcenter" :class="tableClass">
@@ -116,42 +117,42 @@
           <tr>
             <!-- Select All -->
             <th v-if="selectable" style="width: 1rem">
-              <input 
+              <input
                 type="checkbox"
                 class="form-check-input"
                 :checked="isAllSelected"
                 :indeterminate="isPartiallySelected"
                 @change="toggleSelectAll"
-              >
+              />
             </th>
-            
+
             <!-- Columns -->
-            <th 
+            <th
               v-for="column in columns"
               :key="column.key"
               :style="{ width: column.width }"
-              :class="{ 
-                'sortable': column.sortable,
-                'sorted': sortColumn === column.key,
+              :class="{
+                sortable: column.sortable,
+                sorted: sortColumn === column.key,
                 [`text-${column.align || 'start'}`]: column.align
               }"
               @click="column.sortable && handleSort(column.key)"
             >
               {{ column.label }}
-              <TablerIcon 
+              <TablerIcon
                 v-if="column.sortable"
                 :name="getSortIcon(column.key)"
                 size="sm"
                 class="sort-icon"
               />
             </th>
-            
+
             <!-- Actions -->
             <th v-if="$slots.actions || actionsColumn" class="text-end">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr 
+          <tr
             v-for="(item, index) in paginatedData"
             :key="getRowKey(item, index)"
             :class="getRowClass(item, index)"
@@ -159,30 +160,30 @@
           >
             <!-- Select -->
             <td v-if="selectable">
-              <input 
+              <input
                 type="checkbox"
                 class="form-check-input"
                 :checked="selectedItems.includes(getRowKey(item, index))"
                 @change="toggleSelect(item, index)"
                 @click.stop
-              >
+              />
             </td>
-            
+
             <!-- Data Cells -->
-            <td 
+            <td
               v-for="column in columns"
               :key="column.key"
               :class="[`text-${column.align || 'start'}`, column.cellClass]"
             >
-              <slot 
-                :name="`cell-${column.key}`" 
-                :item="item" 
+              <slot
+                :name="`cell-${column.key}`"
+                :item="item"
                 :value="getCellValue(item, column.key)"
                 :index="index"
               >
-                <component 
-                  v-if="column.component"
+                <component
                   :is="column.component"
+                  v-if="column.component"
                   :value="getCellValue(item, column.key)"
                   :item="item"
                   v-bind="column.componentProps"
@@ -192,12 +193,12 @@
                 </span>
               </slot>
             </td>
-            
+
             <!-- Actions -->
             <td v-if="$slots.actions || actionsColumn" class="text-end">
               <slot name="actions" :item="item" :index="index">
                 <div class="btn-group btn-group-sm" role="group">
-                  <button 
+                  <button
                     v-for="action in actionsColumn"
                     :key="action.key"
                     class="btn"
@@ -214,10 +215,10 @@
         </tbody>
       </table>
     </div>
-    
+
     <!-- Card View -->
     <div v-else class="row row-cards">
-      <div 
+      <div
         v-for="(item, index) in paginatedData"
         :key="getRowKey(item, index)"
         class="col-sm-6 col-lg-4"
@@ -234,22 +235,30 @@
         </slot>
       </div>
     </div>
-    
+
     <!-- Pagination -->
-    <div v-if="paginated && totalPages > 1" class="d-flex align-items-center justify-content-between mt-3">
+    <div
+      v-if="paginated && totalPages > 1"
+      class="d-flex align-items-center justify-content-between mt-3"
+    >
       <div class="text-muted">
-        Showing {{ ((currentPage - 1) * pageSize) + 1 }} to {{ Math.min(currentPage * pageSize, total) }} of {{ total }} entries
+        Showing {{ (currentPage - 1) * pageSize + 1 }} to
+        {{ Math.min(currentPage * pageSize, total) }} of {{ total }} entries
       </div>
-      
+
       <nav>
         <ul class="pagination pagination-sm">
           <li class="page-item" :class="{ disabled: currentPage === 1 }">
-            <button class="page-link" @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">
+            <button
+              class="page-link"
+              :disabled="currentPage === 1"
+              @click="goToPage(currentPage - 1)"
+            >
               <TablerIcon name="chevron-left" size="sm" />
             </button>
           </li>
-          
-          <li 
+
+          <li
             v-for="page in visiblePages"
             :key="page"
             class="page-item"
@@ -257,9 +266,13 @@
           >
             <button class="page-link" @click="goToPage(page)">{{ page }}</button>
           </li>
-          
+
           <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-            <button class="page-link" @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">
+            <button
+              class="page-link"
+              :disabled="currentPage === totalPages"
+              @click="goToPage(currentPage + 1)"
+            >
               <TablerIcon name="chevron-right" size="sm" />
             </button>
           </li>
@@ -270,7 +283,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { debounce } from '@/utils/helpers'
 import { formatters } from '@/utils/formatters'
 import TablerIcon from './TablerIcon.vue'
@@ -286,7 +299,7 @@ const props = defineProps({
     type: Array,
     required: true
   },
-  
+
   // Configuration
   title: String,
   description: String,
@@ -298,7 +311,7 @@ const props = defineProps({
     type: String,
     default: 'There are no records to display'
   },
-  
+
   // Features
   searchable: {
     type: Boolean,
@@ -324,7 +337,7 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  
+
   // Display
   showHeader: {
     type: Boolean,
@@ -338,7 +351,7 @@ const props = defineProps({
     type: String,
     default: 'table-hover'
   },
-  
+
   // Pagination
   defaultPageSize: {
     type: Number,
@@ -348,16 +361,16 @@ const props = defineProps({
     type: Array,
     default: () => [5, 10, 25, 50, 100]
   },
-  
+
   // Search
   searchPlaceholder: {
     type: String,
     default: 'Search...'
   },
-  
+
   // Actions
   actionsColumn: Array,
-  
+
   // Server-side processing
   serverSide: {
     type: Boolean,
@@ -371,7 +384,7 @@ const props = defineProps({
     type: Number,
     default: 0
   },
-  
+
   // Row configuration
   rowKey: {
     type: [String, Function],
@@ -381,7 +394,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'search',
-  'sort', 
+  'sort',
   'page-change',
   'page-size-change',
   'select',
@@ -402,15 +415,13 @@ const selectedItems = ref([])
 const viewMode = ref('table')
 
 // Computed
-const visibleColumns = computed(() => 
-  props.columns.filter(col => !col.hidden)
-)
+const visibleColumns = computed(() => props.columns.filter(col => !col.hidden))
 
 const filteredData = computed(() => {
   if (props.serverSide || !searchQuery.value) return props.data
-  
+
   const query = searchQuery.value.toLowerCase()
-  return props.data.filter(item => 
+  return props.data.filter(item =>
     props.columns.some(column => {
       const value = getCellValue(item, column.key)
       return String(value).toLowerCase().includes(query)
@@ -420,56 +431,52 @@ const filteredData = computed(() => {
 
 const sortedData = computed(() => {
   if (props.serverSide || !sortColumn.value) return filteredData.value
-  
+
   const column = props.columns.find(col => col.key === sortColumn.value)
   if (!column || !column.sortable) return filteredData.value
-  
+
   return [...filteredData.value].sort((a, b) => {
     const aVal = getCellValue(a, column.key)
     const bVal = getCellValue(b, column.key)
-    
+
     let result = 0
     if (aVal < bVal) result = -1
     else if (aVal > bVal) result = 1
-    
+
     return sortDirection.value === 'desc' ? -result : result
   })
 })
 
 const paginatedData = computed(() => {
   if (props.serverSide || !props.paginated) return sortedData.value
-  
+
   const start = (currentPage.value - 1) * pageSize.value
   const end = start + pageSize.value
   return sortedData.value.slice(start, end)
 })
 
-const totalRecords = computed(() => 
-  props.serverSide ? props.total : filteredData.value.length
-)
+const totalRecords = computed(() => (props.serverSide ? props.total : filteredData.value.length))
 
-const totalPages = computed(() => 
-  Math.ceil(totalRecords.value / pageSize.value)
-)
+const totalPages = computed(() => Math.ceil(totalRecords.value / pageSize.value))
 
 const visiblePages = computed(() => {
   const pages = []
   const start = Math.max(1, currentPage.value - 2)
   const end = Math.min(totalPages.value, currentPage.value + 2)
-  
+
   for (let i = start; i <= end; i++) {
     pages.push(i)
   }
-  
+
   return pages
 })
 
-const isAllSelected = computed(() => 
-  selectedItems.value.length === paginatedData.value.length && paginatedData.value.length > 0
+const isAllSelected = computed(
+  () => selectedItems.value.length === paginatedData.value.length && paginatedData.value.length > 0
 )
 
-const isPartiallySelected = computed(() => 
-  selectedItems.value.length > 0 && selectedItems.value.length < paginatedData.value.length
+const isPartiallySelected = computed(
+  () => selectedItems.value.length > 0 && selectedItems.value.length < paginatedData.value.length
 )
 
 // Methods
@@ -479,28 +486,28 @@ const getCellValue = (item, key) => {
 
 const formatCellValue = (item, column) => {
   const value = getCellValue(item, column.key)
-  
+
   if (column.formatter && typeof column.formatter === 'function') {
     return column.formatter(value, item)
   }
-  
+
   if (column.format) {
     switch (column.format) {
-      case 'date':
-        return formatters.date(value)
-      case 'datetime':
-        return formatters.dateTime(value)
-      case 'currency':
-        return formatters.currency(value)
-      case 'number':
-        return formatters.number(value)
-      case 'percentage':
-        return formatters.percentage(value)
-      default:
-        return value
+    case 'date':
+      return formatters.date(value)
+    case 'datetime':
+      return formatters.dateTime(value)
+    case 'currency':
+      return formatters.currency(value)
+    case 'number':
+      return formatters.number(value)
+    case 'percentage':
+      return formatters.percentage(value)
+    default:
+      return value
     }
   }
-  
+
   return value
 }
 
@@ -513,47 +520,47 @@ const getRowKey = (item, index) => {
 
 const getRowClass = (item, index) => {
   const classes = []
-  
+
   if (selectedItems.value.includes(getRowKey(item, index))) {
     classes.push('table-active')
   }
-  
+
   return classes
 }
 
-const handleSearch = debounce((event) => {
+const handleSearch = debounce(event => {
   const query = event.target.value
-  
+
   if (props.serverSide) {
     emit('search', query)
   }
-  
+
   currentPage.value = 1
 }, 300)
 
-const handleSort = (columnKey) => {
+const handleSort = columnKey => {
   if (sortColumn.value === columnKey) {
     sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
   } else {
     sortColumn.value = columnKey
     sortDirection.value = 'asc'
   }
-  
+
   if (props.serverSide) {
     emit('sort', { column: columnKey, direction: sortDirection.value })
   }
 }
 
-const getSortIcon = (columnKey) => {
+const getSortIcon = columnKey => {
   if (sortColumn.value !== columnKey) return 'selector'
   return sortDirection.value === 'asc' ? 'chevron-up' : 'chevron-down'
 }
 
-const goToPage = (page) => {
+const goToPage = page => {
   if (page < 1 || page > totalPages.value) return
-  
+
   currentPage.value = page
-  
+
   if (props.serverSide) {
     emit('page-change', page)
   }
@@ -562,13 +569,13 @@ const goToPage = (page) => {
 const toggleSelect = (item, index) => {
   const key = getRowKey(item, index)
   const selectedIndex = selectedItems.value.indexOf(key)
-  
+
   if (selectedIndex > -1) {
     selectedItems.value.splice(selectedIndex, 1)
   } else {
     selectedItems.value.push(key)
   }
-  
+
   emit('select', {
     item,
     selected: selectedIndex === -1,
@@ -582,7 +589,7 @@ const toggleSelectAll = () => {
   } else {
     selectedItems.value = paginatedData.value.map((item, index) => getRowKey(item, index))
   }
-  
+
   emit('select-all', {
     selected: !isAllSelected.value,
     selectedItems: selectedItems.value
@@ -601,17 +608,20 @@ const refresh = () => {
   emit('refresh')
 }
 
-const exportData = (format) => {
+const exportData = format => {
   emit('export', { format, data: filteredData.value })
 }
 
 // Watchers
-watch(() => pageSize.value, (newSize) => {
-  currentPage.value = 1
-  if (props.serverSide) {
-    emit('page-size-change', newSize)
+watch(
+  () => pageSize.value,
+  newSize => {
+    currentPage.value = 1
+    if (props.serverSide) {
+      emit('page-size-change', newSize)
+    }
   }
-})
+)
 
 // Lifecycle
 onMounted(() => {
@@ -678,8 +688,12 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Dark mode support */

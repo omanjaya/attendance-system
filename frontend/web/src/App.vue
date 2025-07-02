@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useAuthStore } from './stores/auth'
 
 const authStore = useAuthStore()
@@ -20,18 +20,19 @@ const isInitializing = ref(true)
 onMounted(async () => {
   try {
     // Initialize theme with proper detection
-    const savedTheme = localStorage.getItem('theme') || 
-                     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-    
+    const savedTheme =
+      localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+
     // Apply theme to document
     document.documentElement.setAttribute('data-bs-theme', savedTheme)
     document.body.setAttribute('data-bs-theme', savedTheme)
     document.body.classList.remove('theme-light', 'theme-dark')
     document.body.classList.add(`theme-${savedTheme}`)
-    
+
     // Store the theme for consistency
     localStorage.setItem('theme', savedTheme)
-    
+
     // Initialize authentication state - this will restore from localStorage
     // and validate the token if it exists
     await authStore.initAuth()
@@ -149,8 +150,12 @@ onMounted(async () => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Face recognition specific styles */
@@ -197,6 +202,9 @@ onMounted(async () => {
 
 /* Theme transition */
 * {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 </style>

@@ -2,7 +2,7 @@
   <div>
     <!-- Normal content when no error -->
     <slot v-if="!hasError" />
-    
+
     <!-- Error fallback content -->
     <slot v-else name="fallback" :error="error" :retry="retry">
       <!-- Default error fallback if no custom fallback provided -->
@@ -10,10 +10,23 @@
         <div class="card-body text-center">
           <div class="empty">
             <div class="empty-img">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-lg text-danger" width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M12 9v2m0 4v.01"/>
-                <path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-lg text-danger"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 9v2m0 4v.01" />
+                <path
+                  d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75"
+                />
               </svg>
             </div>
             <p class="empty-title">Something went wrong</p>
@@ -22,16 +35,25 @@
             </p>
             <div class="empty-action">
               <button class="btn btn-primary" @click="retry">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                  <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"/>
-                  <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon me-2"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                  <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
                 </svg>
                 Try Again
               </button>
-              <router-link to="/" class="btn btn-link">
-                Go to Dashboard
-              </router-link>
+              <router-link to="/" class="btn btn-link"> Go to Dashboard </router-link>
             </div>
           </div>
         </div>
@@ -41,7 +63,7 @@
 </template>
 
 <script setup>
-import { ref, onErrorCaptured } from 'vue'
+import { onErrorCaptured, ref } from 'vue'
 
 const hasError = ref(false)
 const error = ref(null)
@@ -50,7 +72,7 @@ onErrorCaptured((err, instance, info) => {
   console.error('🚨 Error boundary caught error:', err)
   console.error('📍 Component instance:', instance)
   console.error('ℹ️ Error info:', info)
-  
+
   hasError.value = true
   error.value = {
     message: err.message,
@@ -58,7 +80,7 @@ onErrorCaptured((err, instance, info) => {
     info,
     componentStack: instance?.$options.name || 'Unknown Component'
   }
-  
+
   // Prevent error from bubbling up further
   return false
 })

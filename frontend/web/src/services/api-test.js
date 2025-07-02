@@ -9,9 +9,9 @@ import axios from 'axios'
 export const apiDirect = axios.create({
   baseURL: 'http://localhost:8000/api', // Hardcoded for testing
   withCredentials: true,
-  headers: { 
+  headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'X-Requested-With': 'XMLHttpRequest'
   }
 })
@@ -20,9 +20,9 @@ export const apiDirect = axios.create({
 export const apiDynamic = axios.create({
   baseURL: `${window.location.protocol}//${window.location.hostname}:8000/api`,
   withCredentials: true,
-  headers: { 
+  headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'X-Requested-With': 'XMLHttpRequest'
   }
 })
@@ -31,9 +31,9 @@ export const apiDynamic = axios.create({
 export const apiLocalhost = axios.create({
   baseURL: 'http://127.0.0.1:8000/api',
   withCredentials: true,
-  headers: { 
+  headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'X-Requested-With': 'XMLHttpRequest'
   }
 })
@@ -42,7 +42,7 @@ export const apiLocalhost = axios.create({
 export const testAllApis = async () => {
   const apis = {
     apiDirect,
-    apiDynamic, 
+    apiDynamic,
     apiLocalhost
   }
 

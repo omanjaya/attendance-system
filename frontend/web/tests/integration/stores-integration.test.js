@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import { useEmployeeStore } from '@/stores/employees'
@@ -58,7 +58,7 @@ describe('Store Integration Tests', () => {
     setActivePinia(pinia)
     authStore = useAuthStore()
     employeeStore = useEmployeeStore()
-    
+
     vi.clearAllMocks()
     mockShowNotification.mockClear()
     localStorage.clear()

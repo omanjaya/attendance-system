@@ -1,22 +1,11 @@
 <template>
   <Teleport to="body">
-    <div 
-      v-if="visible" 
-      class="toast-container"
-      :class="`toast-${position}`"
-    >
-      <Transition
-        name="toast"
-        appear
-        @after-leave="onAfterLeave"
-      >
+    <div v-if="visible" class="toast-container" :class="`toast-${position}`">
+      <Transition name="toast" appear @after-leave="onAfterLeave">
         <div
           v-if="show"
           class="toast"
-          :class="[
-            `toast-${variant}`,
-            { 'toast-dismissible': dismissible }
-          ]"
+          :class="[`toast-${variant}`, { 'toast-dismissible': dismissible }]"
           role="alert"
           aria-live="assertive"
           aria-atomic="true"
@@ -30,25 +19,25 @@
                 <use :href="`#tabler-${defaultIcon}`"></use>
               </svg>
             </div>
-            
+
             <div class="toast-content">
               <div v-if="title" class="toast-title">{{ title }}</div>
               <div class="toast-message">{{ message }}</div>
             </div>
-            
+
             <button
               v-if="dismissible"
               type="button"
               class="toast-close"
-              @click="dismiss"
               aria-label="Close"
+              @click="dismiss"
             >
               <svg class="toast-close-icon">
                 <use href="#tabler-x"></use>
               </svg>
             </button>
           </div>
-          
+
           <div v-if="actions.length > 0" class="toast-actions">
             <button
               v-for="action in actions"
@@ -61,15 +50,9 @@
               {{ action.label }}
             </button>
           </div>
-          
-          <div 
-            v-if="duration > 0 && !paused" 
-            class="toast-progress"
-          >
-            <div 
-              class="toast-progress-bar"
-              :style="{ animationDuration: `${duration}ms` }"
-            ></div>
+
+          <div v-if="duration > 0 && !paused" class="toast-progress">
+            <div class="toast-progress-bar" :style="{ animationDuration: `${duration}ms` }"></div>
           </div>
         </div>
       </Transition>
@@ -78,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 
 const props = defineProps({
   // Toast content
@@ -90,18 +73,18 @@ const props = defineProps({
     type: String,
     required: true
   },
-  
+
   // Toast appearance
   variant: {
     type: String,
     default: 'info',
-    validator: (value) => ['success', 'error', 'warning', 'info'].includes(value)
+    validator: value => ['success', 'error', 'warning', 'info'].includes(value)
   },
   icon: {
     type: String,
     default: ''
   },
-  
+
   // Toast behavior
   duration: {
     type: Number,
@@ -115,18 +98,23 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  
+
   // Toast positioning
   position: {
     type: String,
     default: 'top-right',
-    validator: (value) => [
-      'top-left', 'top-center', 'top-right',
-      'bottom-left', 'bottom-center', 'bottom-right',
-      'center'
-    ].includes(value)
+    validator: value =>
+      [
+        'top-left',
+        'top-center',
+        'top-right',
+        'bottom-left',
+        'bottom-center',
+        'bottom-right',
+        'center'
+      ].includes(value)
   },
-  
+
   // Actions
   actions: {
     type: Array,
@@ -160,7 +148,7 @@ const showToast = () => {
   setTimeout(() => {
     show.value = true
   }, 10)
-  
+
   if (props.duration > 0 && !props.persistent) {
     startTimer()
   }
@@ -176,7 +164,7 @@ const onAfterLeave = () => {
   emit('dismiss')
 }
 
-const handleAction = (action) => {
+const handleAction = action => {
   emit('action', action)
   if (action.dismiss !== false) {
     dismiss()
@@ -219,13 +207,16 @@ onUnmounted(() => {
 })
 
 // Watch for duration changes
-watch(() => props.duration, (newDuration) => {
-  if (newDuration > 0 && !props.persistent && show.value) {
-    startTimer()
-  } else {
-    clearTimer()
+watch(
+  () => props.duration,
+  newDuration => {
+    if (newDuration > 0 && !props.persistent && show.value) {
+      startTimer()
+    } else {
+      clearTimer()
+    }
   }
-})
+)
 
 // Expose methods for parent components
 defineExpose({
@@ -526,13 +517,13 @@ defineExpose({
     min-width: calc(100vw - 2rem);
     max-width: calc(100vw - 2rem);
   }
-  
+
   .toast-container {
     left: var(--space-2) !important;
     right: var(--space-2) !important;
     transform: none !important;
   }
-  
+
   .toast-top-center,
   .toast-bottom-center {
     left: var(--space-2);
@@ -541,11 +532,11 @@ defineExpose({
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .toast-close:hover {
+[data-theme='dark'] .toast-close:hover {
   background-color: var(--color-gray-800);
 }
 
-[data-theme="dark"] .toast-action.btn-link:hover {
+[data-theme='dark'] .toast-action.btn-link:hover {
   background-color: var(--color-primary-dark);
 }
 
@@ -554,19 +545,19 @@ defineExpose({
   .toast {
     border-width: 2px;
   }
-  
+
   .toast-success {
     border-left-width: 6px;
   }
-  
+
   .toast-error {
     border-left-width: 6px;
   }
-  
+
   .toast-warning {
     border-left-width: 6px;
   }
-  
+
   .toast-info {
     border-left-width: 6px;
   }
@@ -578,12 +569,12 @@ defineExpose({
   .toast-leave-active {
     transition: opacity var(--transition-fast);
   }
-  
+
   .toast-enter-from,
   .toast-leave-to {
     transform: none;
   }
-  
+
   .toast-progress-bar {
     animation: none;
     transform: scaleX(0);

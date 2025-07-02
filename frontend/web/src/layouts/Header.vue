@@ -2,45 +2,45 @@
   <header class="navbar navbar-expand-md d-print-none" :class="navbarClass">
     <div class="container-xl">
       <!-- Mobile Toggle -->
-      <button 
+      <button
         v-if="showMobileToggle"
         class="navbar-toggler"
         type="button"
-        @click="$emit('toggle-sidebar')"
         aria-label="Toggle navigation"
+        @click="$emit('toggle-sidebar')"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      
+
       <!-- Page Title (Mobile) -->
       <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
         <router-link to="/">
           {{ pageTitle }}
         </router-link>
       </h1>
-      
+
       <div class="navbar-nav flex-row order-md-last">
         <!-- Theme Toggle -->
         <div class="nav-item dropdown d-none d-md-flex me-3">
           <button
             class="nav-link px-0"
-            @click="$emit('toggle-theme')"
             :title="isDarkMode ? 'Enable light mode' : 'Enable dark mode'"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
+            @click="$emit('toggle-theme')"
           >
             <TablerIcon :name="isDarkMode ? 'sun' : 'moon'" />
           </button>
         </div>
-        
+
         <!-- Global Search -->
         <div class="nav-item me-3 d-none d-md-flex">
           <GlobalSearch />
         </div>
-        
+
         <!-- Notifications -->
         <NotificationDropdown class="d-none d-md-flex me-3" />
-        
+
         <!-- Quick Actions -->
         <div class="nav-item dropdown d-none d-md-flex me-3">
           <a
@@ -56,7 +56,7 @@
             <div class="card">
               <div class="card-body">
                 <div class="row g-3">
-                  <div class="col-4" v-for="action in quickActions" :key="action.id">
+                  <div v-for="action in quickActions" :key="action.id" class="col-4">
                     <a
                       :href="action.href || '#'"
                       class="text-center text-decoration-none"
@@ -73,14 +73,16 @@
             </div>
           </div>
         </div>
-        
+
         <!-- User Menu -->
         <UserDropdown :user="user" @logout="$emit('logout')" />
       </div>
-      
+
       <!-- Mobile Bottom Bar -->
-      <div class="collapse navbar-collapse" id="navbar-menu">
-        <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
+      <div id="navbar-menu" class="collapse navbar-collapse">
+        <div
+          class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center"
+        >
           <ul class="navbar-nav">
             <!-- Mobile only items -->
             <li class="nav-item d-md-none">
@@ -105,12 +107,12 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Mobile Search Overlay -->
     <transition name="slide-down">
       <div v-if="showMobileSearch" class="navbar-search-overlay">
         <div class="container-xl">
-          <GlobalSearch 
+          <GlobalSearch
             :autofocus="true"
             @close="showMobileSearch = false"
             @search="handleMobileSearch"
@@ -122,7 +124,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUIStore } from '@/stores/modules/ui'
 import GlobalSearch from '@/components/layout/GlobalSearch.vue'
@@ -199,25 +201,25 @@ const quickActions = [
 ]
 
 // Methods
-const handleQuickAction = (action) => {
+const handleQuickAction = action => {
   if (action.href) {
     // Navigation handled by href
     return
   }
-  
+
   switch (action.action) {
-    case 'check-in':
-      // Emit check-in event
-      window.dispatchEvent(new Event('quick-check-in'))
-      break
-    case 'show-help':
-      // Show help modal
-      window.dispatchEvent(new Event('shortcuts-help-toggle'))
-      break
+  case 'check-in':
+    // Emit check-in event
+    window.dispatchEvent(new Event('quick-check-in'))
+    break
+  case 'show-help':
+    // Show help modal
+    window.dispatchEvent(new Event('shortcuts-help-toggle'))
+    break
   }
 }
 
-const handleMobileSearch = (query) => {
+const handleMobileSearch = query => {
   showMobileSearch.value = false
   // Handle search query
 }
@@ -287,7 +289,7 @@ const handleMobileSearch = (query) => {
   .navbar-nav {
     padding: 0.5rem 0;
   }
-  
+
   .navbar-collapse {
     position: absolute;
     top: 100%;

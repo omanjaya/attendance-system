@@ -1,11 +1,7 @@
 <template>
   <div
     class="skeleton"
-    :class="[
-      `skeleton-${variant}`,
-      `skeleton-${size}`,
-      { 'skeleton-animated': animated }
-    ]"
+    :class="[`skeleton-${variant}`, `skeleton-${size}`, { 'skeleton-animated': animated }]"
     :style="customStyles"
     :aria-label="ariaLabel"
     role="progressbar"
@@ -21,11 +17,11 @@
         :style="getLineStyle(line)"
       ></div>
     </div>
-    
+
     <div v-else-if="variant === 'avatar'" class="skeleton-content">
       <div class="skeleton-avatar-inner"></div>
     </div>
-    
+
     <div v-else-if="variant === 'card'" class="skeleton-content">
       <div class="skeleton-card-header">
         <div class="skeleton-card-avatar"></div>
@@ -35,43 +31,31 @@
         </div>
       </div>
       <div class="skeleton-card-body">
-        <div v-for="line in (lines || 3)" :key="line" class="skeleton-card-line"></div>
+        <div v-for="line in lines || 3" :key="line" class="skeleton-card-line"></div>
       </div>
       <div v-if="showCardActions" class="skeleton-card-actions">
         <div class="skeleton-card-button"></div>
         <div class="skeleton-card-button"></div>
       </div>
     </div>
-    
+
     <div v-else-if="variant === 'table'" class="skeleton-content">
       <div class="skeleton-table-header">
-        <div 
-          v-for="col in columns" 
-          :key="col" 
-          class="skeleton-table-header-cell"
-        ></div>
+        <div v-for="col in columns" :key="col" class="skeleton-table-header-cell"></div>
       </div>
-      <div 
-        v-for="row in rows" 
-        :key="row" 
-        class="skeleton-table-row"
-      >
-        <div 
-          v-for="col in columns" 
-          :key="col" 
-          class="skeleton-table-cell"
-        ></div>
+      <div v-for="row in rows" :key="row" class="skeleton-table-row">
+        <div v-for="col in columns" :key="col" class="skeleton-table-cell"></div>
       </div>
     </div>
-    
+
     <div v-else-if="variant === 'button'" class="skeleton-content">
       <div class="skeleton-button-inner"></div>
     </div>
-    
+
     <div v-else-if="variant === 'input'" class="skeleton-content">
       <div class="skeleton-input-inner"></div>
     </div>
-    
+
     <div v-else class="skeleton-content">
       <!-- Default rectangular skeleton -->
     </div>
@@ -86,25 +70,33 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'rectangular',
-    validator: (value) => [
-      'rectangular', 'circular', 'rounded', 'text', 'avatar', 
-      'card', 'table', 'button', 'input'
-    ].includes(value)
+    validator: value =>
+      [
+        'rectangular',
+        'circular',
+        'rounded',
+        'text',
+        'avatar',
+        'card',
+        'table',
+        'button',
+        'input'
+      ].includes(value)
   },
-  
+
   // Size presets
   size: {
     type: String,
     default: 'medium',
-    validator: (value) => ['small', 'medium', 'large'].includes(value)
+    validator: value => ['small', 'medium', 'large'].includes(value)
   },
-  
+
   // Animation
   animated: {
     type: Boolean,
     default: true
   },
-  
+
   // Dimensions
   width: {
     type: [String, Number],
@@ -114,13 +106,13 @@ const props = defineProps({
     type: [String, Number],
     default: null
   },
-  
+
   // Text-specific props
   lines: {
     type: Number,
     default: 1
   },
-  
+
   // Table-specific props
   rows: {
     type: Number,
@@ -130,13 +122,13 @@ const props = defineProps({
     type: Number,
     default: 4
   },
-  
+
   // Card-specific props
   showCardActions: {
     type: Boolean,
     default: true
   },
-  
+
   // Accessibility
   ariaLabel: {
     type: String,
@@ -147,27 +139,27 @@ const props = defineProps({
 // Computed styles
 const customStyles = computed(() => {
   const styles = {}
-  
+
   if (props.width) {
     styles.width = typeof props.width === 'number' ? `${props.width}px` : props.width
   }
-  
+
   if (props.height) {
     styles.height = typeof props.height === 'number' ? `${props.height}px` : props.height
   }
-  
+
   return styles
 })
 
 // Generate line styles for text variant
-const getLineStyle = (lineNumber) => {
+const getLineStyle = lineNumber => {
   const styles = {}
-  
+
   // Make last line shorter for more realistic text appearance
   if (lineNumber === props.lines && props.lines > 1) {
     styles.width = `${60 + Math.random() * 30}%`
   }
-  
+
   return styles
 }
 </script>
@@ -426,7 +418,7 @@ const getLineStyle = (lineNumber) => {
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .skeleton {
+[data-theme='dark'] .skeleton {
   --skeleton-base: #2a2a2a;
   --skeleton-highlight: rgba(255, 255, 255, 0.1);
 }
@@ -437,8 +429,8 @@ const getLineStyle = (lineNumber) => {
     --skeleton-base: #e0e0e0;
     --skeleton-highlight: rgba(255, 255, 255, 0.6);
   }
-  
-  [data-theme="dark"] .skeleton {
+
+  [data-theme='dark'] .skeleton {
     --skeleton-base: #404040;
     --skeleton-highlight: rgba(255, 255, 255, 0.2);
   }
@@ -449,7 +441,7 @@ const getLineStyle = (lineNumber) => {
   .skeleton-animated::before {
     animation: none;
   }
-  
+
   .skeleton-animated {
     opacity: 0.7;
   }
@@ -461,16 +453,16 @@ const getLineStyle = (lineNumber) => {
     padding: var(--space-3);
     min-height: 10rem;
   }
-  
+
   .skeleton-table-header,
   .skeleton-table-row {
     gap: var(--space-2);
   }
-  
+
   .skeleton-card-actions {
     flex-direction: column;
   }
-  
+
   .skeleton-card-button {
     width: 100%;
   }

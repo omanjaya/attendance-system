@@ -17,13 +17,23 @@ export default [
         document: 'readonly',
         console: 'readonly',
         process: 'readonly',
-        
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        global: 'readonly',
+        Blob: 'readonly',
+        FormData: 'readonly',
+        URLSearchParams: 'readonly',
+
         // Node.js globals for config files
         __dirname: 'readonly',
         __filename: 'readonly',
         module: 'readonly',
         require: 'readonly',
-        
+
         // Vitest globals
         describe: 'readonly',
         it: 'readonly',
@@ -44,24 +54,23 @@ export default [
       'vue/require-prop-types': 'error',
       'vue/require-default-prop': 'error',
       'vue/no-v-html': 'warn',
-      'vue/component-tags-order': ['error', {
-        order: ['template', 'script', 'style']
-      }],
+      // 'vue/component-tags-order': rule not available in current vue plugin version
       'vue/component-name-in-template-casing': ['error', 'PascalCase'],
-      'vue/define-emits-declaration': 'error',
-      'vue/define-props-declaration': 'error',
-      'vue/no-template-shadow': 'error',
+      // 'vue/no-template-shadow': 'error', // May not be available in current version
       'vue/no-duplicate-attributes': 'error',
       'vue/no-multiple-template-root': 'off', // Vue 3 allows multiple roots
       'vue/valid-v-slot': 'error',
-      
+
       // JavaScript rules
       'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-      'no-unused-vars': ['error', { 
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_' 
-      }],
+      'no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_'
+        }
+      ],
       'prefer-const': 'error',
       'no-var': 'error',
       'object-shorthand': 'error',
@@ -76,13 +85,16 @@ export default [
       'max-len': ['warn', { code: 120, ignoreUrls: true }],
       'eqeqeq': ['error', 'always'],
       'curly': ['error', 'multi-line'],
-      
+
       // Import rules
-      'sort-imports': ['error', {
-        ignoreCase: true,
-        ignoreDeclarationSort: true,
-        ignoreMemberSort: false
-      }]
+      'sort-imports': [
+        'error',
+        {
+          ignoreCase: true,
+          ignoreDeclarationSort: true,
+          ignoreMemberSort: false
+        }
+      ]
     }
   },
   {

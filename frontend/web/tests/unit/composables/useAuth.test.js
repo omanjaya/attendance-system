@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { useAuth } from '@/composables/useAuth'
 import { useAuthStore } from '@/stores/auth'
@@ -251,7 +251,7 @@ describe('useAuth', () => {
       })
 
       const { changePassword } = useAuth()
-      const result = await changePassword({ 
+      const result = await changePassword({
         current_password: 'old',
         new_password: 'new'
       })

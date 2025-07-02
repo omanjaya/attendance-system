@@ -6,44 +6,37 @@
     <div class="card-body">
       <div class="mb-3">
         <label class="form-label">Email</label>
-        <input 
-          v-model="email" 
-          type="email" 
+        <input
+          v-model="email"
+          type="email"
           class="form-control"
           placeholder="superadmin@school.edu"
-        >
+        />
       </div>
-      
+
       <div class="mb-3">
         <label class="form-label">Password</label>
-        <input 
-          v-model="password" 
-          type="password" 
-          class="form-control"
-          placeholder="password123"
-        >
+        <input v-model="password" type="password" class="form-control" placeholder="password123" />
       </div>
-      
+
       <div class="mb-3">
-        <button @click="testCsrf" class="btn btn-secondary me-2" :disabled="loading">
+        <button class="btn btn-secondary me-2" :disabled="loading" @click="testCsrf">
           Test CSRF
         </button>
-        <button @click="testLogin" class="btn btn-primary" :disabled="loading">
-          Test Login
-        </button>
+        <button class="btn btn-primary" :disabled="loading" @click="testLogin">Test Login</button>
       </div>
-      
+
       <div v-if="loading" class="mb-3">
         <div class="text-info">Loading...</div>
       </div>
-      
+
       <div v-if="result" class="mb-3">
         <div class="alert" :class="result.success ? 'alert-success' : 'alert-danger'">
           <strong>Result:</strong> {{ result.message }}
           <pre v-if="result.data">{{ JSON.stringify(result.data, null, 2) }}</pre>
         </div>
       </div>
-      
+
       <div class="mb-3">
         <h5>Debug Info:</h5>
         <ul class="list-unstyled">
@@ -58,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import axios from 'axios'
 
 const email = ref('superadmin@school.edu')
@@ -78,13 +71,16 @@ const csrfToken = computed(() => {
 })
 
 const cookies = computed(() => {
-  return document.cookie.split('; ').filter(c => c.includes('XSRF') || c.includes('session')).join('; ')
+  return document.cookie
+    .split('; ')
+    .filter(c => c.includes('XSRF') || c.includes('session'))
+    .join('; ')
 })
 
 const testCsrf = async () => {
   loading.value = true
   result.value = null
-  
+
   try {
     await axios.get('/sanctum/csrf-cookie')
     result.value = {
@@ -98,7 +94,7 @@ const testCsrf = async () => {
   } catch (error) {
     result.value = {
       success: false,
-      message: 'CSRF request failed: ' + error.message,
+      message: `CSRF request failed: ${error.message}`,
       data: error.response?.data
     }
   } finally {
@@ -109,17 +105,17 @@ const testCsrf = async () => {
 const testLogin = async () => {
   loading.value = true
   result.value = null
-  
+
   try {
     // First get CSRF token
     await axios.get('/sanctum/csrf-cookie')
-    
+
     // Then login
     const response = await axios.post('/api/v1/auth/login', {
       email: email.value,
       password: password.value
     })
-    
+
     result.value = {
       success: true,
       message: 'Login successful!',
@@ -128,7 +124,7 @@ const testLogin = async () => {
   } catch (error) {
     result.value = {
       success: false,
-      message: 'Login failed: ' + (error.response?.data?.message || error.message),
+      message: `Login failed: ${error.response?.data?.message || error.message}`,
       data: error.response?.data
     }
   } finally {

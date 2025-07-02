@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row row-cards">
       <!-- User Info Card -->
       <div class="col-12 col-lg-6">
@@ -20,7 +20,7 @@
           </div>
           <div class="card-body">
             <div v-if="isAuthenticated" class="d-flex align-items-center mb-3">
-              <span 
+              <span
                 class="avatar avatar-md me-3"
                 :style="userAvatar ? `background-image: url(${userAvatar})` : ''"
               >
@@ -31,7 +31,7 @@
                 <div class="text-muted small">{{ userEmail }}</div>
               </div>
             </div>
-            
+
             <div class="row">
               <div class="col-6">
                 <div class="mb-2">
@@ -43,8 +43,8 @@
                 <div class="mb-2">
                   <strong>Roles:</strong>
                   <div v-if="userRoles.length">
-                    <span 
-                      v-for="role in userRoles" 
+                    <span
+                      v-for="role in userRoles"
                       :key="role.name || role"
                       class="badge bg-primary me-1"
                     >
@@ -75,12 +75,12 @@
                 </div>
               </div>
             </div>
-            
+
             <div v-if="userPermissions.length" class="mt-3">
               <strong>Permissions:</strong>
               <div class="mt-2">
-                <span 
-                  v-for="permission in userPermissions" 
+                <span
+                  v-for="permission in userPermissions"
                   :key="permission.name || permission"
                   class="badge bg-secondary me-1 mb-1"
                 >
@@ -91,7 +91,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Role-Based Rendering Tests -->
       <div class="col-12 col-lg-6">
         <div class="card">
@@ -106,7 +106,7 @@
                 <strong>Admin Only:</strong> You can see this because you have admin role.
               </div>
             </RoleGuard>
-            
+
             <!-- Manager or Admin Content -->
             <RoleGuard :roles="['manager', 'admin']">
               <div class="alert alert-info">
@@ -114,7 +114,7 @@
                 <strong>Manager/Admin:</strong> Visible to managers and admins.
               </div>
             </RoleGuard>
-            
+
             <!-- Employee Content -->
             <RoleGuard roles="employee">
               <div class="alert alert-primary">
@@ -122,7 +122,7 @@
                 <strong>Employee:</strong> Basic employee access content.
               </div>
             </RoleGuard>
-            
+
             <!-- Permission-Based Content -->
             <RoleGuard permissions="users.create">
               <div class="alert alert-warning">
@@ -130,7 +130,7 @@
                 <strong>Create Users:</strong> You have user creation permissions.
               </div>
             </RoleGuard>
-            
+
             <!-- Multiple Permissions (ANY) -->
             <RoleGuard :permissions="['reports.view', 'analytics.view']">
               <div class="alert alert-secondary">
@@ -138,7 +138,7 @@
                 <strong>Reports/Analytics:</strong> You can view reports or analytics.
               </div>
             </RoleGuard>
-            
+
             <!-- Inverted Access (Hide from admins) -->
             <RoleGuard roles="admin" invert>
               <div class="alert alert-light">
@@ -146,7 +146,7 @@
                 <strong>Non-Admin:</strong> This is hidden from admins.
               </div>
             </RoleGuard>
-            
+
             <!-- No Access Fallback -->
             <RoleGuard roles="super-admin">
               <template #fallback>
@@ -162,7 +162,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Action Tests -->
       <div class="col-12">
         <div class="card">
@@ -173,72 +173,64 @@
             <div class="row">
               <div class="col-md-3 mb-3">
                 <div class="d-grid">
-                  <button 
-                    class="btn btn-primary" 
+                  <button
+                    class="btn btn-primary"
                     :disabled="!canPerformAction('create_employee')"
                     @click="testAction('create_employee')"
                   >
                     <TablerIcon name="user-plus" class="me-2" />
                     Create Employee
                   </button>
-                  <small class="text-muted mt-1">
-                    Requires: employees.create
-                  </small>
+                  <small class="text-muted mt-1"> Requires: employees.create </small>
                 </div>
               </div>
-              
+
               <div class="col-md-3 mb-3">
                 <div class="d-grid">
-                  <button 
-                    class="btn btn-success" 
+                  <button
+                    class="btn btn-success"
                     :disabled="!canPerformAction('view_reports')"
                     @click="testAction('view_reports')"
                   >
                     <TablerIcon name="file-text" class="me-2" />
                     View Reports
                   </button>
-                  <small class="text-muted mt-1">
-                    Requires: reports.view
-                  </small>
+                  <small class="text-muted mt-1"> Requires: reports.view </small>
                 </div>
               </div>
-              
+
               <div class="col-md-3 mb-3">
                 <div class="d-grid">
-                  <button 
-                    class="btn btn-warning" 
+                  <button
+                    class="btn btn-warning"
                     :disabled="!canPerformAction('manage_settings')"
                     @click="testAction('manage_settings')"
                   >
                     <TablerIcon name="settings" class="me-2" />
                     Manage Settings
                   </button>
-                  <small class="text-muted mt-1">
-                    Requires: settings.manage
-                  </small>
+                  <small class="text-muted mt-1"> Requires: settings.manage </small>
                 </div>
               </div>
-              
+
               <div class="col-md-3 mb-3">
                 <div class="d-grid">
-                  <button 
-                    class="btn btn-danger" 
+                  <button
+                    class="btn btn-danger"
                     :disabled="!hasRole('admin')"
                     @click="testAction('admin_action')"
                   >
                     <TablerIcon name="shield" class="me-2" />
                     Admin Action
                   </button>
-                  <small class="text-muted mt-1">
-                    Requires: admin role
-                  </small>
+                  <small class="text-muted mt-1"> Requires: admin role </small>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
+
       <!-- Auth State Management -->
       <div class="col-12">
         <div class="card">
@@ -250,36 +242,25 @@
               <div class="col-md-6">
                 <h4>User Actions</h4>
                 <div class="btn-list">
-                  <button 
-                    class="btn btn-primary" 
-                    @click="refreshUser" 
-                    :disabled="loading"
-                  >
+                  <button class="btn btn-primary" :disabled="loading" @click="refreshUser">
                     <LoadingSpinner v-if="loading" size="sm" class="me-2" />
                     <TablerIcon v-else name="refresh" class="me-2" />
                     Refresh User Data
                   </button>
-                  
-                  <button 
-                    class="btn btn-outline-secondary" 
-                    @click="showUpdateProfileModal = true"
-                  >
+
+                  <button class="btn btn-outline-secondary" @click="showUpdateProfileModal = true">
                     <TablerIcon name="edit" class="me-2" />
                     Test Profile Update
                   </button>
-                  
-                  <button 
-                    class="btn btn-outline-danger" 
-                    @click="logout" 
-                    :disabled="isLoggingOut"
-                  >
+
+                  <button class="btn btn-outline-danger" :disabled="isLoggingOut" @click="logout">
                     <LoadingSpinner v-if="isLoggingOut" size="sm" class="me-2" />
                     <TablerIcon v-else name="logout" class="me-2" />
                     Logout
                   </button>
                 </div>
               </div>
-              
+
               <div class="col-md-6">
                 <h4>State Information</h4>
                 <div class="list-group list-group-flush">
@@ -299,20 +280,16 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Test Results Modal -->
-    <Modal
-      v-model:visible="showResultModal"
-      title="Action Test Result"
-      size="md"
-    >
+    <Modal v-model:visible="showResultModal" title="Action Test Result" size="md">
       <div class="alert" :class="`alert-${testResult.type}`">
         <TablerIcon :name="testResult.icon" class="me-2" />
         <strong>{{ testResult.title }}</strong>
         <p class="mb-0 mt-2">{{ testResult.message }}</p>
       </div>
     </Modal>
-    
+
     <!-- Profile Update Test Modal -->
     <Modal
       v-model:visible="showUpdateProfileModal"
@@ -338,7 +315,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useAuth } from '@/composables/useAuth'
 import RoleGuard from '@/components/common/RoleGuard.vue'
 import Modal from '@/components/common/Modal.vue'
@@ -354,7 +331,7 @@ const {
   isLoggingOut,
   loginError,
   canLoginAgain,
-  
+
   // User data
   userName,
   userEmail,
@@ -362,17 +339,17 @@ const {
   userPermissions,
   userAvatar,
   userInitials,
-  
+
   // Role helpers
   isAdmin,
   isManager,
   isEmployee,
-  
+
   // Methods
   logout,
   refreshUser,
   updateProfile,
-  
+
   // Permission methods
   hasRole,
   hasPermission,
@@ -395,39 +372,39 @@ const testProfileData = reactive({
 })
 
 // Methods
-const testAction = (action) => {
+const testAction = action => {
   const canPerform = canPerformAction(action)
-  
+
   testResult.type = canPerform ? 'success' : 'danger'
   testResult.icon = canPerform ? 'check' : 'x'
   testResult.title = canPerform ? 'Action Allowed' : 'Action Denied'
-  testResult.message = canPerform 
+  testResult.message = canPerform
     ? `You have permission to perform the "${action}" action.`
     : `You do not have permission to perform the "${action}" action.`
-  
+
   showResultModal.value = true
 }
 
 const testProfileUpdate = async () => {
   showUpdateProfileModal.value = false
-  
+
   try {
     const result = await updateProfile(testProfileData)
-    
+
     testResult.type = result.success ? 'success' : 'danger'
     testResult.icon = result.success ? 'check' : 'x'
     testResult.title = result.success ? 'Profile Updated' : 'Update Failed'
-    testResult.message = result.success 
+    testResult.message = result.success
       ? 'Profile update test completed successfully.'
       : result.message || 'Profile update test failed.'
-    
+
     showResultModal.value = true
   } catch (error) {
     testResult.type = 'danger'
     testResult.icon = 'x'
     testResult.title = 'Update Error'
     testResult.message = 'An error occurred during the profile update test.'
-    
+
     showResultModal.value = true
   }
 }

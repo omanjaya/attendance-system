@@ -5,7 +5,7 @@
         <div class="navbar-brand h2 mb-0">Attendance System</div>
         <h1 class="h2 mt-3">Attendance Kiosk</h1>
       </div>
-      
+
       <router-view />
     </div>
   </div>

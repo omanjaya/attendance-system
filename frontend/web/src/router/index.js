@@ -17,7 +17,7 @@ const lazyLoad = (importFunc, componentName = 'Component') => {
       })
       .catch(error => {
         console.error(`❌ Component loading failed: ${componentName}`, error)
-        
+
         // Retry mechanism - try loading again after a short delay
         return new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -71,26 +71,53 @@ import Dashboard from '@/pages/Dashboard.vue'
 
 // Employee Management (enhanced lazy loading)
 const EmployeeList = lazyLoad(() => import('@/pages/employees/EmployeeList.vue'), 'EmployeeList')
-const EmployeeCreate = lazyLoad(() => import('@/pages/employees/EmployeeCreate.vue'), 'EmployeeCreate')
+const EmployeeCreate = lazyLoad(
+  () => import('@/pages/employees/EmployeeCreate.vue'),
+  'EmployeeCreate'
+)
 const EmployeeEdit = lazyLoad(() => import('@/pages/employees/EmployeeEdit.vue'), 'EmployeeEdit')
 const EmployeeView = lazyLoad(() => import('@/pages/employees/EmployeeView.vue'), 'EmployeeView')
 
 // Attendance Management (enhanced lazy loading)
-const AttendanceList = lazyLoad(() => import('@/pages/attendance/AttendanceList.vue'), 'AttendanceList')
-const AttendanceManage = lazyLoad(() => import('@/pages/attendance/AttendanceManage.vue'), 'AttendanceManage')
-const AttendanceHistory = lazyLoad(() => import('@/pages/attendance/AttendanceHistory.vue'), 'AttendanceHistory')
-const AttendanceCalendar = lazyLoad(() => import('@/pages/attendance/AttendanceCalendar.vue'), 'AttendanceCalendar')
-const AttendanceKiosk = lazyLoad(() => import('@/pages/attendance/AttendanceKiosk.vue'), 'AttendanceKiosk')
+const AttendanceList = lazyLoad(
+  () => import('@/pages/attendance/AttendanceList.vue'),
+  'AttendanceList'
+)
+const AttendanceManage = lazyLoad(
+  () => import('@/pages/attendance/AttendanceManage.vue'),
+  'AttendanceManage'
+)
+const AttendanceHistory = lazyLoad(
+  () => import('@/pages/attendance/AttendanceHistory.vue'),
+  'AttendanceHistory'
+)
+const AttendanceCalendar = lazyLoad(
+  () => import('@/pages/attendance/AttendanceCalendar.vue'),
+  'AttendanceCalendar'
+)
+const AttendanceKiosk = lazyLoad(
+  () => import('@/pages/attendance/AttendanceKiosk.vue'),
+  'AttendanceKiosk'
+)
 
 // Schedule Management (enhanced lazy loading)
 const ScheduleList = lazyLoad(() => import('@/pages/schedules/ScheduleList.vue'), 'ScheduleList')
-const ScheduleCreate = lazyLoad(() => import('@/pages/schedules/ScheduleCreate.vue'), 'ScheduleCreate')
-const ScheduleCalendar = lazyLoad(() => import('@/pages/schedules/ScheduleCalendar.vue'), 'ScheduleCalendar')
+const ScheduleCreate = lazyLoad(
+  () => import('@/pages/schedules/ScheduleCreate.vue'),
+  'ScheduleCreate'
+)
+const ScheduleCalendar = lazyLoad(
+  () => import('@/pages/schedules/ScheduleCalendar.vue'),
+  'ScheduleCalendar'
+)
 
 // Payroll Management (enhanced lazy loading)
 const PayrollList = lazyLoad(() => import('@/pages/payroll/PayrollList.vue'), 'PayrollList')
 const PayrollCreate = lazyLoad(() => import('@/pages/payroll/PayrollCreate.vue'), 'PayrollCreate')
-const PayrollSummary = lazyLoad(() => import('@/pages/payroll/PayrollSummary.vue'), 'PayrollSummary')
+const PayrollSummary = lazyLoad(
+  () => import('@/pages/payroll/PayrollSummary.vue'),
+  'PayrollSummary'
+)
 
 // Leave Management (enhanced lazy loading)
 const LeaveList = lazyLoad(() => import('@/pages/leaves/LeaveList.vue'), 'LeaveList')
@@ -99,27 +126,57 @@ const LeaveManage = lazyLoad(() => import('@/pages/leaves/LeaveManage.vue'), 'Le
 const LeaveCalendar = lazyLoad(() => import('@/pages/leaves/LeaveCalendar.vue'), 'LeaveCalendar')
 
 // Face Recognition (enhanced lazy loading)
-const FaceRecognitionSetup = lazyLoad(() => import('@/pages/face-recognition/FaceRecognitionSetup.vue'), 'FaceRecognitionSetup')
-const FaceRecognitionManage = lazyLoad(() => import('@/pages/face-recognition/FaceRecognitionManage.vue'), 'FaceRecognitionManage')
+const FaceRecognitionSetup = lazyLoad(
+  () => import('@/pages/face-recognition/FaceRecognitionSetup.vue'),
+  'FaceRecognitionSetup'
+)
+const FaceRecognitionManage = lazyLoad(
+  () => import('@/pages/face-recognition/FaceRecognitionManage.vue'),
+  'FaceRecognitionManage'
+)
 
 // Reports (enhanced lazy loading)
-const ReportsDashboard = lazyLoad(() => import('@/pages/reports/ReportsDashboard.vue'), 'ReportsDashboard')
-const AttendanceReports = lazyLoad(() => import('@/pages/reports/AttendanceReports.vue'), 'AttendanceReports')
-const PayrollReports = lazyLoad(() => import('@/pages/reports/PayrollReports.vue'), 'PayrollReports')
+const ReportsDashboard = lazyLoad(
+  () => import('@/pages/reports/ReportsDashboard.vue'),
+  'ReportsDashboard'
+)
+const AttendanceReports = lazyLoad(
+  () => import('@/pages/reports/AttendanceReports.vue'),
+  'AttendanceReports'
+)
+const PayrollReports = lazyLoad(
+  () => import('@/pages/reports/PayrollReports.vue'),
+  'PayrollReports'
+)
 const LeaveReports = lazyLoad(() => import('@/pages/reports/LeaveReports.vue'), 'LeaveReports')
 
 // Settings (enhanced lazy loading)
-const SettingsGeneral = lazyLoad(() => import('@/pages/settings/SettingsGeneral.vue'), 'SettingsGeneral')
-const SettingsAttendance = lazyLoad(() => import('@/pages/settings/SettingsAttendance.vue'), 'SettingsAttendance')
+const SettingsGeneral = lazyLoad(
+  () => import('@/pages/settings/SettingsGeneral.vue'),
+  'SettingsGeneral'
+)
+const SettingsAttendance = lazyLoad(
+  () => import('@/pages/settings/SettingsAttendance.vue'),
+  'SettingsAttendance'
+)
 const SettingsLeave = lazyLoad(() => import('@/pages/settings/SettingsLeave.vue'), 'SettingsLeave')
 
 // Other Pages (enhanced lazy loading)
 const Profile = lazyLoad(() => import('@/pages/auth/Profile.vue'), 'Profile')
-const SchoolCalendar = lazyLoad(() => import('@/pages/calendar/SchoolCalendar.vue'), 'SchoolCalendar')
-const PeriodManagement = lazyLoad(() => import('@/pages/periods/PeriodManagement.vue'), 'PeriodManagement')
+const SchoolCalendar = lazyLoad(
+  () => import('@/pages/calendar/SchoolCalendar.vue'),
+  'SchoolCalendar'
+)
+const PeriodManagement = lazyLoad(
+  () => import('@/pages/periods/PeriodManagement.vue'),
+  'PeriodManagement'
+)
 
 // Notifications (enhanced lazy loading)
-const NotificationsPage = lazyLoad(() => import('@/pages/notifications/NotificationsPage.vue'), 'NotificationsPage')
+const NotificationsPage = lazyLoad(
+  () => import('@/pages/notifications/NotificationsPage.vue'),
+  'NotificationsPage'
+)
 
 const routes = [
   // Auth Routes
@@ -142,7 +199,7 @@ const routes = [
       }
     ]
   },
-  
+
   // App Routes
   {
     path: '/',
@@ -153,32 +210,30 @@ const routes = [
         path: '',
         name: 'dashboard',
         component: Dashboard,
-        meta: { 
+        meta: {
           title: 'Dashboard',
           subtitle: 'Overview',
           showHeader: false
         }
       },
-      
+
       // Employee Management Routes
       {
         path: 'employees',
         name: 'employees',
         component: EmployeeList,
-        meta: { 
+        meta: {
           title: 'Employee Management',
           subtitle: 'Manage all employees',
           showHeader: true,
-          breadcrumbs: [
-            { label: 'Employee Management', icon: 'users' }
-          ]
+          breadcrumbs: [{ label: 'Employee Management', icon: 'users' }]
         }
       },
       {
         path: 'employees/create',
         name: 'employees.create',
         component: EmployeeCreate,
-        meta: { 
+        meta: {
           title: 'Add New Employee',
           subtitle: 'Employee Management',
           showHeader: true,
@@ -192,7 +247,7 @@ const routes = [
         path: 'employees/:id/edit',
         name: 'employees.edit',
         component: EmployeeEdit,
-        meta: { 
+        meta: {
           title: 'Edit Employee',
           subtitle: 'Employee Management',
           showHeader: true,
@@ -206,7 +261,7 @@ const routes = [
         path: 'employees/:id',
         name: 'employees.view',
         component: EmployeeView,
-        meta: { 
+        meta: {
           title: 'Employee Details',
           subtitle: 'Employee Management',
           showHeader: true,
@@ -216,26 +271,24 @@ const routes = [
           ]
         }
       },
-      
+
       // Attendance Management Routes
       {
         path: 'attendance',
         name: 'attendance',
         component: AttendanceList,
-        meta: { 
+        meta: {
           title: 'Attendance Records',
           subtitle: 'Daily attendance tracking',
           showHeader: true,
-          breadcrumbs: [
-            { label: 'Attendance', icon: 'calendar-check' }
-          ]
+          breadcrumbs: [{ label: 'Attendance', icon: 'calendar-check' }]
         }
       },
       {
         path: 'attendance/manage',
         name: 'attendance.manage',
         component: AttendanceManage,
-        meta: { 
+        meta: {
           title: 'Manage Attendance',
           subtitle: 'Check in/out and bulk operations',
           showHeader: true,
@@ -249,7 +302,7 @@ const routes = [
         path: 'attendance/history',
         name: 'attendance.history',
         component: AttendanceHistory,
-        meta: { 
+        meta: {
           title: 'Attendance History',
           subtitle: 'Historical attendance data',
           showHeader: true,
@@ -263,7 +316,7 @@ const routes = [
         path: 'attendance/calendar',
         name: 'attendance.calendar',
         component: AttendanceCalendar,
-        meta: { 
+        meta: {
           title: 'Attendance Calendar',
           subtitle: 'Calendar view of attendance',
           showHeader: true,
@@ -277,32 +330,30 @@ const routes = [
         path: 'attendance/kiosk',
         name: 'attendance.kiosk',
         component: AttendanceKiosk,
-        meta: { 
+        meta: {
           title: 'Attendance Kiosk',
           subtitle: 'Self-service attendance terminal',
           showHeader: false
         }
       },
-      
+
       // Schedule Management Routes
       {
         path: 'schedules',
         name: 'schedules',
         component: ScheduleList,
-        meta: { 
+        meta: {
           title: 'Work Schedules',
           subtitle: 'Employee work schedule management',
           showHeader: true,
-          breadcrumbs: [
-            { label: 'Schedules', icon: 'calendar-time' }
-          ]
+          breadcrumbs: [{ label: 'Schedules', icon: 'calendar-time' }]
         }
       },
       {
         path: 'schedules/create',
         name: 'schedules.create',
         component: ScheduleCreate,
-        meta: { 
+        meta: {
           title: 'Create Schedule',
           subtitle: 'Schedule Management',
           showHeader: true,
@@ -316,7 +367,7 @@ const routes = [
         path: 'schedules/calendar',
         name: 'schedules.calendar',
         component: ScheduleCalendar,
-        meta: { 
+        meta: {
           title: 'Schedule Calendar',
           subtitle: 'Calendar view of work schedules',
           showHeader: true,
@@ -326,26 +377,24 @@ const routes = [
           ]
         }
       },
-      
+
       // Payroll Management Routes
       {
         path: 'payroll',
         name: 'payroll',
         component: PayrollList,
-        meta: { 
+        meta: {
           title: 'Payroll Management',
           subtitle: 'Employee salary and payroll processing',
           showHeader: true,
-          breadcrumbs: [
-            { label: 'Payroll', icon: 'currency-dollar' }
-          ]
+          breadcrumbs: [{ label: 'Payroll', icon: 'currency-dollar' }]
         }
       },
       {
         path: 'payroll/create',
         name: 'payroll.create',
         component: PayrollCreate,
-        meta: { 
+        meta: {
           title: 'Process Payroll',
           subtitle: 'Payroll Management',
           showHeader: true,
@@ -359,7 +408,7 @@ const routes = [
         path: 'payroll/summary',
         name: 'payroll.summary',
         component: PayrollSummary,
-        meta: { 
+        meta: {
           title: 'Payroll Summary',
           subtitle: 'Overview of payroll data',
           showHeader: true,
@@ -369,26 +418,24 @@ const routes = [
           ]
         }
       },
-      
+
       // Leave Management Routes
       {
         path: 'leaves',
         name: 'leaves',
         component: LeaveList,
-        meta: { 
+        meta: {
           title: 'Leave Management',
           subtitle: 'Employee leave requests and approvals',
           showHeader: true,
-          breadcrumbs: [
-            { label: 'Leave Management', icon: 'calendar-x' }
-          ]
+          breadcrumbs: [{ label: 'Leave Management', icon: 'calendar-x' }]
         }
       },
       {
         path: 'leaves/create',
         name: 'leaves.create',
         component: LeaveCreate,
-        meta: { 
+        meta: {
           title: 'Request Leave',
           subtitle: 'Leave Management',
           showHeader: true,
@@ -402,7 +449,7 @@ const routes = [
         path: 'leaves/manage',
         name: 'leaves.manage',
         component: LeaveManage,
-        meta: { 
+        meta: {
           title: 'Manage Leave Requests',
           subtitle: 'Approve or reject leave requests',
           showHeader: true,
@@ -416,7 +463,7 @@ const routes = [
         path: 'leaves/calendar',
         name: 'leaves.calendar',
         component: LeaveCalendar,
-        meta: { 
+        meta: {
           title: 'Leave Calendar',
           subtitle: 'Calendar view of leave requests',
           showHeader: true,
@@ -426,13 +473,13 @@ const routes = [
           ]
         }
       },
-      
+
       // Face Recognition Routes
       {
         path: 'face-recognition/setup',
         name: 'face-recognition.setup',
         component: FaceRecognitionSetup,
-        meta: { 
+        meta: {
           title: 'Face Recognition Setup',
           subtitle: 'Configure facial recognition system',
           showHeader: true,
@@ -446,7 +493,7 @@ const routes = [
         path: 'face-recognition/manage',
         name: 'face-recognition.manage',
         component: FaceRecognitionManage,
-        meta: { 
+        meta: {
           title: 'Manage Face Recognition',
           subtitle: 'Manage employee facial recognition data',
           showHeader: true,
@@ -456,26 +503,24 @@ const routes = [
           ]
         }
       },
-      
+
       // Reports Routes
       {
         path: 'reports',
         name: 'reports',
         component: ReportsDashboard,
-        meta: { 
+        meta: {
           title: 'Reports & Analytics',
           subtitle: 'Attendance and payroll reports',
           showHeader: true,
-          breadcrumbs: [
-            { label: 'Reports', icon: 'chart-bar' }
-          ]
+          breadcrumbs: [{ label: 'Reports', icon: 'chart-bar' }]
         }
       },
       {
         path: 'reports/attendance',
         name: 'reports.attendance',
         component: AttendanceReports,
-        meta: { 
+        meta: {
           title: 'Attendance Reports',
           subtitle: 'Detailed attendance analytics',
           showHeader: true,
@@ -489,7 +534,7 @@ const routes = [
         path: 'reports/payroll',
         name: 'reports.payroll',
         component: PayrollReports,
-        meta: { 
+        meta: {
           title: 'Payroll Reports',
           subtitle: 'Payroll and financial analytics',
           showHeader: true,
@@ -503,7 +548,7 @@ const routes = [
         path: 'reports/leave',
         name: 'reports.leave',
         component: LeaveReports,
-        meta: { 
+        meta: {
           title: 'Leave Reports',
           subtitle: 'Leave usage and analytics',
           showHeader: true,
@@ -513,7 +558,7 @@ const routes = [
           ]
         }
       },
-      
+
       // Settings Routes
       {
         path: 'settings',
@@ -523,7 +568,7 @@ const routes = [
         path: 'settings/general',
         name: 'settings.general',
         component: SettingsGeneral,
-        meta: { 
+        meta: {
           title: 'General Settings',
           subtitle: 'System configuration and preferences',
           showHeader: true,
@@ -537,7 +582,7 @@ const routes = [
         path: 'settings/attendance',
         name: 'settings.attendance',
         component: SettingsAttendance,
-        meta: { 
+        meta: {
           title: 'Attendance Settings',
           subtitle: 'Attendance rules and policies',
           showHeader: true,
@@ -551,7 +596,7 @@ const routes = [
         path: 'settings/leave',
         name: 'settings.leave',
         component: SettingsLeave,
-        meta: { 
+        meta: {
           title: 'Leave Settings',
           subtitle: 'Leave policies and configuration',
           showHeader: true,
@@ -561,69 +606,61 @@ const routes = [
           ]
         }
       },
-      
+
       // Profile Route
       {
         path: 'profile',
         name: 'profile',
         component: Profile,
-        meta: { 
+        meta: {
           title: 'Profile',
           subtitle: 'User profile and account settings',
           showHeader: true,
-          breadcrumbs: [
-            { label: 'Profile', icon: 'user' }
-          ]
+          breadcrumbs: [{ label: 'Profile', icon: 'user' }]
         }
       },
-      
+
       // School Calendar Route
       {
         path: 'calendar',
         name: 'calendar',
         component: SchoolCalendar,
-        meta: { 
+        meta: {
           title: 'School Calendar',
           subtitle: 'Academic calendar and events',
           showHeader: true,
-          breadcrumbs: [
-            { label: 'Calendar', icon: 'calendar-event' }
-          ]
+          breadcrumbs: [{ label: 'Calendar', icon: 'calendar-event' }]
         }
       },
-      
+
       // Period Management Route
       {
         path: 'periods',
         name: 'periods',
         component: PeriodManagement,
-        meta: { 
+        meta: {
           title: 'Period Management',
           subtitle: 'Manage academic periods and terms',
           showHeader: true,
-          breadcrumbs: [
-            { label: 'Period Management', icon: 'calendar-time' }
-          ]
+          breadcrumbs: [{ label: 'Period Management', icon: 'calendar-time' }]
         }
       },
-      
+
       // Notifications Route
       {
         path: 'notifications',
         name: 'notifications',
         component: NotificationsPage,
-        meta: { 
+        meta: {
           title: 'Notifications',
           subtitle: 'Manage your notifications and preferences',
           showHeader: true,
-          breadcrumbs: [
-            { label: 'Notifications', icon: 'bell' }
-          ]
+          breadcrumbs: [{ label: 'Notifications', icon: 'bell' }]
         }
       }
     ]
   },
-  
+
   // Catch all
   {
     path: '/:pathMatch(.*)*',
@@ -639,9 +676,9 @@ const router = createRouter({
 // Enhanced Navigation Guard with preloading and error handling
 router.beforeEach(async (to, from, next) => {
   console.log(`🧭 Navigation: ${from.path} → ${to.path}`)
-  
+
   const authStore = useAuthStore()
-  
+
   // Initialize auth properly if not already done
   if (!authStore.initialized) {
     try {
@@ -652,11 +689,11 @@ router.beforeEach(async (to, from, next) => {
       authStore.clearAuth()
     }
   }
-  
+
   const isAuthenticated = authStore.isAuthenticated
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const isGuest = to.matched.some(record => record.meta.guest)
-  
+
   // Auth validation
   if (requiresAuth && !isAuthenticated) {
     console.log('🚫 Access denied - authentication required')
@@ -671,7 +708,7 @@ router.beforeEach(async (to, from, next) => {
     next(redirect)
     return
   }
-  
+
   // Preload component if it's lazy loaded
   const targetRoute = to.matched[to.matched.length - 1]
   if (targetRoute && typeof targetRoute.components?.default === 'function') {
@@ -684,7 +721,7 @@ router.beforeEach(async (to, from, next) => {
       // Continue navigation even if preload fails
     }
   }
-  
+
   // All good - proceed with navigation
   console.log(`✅ Navigation approved: ${to.path}`)
   next()
@@ -696,17 +733,17 @@ router.afterEach(async (to, from, failure) => {
     console.error('❌ Navigation failed:', failure)
     return
   }
-  
+
   console.log(`🎯 Navigation completed: ${to.path}`)
-  
+
   // Wait for DOM to be ready
   await nextTick()
-  
+
   // Clear any focus to prevent blue border
   if (document.activeElement && document.activeElement !== document.body) {
     document.activeElement.blur()
   }
-  
+
   // Update document title
   if (to.meta.title) {
     document.title = `${to.meta.title} - Attendance System`
@@ -714,9 +751,9 @@ router.afterEach(async (to, from, failure) => {
 })
 
 // Navigation error handling
-router.onError((error) => {
+router.onError(error => {
   console.error('🚨 Router error:', error)
-  
+
   // Try to recover from navigation errors
   if (error.message.includes('Loading chunk') || error.message.includes('Loading CSS chunk')) {
     console.log('🔄 Chunk loading error detected - attempting recovery...')

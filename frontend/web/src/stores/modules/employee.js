@@ -4,7 +4,7 @@
  */
 
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { employeeService } from '@/services/employeeService.js'
 
 export const useEmployeeStore = defineStore('employee', () => {
@@ -22,10 +22,10 @@ export const useEmployeeStore = defineStore('employee', () => {
 
   // Getters
   const all = computed(() => ids.value.map(id => entities.value[id]))
-  const byId = computed(() => (id) => entities.value[id])
+  const byId = computed(() => id => entities.value[id])
   const filtered = computed(() => {
     let employees = all.value
-    
+
     // Apply filters
     if (filters.value.type) {
       employees = employees.filter(emp => emp.employee_type === filters.value.type)
@@ -35,13 +35,14 @@ export const useEmployeeStore = defineStore('employee', () => {
     }
     if (filters.value.search) {
       const search = filters.value.search.toLowerCase()
-      employees = employees.filter(emp => 
-        emp.name.toLowerCase().includes(search) ||
-        emp.email.toLowerCase().includes(search) ||
-        emp.employee_id.toLowerCase().includes(search)
+      employees = employees.filter(
+        emp =>
+          emp.name.toLowerCase().includes(search) ||
+          emp.email.toLowerCase().includes(search) ||
+          emp.employee_id.toLowerCase().includes(search)
       )
     }
-    
+
     return employees
   })
 
@@ -52,15 +53,15 @@ export const useEmployeeStore = defineStore('employee', () => {
       inactive: 0,
       byType: {}
     }
-    
+
     all.value.forEach(employee => {
       if (employee.is_active) stats.active++
       else stats.inactive++
-      
+
       const type = employee.employee_type
       stats.byType[type] = (stats.byType[type] || 0) + 1
     })
-    
+
     return stats
   })
 
@@ -68,26 +69,26 @@ export const useEmployeeStore = defineStore('employee', () => {
   const fetchAll = async (params = {}) => {
     loading.value = true
     error.value = null
-    
+
     try {
       const response = await employeeService.getAll(params)
-      
+
       // Normalize data
       const normalized = {}
       const newIds = []
-      
+
       response.data.forEach(employee => {
         normalized[employee.id] = employee
         newIds.push(employee.id)
       })
-      
+
       entities.value = normalized
       ids.value = newIds
-      
+
       if (response.pagination) {
         pagination.value = response.pagination
       }
-      
+
       return response
     } catch (err) {
       error.value = err.message
@@ -97,11 +98,11 @@ export const useEmployeeStore = defineStore('employee', () => {
     }
   }
 
-  const fetchById = async (id) => {
+  const fetchById = async id => {
     if (entities.value[id]) {
       return entities.value[id]
     }
-    
+
     loading.value = true
     try {
       const response = await employeeService.getById(id)
@@ -118,15 +119,15 @@ export const useEmployeeStore = defineStore('employee', () => {
     }
   }
 
-  const create = async (employeeData) => {
+  const create = async employeeData => {
     loading.value = true
     try {
       const response = await employeeService.create(employeeData)
       const employee = response.data
-      
+
       entities.value[employee.id] = employee
       ids.value.push(employee.id)
-      
+
       return employee
     } catch (err) {
       error.value = err.message
@@ -141,9 +142,9 @@ export const useEmployeeStore = defineStore('employee', () => {
     try {
       const response = await employeeService.update(id, employeeData)
       const employee = response.data
-      
+
       entities.value[id] = employee
-      
+
       return employee
     } catch (err) {
       error.value = err.message
@@ -153,14 +154,14 @@ export const useEmployeeStore = defineStore('employee', () => {
     }
   }
 
-  const remove = async (id) => {
+  const remove = async id => {
     loading.value = true
     try {
       await employeeService.delete(id)
-      
+
       delete entities.value[id]
       ids.value = ids.value.filter(existingId => existingId !== id)
-      
+
       return true
     } catch (err) {
       error.value = err.message
@@ -170,7 +171,7 @@ export const useEmployeeStore = defineStore('employee', () => {
     }
   }
 
-  const setFilters = (newFilters) => {
+  const setFilters = newFilters => {
     filters.value = { ...filters.value, ...newFilters }
   }
 
@@ -194,13 +195,13 @@ export const useEmployeeStore = defineStore('employee', () => {
     error,
     filters,
     pagination,
-    
+
     // Getters
     all,
     byId,
     filtered,
     statistics,
-    
+
     // Actions
     fetchAll,
     fetchById,

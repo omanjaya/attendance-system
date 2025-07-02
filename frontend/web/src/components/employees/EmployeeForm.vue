@@ -1,6 +1,6 @@
 <template>
   <div class="employee-form">
-    <form @submit.prevent="handleSubmit" novalidate>
+    <form novalidate @submit.prevent="handleSubmit">
       <!-- Basic Information -->
       <div class="card mb-3">
         <div class="card-header">
@@ -15,7 +15,7 @@
             <div class="col-12 col-md-3 mb-3">
               <div class="text-center">
                 <div class="avatar avatar-xl mb-3 mx-auto position-relative">
-                  <img 
+                  <img
                     v-if="photoPreview || form.photo"
                     :src="photoPreview || form.photo"
                     alt="Employee photo"
@@ -24,17 +24,13 @@
                   <span v-else class="avatar-placeholder">
                     {{ getInitials(form.name) }}
                   </span>
-                  
+
                   <!-- Photo Upload Button -->
-                  <button
-                    type="button"
-                    class="avatar-upload-btn"
-                    @click="$refs.photoInput.click()"
-                  >
+                  <button type="button" class="avatar-upload-btn" @click="$refs.photoInput.click()">
                     <TablerIcon name="camera" size="sm" />
                   </button>
                 </div>
-                
+
                 <input
                   ref="photoInput"
                   type="file"
@@ -42,14 +38,14 @@
                   class="d-none"
                   @change="handlePhotoUpload"
                 />
-                
+
                 <div class="small text-muted">
-                  Click to upload photo<br>
+                  Click to upload photo<br />
                   (Max 2MB, JPG/PNG)
                 </div>
               </div>
             </div>
-            
+
             <div class="col-12 col-md-9">
               <div class="row">
                 <!-- Full Name -->
@@ -64,7 +60,7 @@
                     @blur="validateField('name')"
                   />
                 </div>
-                
+
                 <!-- Employee ID -->
                 <div class="col-md-6">
                   <FormField
@@ -77,7 +73,7 @@
                     @blur="validateField('employee_id')"
                   />
                 </div>
-                
+
                 <!-- Email -->
                 <div class="col-md-6">
                   <FormField
@@ -90,7 +86,7 @@
                     @blur="validateField('email')"
                   />
                 </div>
-                
+
                 <!-- Phone -->
                 <div class="col-md-6">
                   <FormField
@@ -107,7 +103,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Employment Details -->
       <div class="card mb-3">
         <div class="card-header">
@@ -131,7 +127,7 @@
                 @change="validateField('employee_type')"
               />
             </div>
-            
+
             <!-- Department -->
             <div class="col-md-6">
               <FormField
@@ -145,7 +141,7 @@
                 @change="validateField('department_id')"
               />
             </div>
-            
+
             <!-- Position -->
             <div class="col-md-6">
               <FormField
@@ -158,7 +154,7 @@
                 @blur="validateField('position')"
               />
             </div>
-            
+
             <!-- Hire Date -->
             <div class="col-md-6">
               <FormField
@@ -170,7 +166,7 @@
                 @change="validateField('hire_date')"
               />
             </div>
-            
+
             <!-- Salary -->
             <div class="col-md-6">
               <FormField
@@ -184,7 +180,7 @@
                 @blur="validateField('salary')"
               />
             </div>
-            
+
             <!-- Status -->
             <div class="col-md-6">
               <FormField
@@ -200,7 +196,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Personal Information -->
       <div class="card mb-3">
         <div class="card-header">
@@ -221,7 +217,7 @@
                 @change="validateField('date_of_birth')"
               />
             </div>
-            
+
             <!-- Gender -->
             <div class="col-md-6">
               <FormField
@@ -234,7 +230,7 @@
                 @change="validateField('gender')"
               />
             </div>
-            
+
             <!-- Address -->
             <div class="col-12">
               <FormField
@@ -247,7 +243,7 @@
                 @blur="validateField('address')"
               />
             </div>
-            
+
             <!-- Emergency Contact -->
             <div class="col-md-6">
               <FormField
@@ -259,7 +255,7 @@
                 @blur="validateField('emergency_contact_name')"
               />
             </div>
-            
+
             <div class="col-md-6">
               <FormField
                 v-model="form.emergency_contact_phone"
@@ -273,7 +269,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Account Settings (only for create mode) -->
       <div v-if="mode === 'create'" class="card mb-3">
         <div class="card-header">
@@ -297,7 +293,7 @@
                 @blur="validateField('password')"
               />
             </div>
-            
+
             <!-- Confirm Password -->
             <div class="col-md-6">
               <FormField
@@ -310,7 +306,7 @@
                 @blur="validateField('password_confirmation')"
               />
             </div>
-            
+
             <!-- Send Welcome Email -->
             <div class="col-12">
               <FormField
@@ -323,7 +319,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Form Actions -->
       <div class="card">
         <div class="card-body">
@@ -333,17 +329,13 @@
                 <button
                   type="button"
                   class="btn btn-outline-secondary"
-                  @click="handleCancel"
                   :disabled="loading"
+                  @click="handleCancel"
                 >
                   Cancel
                 </button>
-                
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  :disabled="loading || !isFormValid"
-                >
+
+                <button type="submit" class="btn btn-primary" :disabled="loading || !isFormValid">
                   <LoadingSpinner v-if="loading" size="sm" class="me-2" />
                   <TablerIcon v-else :name="mode === 'create' ? 'plus' : 'check'" class="me-2" />
                   {{ mode === 'create' ? 'Create Employee' : 'Update Employee' }}
@@ -358,7 +350,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch, onMounted } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useEmployeeStore } from '@/stores/modules/employee'
 import { useNotifications } from '@/composables/useNotifications'
 import FormField from '@/components/common/FormField.vue'
@@ -373,7 +365,7 @@ const props = defineProps({
   mode: {
     type: String,
     default: 'create',
-    validator: (value) => ['create', 'edit'].includes(value)
+    validator: value => ['create', 'edit'].includes(value)
   }
 })
 
@@ -446,12 +438,20 @@ const departments = ref([
 
 // Computed
 const isFormValid = computed(() => {
-  const requiredFields = ['name', 'employee_id', 'email', 'employee_type', 'department_id', 'position', 'hire_date']
-  
+  const requiredFields = [
+    'name',
+    'employee_id',
+    'email',
+    'employee_type',
+    'department_id',
+    'position',
+    'hire_date'
+  ]
+
   if (props.mode === 'create') {
     requiredFields.push('password', 'password_confirmation')
   }
-  
+
   return requiredFields.every(field => {
     return form[field] && form[field] !== '' && !errors[field]
   })
@@ -465,7 +465,7 @@ const initializeForm = () => {
         form[key] = props.employee[key]
       }
     })
-    
+
     // Handle department
     if (props.employee.department) {
       form.department_id = props.employee.department.id
@@ -478,95 +478,97 @@ const initializeForm = () => {
 
 const generateEmployeeId = () => {
   const year = new Date().getFullYear()
-  const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0')
+  const random = Math.floor(Math.random() * 10000)
+    .toString()
+    .padStart(4, '0')
   return `EMP${year}${random}`
 }
 
-const validateField = (fieldName) => {
+const validateField = fieldName => {
   const value = form[fieldName]
   let error = ''
-  
+
   switch (fieldName) {
-    case 'name':
-      if (!value || value.trim().length < 2) {
-        error = 'Name must be at least 2 characters long'
-      }
-      break
-      
-    case 'employee_id':
-      if (!value || value.trim().length < 3) {
-        error = 'Employee ID must be at least 3 characters long'
-      }
-      break
-      
-    case 'email':
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  case 'name':
+    if (!value || value.trim().length < 2) {
+      error = 'Name must be at least 2 characters long'
+    }
+    break
+
+  case 'employee_id':
+    if (!value || value.trim().length < 3) {
+      error = 'Employee ID must be at least 3 characters long'
+    }
+    break
+
+  case 'email':
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!value) {
+      error = 'Email is required'
+    } else if (!emailRegex.test(value)) {
+      error = 'Please enter a valid email address'
+    }
+    break
+
+  case 'phone':
+    if (value && !/^[\d\s\-\+\(\)]{10,}$/.test(value)) {
+      error = 'Please enter a valid phone number'
+    }
+    break
+
+  case 'password':
+    if (props.mode === 'create') {
       if (!value) {
-        error = 'Email is required'
-      } else if (!emailRegex.test(value)) {
-        error = 'Please enter a valid email address'
+        error = 'Password is required'
+      } else if (value.length < 8) {
+        error = 'Password must be at least 8 characters long'
+      } else if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(value)) {
+        error = 'Password must contain at least one letter and one number'
       }
-      break
-      
-    case 'phone':
-      if (value && !/^[\d\s\-\+\(\)]{10,}$/.test(value)) {
-        error = 'Please enter a valid phone number'
-      }
-      break
-      
-    case 'password':
-      if (props.mode === 'create') {
-        if (!value) {
-          error = 'Password is required'
-        } else if (value.length < 8) {
-          error = 'Password must be at least 8 characters long'
-        } else if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(value)) {
-          error = 'Password must contain at least one letter and one number'
-        }
-      }
-      break
-      
-    case 'password_confirmation':
-      if (props.mode === 'create') {
-        if (!value) {
-          error = 'Please confirm your password'
-        } else if (value !== form.password) {
-          error = 'Passwords do not match'
-        }
-      }
-      break
-      
-    case 'hire_date':
+    }
+    break
+
+  case 'password_confirmation':
+    if (props.mode === 'create') {
       if (!value) {
-        error = 'Hire date is required'
-      } else if (new Date(value) > new Date()) {
-        error = 'Hire date cannot be in the future'
+        error = 'Please confirm your password'
+      } else if (value !== form.password) {
+        error = 'Passwords do not match'
       }
-      break
-      
-    case 'date_of_birth':
-      if (value) {
-        const birthDate = new Date(value)
-        const today = new Date()
-        const age = today.getFullYear() - birthDate.getFullYear()
-        
-        if (birthDate > today) {
-          error = 'Date of birth cannot be in the future'
-        } else if (age < 16) {
-          error = 'Employee must be at least 16 years old'
-        } else if (age > 100) {
-          error = 'Please enter a valid date of birth'
-        }
+    }
+    break
+
+  case 'hire_date':
+    if (!value) {
+      error = 'Hire date is required'
+    } else if (new Date(value) > new Date()) {
+      error = 'Hire date cannot be in the future'
+    }
+    break
+
+  case 'date_of_birth':
+    if (value) {
+      const birthDate = new Date(value)
+      const today = new Date()
+      const age = today.getFullYear() - birthDate.getFullYear()
+
+      if (birthDate > today) {
+        error = 'Date of birth cannot be in the future'
+      } else if (age < 16) {
+        error = 'Employee must be at least 16 years old'
+      } else if (age > 100) {
+        error = 'Please enter a valid date of birth'
       }
-      break
-      
-    case 'salary':
-      if (value && (isNaN(value) || parseFloat(value) < 0)) {
-        error = 'Salary must be a positive number'
-      }
-      break
+    }
+    break
+
+  case 'salary':
+    if (value && (isNaN(value) || parseFloat(value) < 0)) {
+      error = 'Salary must be a positive number'
+    }
+    break
   }
-  
+
   if (error) {
     errors[fieldName] = error
   } else {
@@ -580,10 +582,10 @@ const validateForm = () => {
   return Object.keys(errors).length === 0
 }
 
-const handlePhotoUpload = (event) => {
+const handlePhotoUpload = event => {
   const file = event.target.files[0]
   if (!file) return
-  
+
   // Validate file type
   if (!file.type.startsWith('image/')) {
     showNotification({
@@ -593,7 +595,7 @@ const handlePhotoUpload = (event) => {
     })
     return
   }
-  
+
   // Validate file size (2MB)
   if (file.size > 2 * 1024 * 1024) {
     showNotification({
@@ -603,12 +605,12 @@ const handlePhotoUpload = (event) => {
     })
     return
   }
-  
+
   photoFile.value = file
-  
+
   // Create preview
   const reader = new FileReader()
-  reader.onload = (e) => {
+  reader.onload = e => {
     photoPreview.value = e.target.result
   }
   reader.readAsDataURL(file)
@@ -623,34 +625,34 @@ const handleSubmit = async () => {
     })
     return
   }
-  
+
   loading.value = true
-  
+
   try {
     let employee
-    
+
     if (props.mode === 'create') {
       employee = await employeeStore.create(form)
     } else {
       employee = await employeeStore.update(props.employee.id, form)
     }
-    
+
     // Upload photo if provided
     if (photoFile.value) {
       await employeeStore.uploadPhoto(employee.id, photoFile.value)
     }
-    
+
     emit('success', employee)
   } catch (error) {
     console.error('Form submission error:', error)
-    
+
     // Handle validation errors from server
     if (error.response?.data?.errors) {
       Object.keys(error.response.data.errors).forEach(field => {
         errors[field] = error.response.data.errors[field][0]
       })
     }
-    
+
     showNotification({
       type: 'error',
       title: 'Submission Failed',
@@ -665,17 +667,25 @@ const handleCancel = () => {
   emit('cancel')
 }
 
-const getInitials = (name) => {
+const getInitials = name => {
   if (!name) return 'NA'
-  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+  return name
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
 }
 
 // Watchers
-watch(() => form.password, () => {
-  if (form.password_confirmation) {
-    validateField('password_confirmation')
+watch(
+  () => form.password,
+  () => {
+    if (form.password_confirmation) {
+      validateField('password_confirmation')
+    }
   }
-})
+)
 
 // Lifecycle
 onMounted(() => {
@@ -758,16 +768,16 @@ onMounted(() => {
   .card-body {
     padding: 1rem;
   }
-  
+
   .avatar {
     margin-bottom: 1rem;
   }
-  
+
   .d-flex.justify-content-end {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .d-flex.justify-content-end .btn {
     width: 100%;
   }

@@ -1,29 +1,40 @@
 <template>
-  <aside 
+  <aside
     class="navbar navbar-vertical navbar-expand-lg"
-    :class="{ 
+    :class="{
       'navbar-dark': !isDarkMode,
       'navbar-light': isDarkMode,
-      'navbar-collapsed': isCollapsed 
+      'navbar-collapsed': isCollapsed
     }"
   >
     <div class="container-fluid">
       <!-- Brand -->
-      <button 
+      <button
         class="navbar-toggler"
         type="button"
-        @click="$emit('toggle-mobile')"
         aria-label="Toggle navigation"
+        @click="$emit('toggle-mobile')"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      
+
       <h1 class="navbar-brand navbar-brand-autodark">
         <router-link to="/" class="text-decoration-none d-flex align-items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-            <circle cx="12" cy="12" r="9"/>
-            <polyline points="12 7 12 12 15 15"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-md me-2"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <circle cx="12" cy="12" r="9" />
+            <polyline points="12 7 12 12 15 15" />
           </svg>
           <span class="d-none d-lg-inline">{{ appName }}</span>
           <span class="d-lg-none">{{ appShortName }}</span>
@@ -36,19 +47,19 @@
       </div>
 
       <!-- Sidebar Navigation -->
-      <div class="collapse navbar-collapse" id="sidebar-menu">
+      <div id="sidebar-menu" class="collapse navbar-collapse">
         <ul class="navbar-nav pt-lg-3">
-          <li 
+          <li
             v-for="item in navigation"
             :key="item.id"
             class="nav-item"
-            :class="{ 
-              'dropdown': item.children,
-              'active': isActiveGroup(item) 
+            :class="{
+              dropdown: item.children,
+              active: isActiveGroup(item)
             }"
           >
             <!-- Single Link -->
-            <router-link 
+            <router-link
               v-if="!item.children"
               class="nav-link"
               :to="item.to"
@@ -62,7 +73,7 @@
 
             <!-- Dropdown Group -->
             <template v-else>
-              <a 
+              <a
                 class="nav-link dropdown-toggle"
                 :href="`#navbar-${item.id}`"
                 data-bs-toggle="dropdown"
@@ -101,12 +112,7 @@
         <div class="navbar-footer d-none d-lg-flex">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a 
-                href="#"
-                class="nav-link"
-                @click.prevent="toggleCollapse"
-                title="Collapse sidebar"
-              >
+              <a href="#" class="nav-link" title="Collapse sidebar" @click.prevent="toggleCollapse">
                 <span class="nav-link-icon">
                   <TablerIcon :name="isCollapsed ? 'chevron-right' : 'chevron-left'" />
                 </span>
@@ -121,7 +127,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUIStore } from '@/stores/modules/ui'
 import UserDropdown from './UserDropdown.vue'
@@ -205,7 +211,7 @@ const toggleCollapse = () => {
     width: 100%;
     height: auto;
   }
-  
+
   .navbar-vertical.navbar-collapsed {
     width: 100%;
   }

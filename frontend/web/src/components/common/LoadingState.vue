@@ -1,24 +1,20 @@
 <template>
-  <div 
+  <div
     class="loading-state"
-    :class="[
-      `loading-${variant}`,
-      `loading-${size}`,
-      { 'loading-overlay': overlay }
-    ]"
+    :class="[`loading-${variant}`, `loading-${size}`, { 'loading-overlay': overlay }]"
     :aria-label="ariaLabel"
     role="status"
     aria-live="polite"
   >
     <div v-if="overlay" class="loading-backdrop"></div>
-    
+
     <div class="loading-content">
       <!-- Spinner Variants -->
       <div v-if="variant === 'spinner'" class="loading-spinner">
         <div class="spinner"></div>
         <div v-if="message" class="loading-message">{{ message }}</div>
       </div>
-      
+
       <!-- Dots Variants -->
       <div v-else-if="variant === 'dots'" class="loading-dots">
         <div class="dot"></div>
@@ -26,25 +22,22 @@
         <div class="dot"></div>
         <div v-if="message" class="loading-message">{{ message }}</div>
       </div>
-      
+
       <!-- Pulse Variants -->
       <div v-else-if="variant === 'pulse'" class="loading-pulse">
         <div class="pulse-circle"></div>
         <div v-if="message" class="loading-message">{{ message }}</div>
       </div>
-      
+
       <!-- Progress Bar -->
       <div v-else-if="variant === 'progress'" class="loading-progress">
         <div v-if="message" class="loading-message">{{ message }}</div>
         <div class="progress-bar">
-          <div 
-            class="progress-fill"
-            :style="{ width: `${progress}%` }"
-          ></div>
+          <div class="progress-fill" :style="{ width: `${progress}%` }"></div>
         </div>
         <div v-if="showPercentage" class="progress-percentage">{{ progress }}%</div>
       </div>
-      
+
       <!-- Custom Icon -->
       <div v-else-if="variant === 'icon'" class="loading-icon">
         <svg class="loading-icon-svg">
@@ -52,7 +45,7 @@
         </svg>
         <div v-if="message" class="loading-message">{{ message }}</div>
       </div>
-      
+
       <!-- Skeleton Screen -->
       <div v-else-if="variant === 'skeleton'" class="loading-skeleton">
         <SkeletonLoader
@@ -63,7 +56,7 @@
           :animated="true"
         />
       </div>
-      
+
       <!-- Card Placeholder -->
       <div v-else-if="variant === 'card'" class="loading-card-placeholder">
         <div class="card-placeholder">
@@ -82,16 +75,12 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Table Placeholder -->
       <div v-else-if="variant === 'table'" class="loading-table-placeholder">
-        <SkeletonLoader
-          variant="table"
-          :rows="skeletonRows || 5"
-          :columns="skeletonColumns || 4"
-        />
+        <SkeletonLoader variant="table" :rows="skeletonRows || 5" :columns="skeletonColumns || 4" />
       </div>
-      
+
       <!-- Default Spinner -->
       <div v-else class="loading-spinner">
         <div class="spinner"></div>
@@ -109,50 +98,48 @@ defineProps({
   variant: {
     type: String,
     default: 'spinner',
-    validator: (value) => [
-      'spinner', 'dots', 'pulse', 'progress', 'icon', 
-      'skeleton', 'card', 'table'
-    ].includes(value)
+    validator: value =>
+      ['spinner', 'dots', 'pulse', 'progress', 'icon', 'skeleton', 'card', 'table'].includes(value)
   },
-  
+
   // Size of the loading indicator
   size: {
     type: String,
     default: 'medium',
-    validator: (value) => ['small', 'medium', 'large'].includes(value)
+    validator: value => ['small', 'medium', 'large'].includes(value)
   },
-  
+
   // Loading message
   message: {
     type: String,
     default: ''
   },
-  
+
   // Progress value (0-100) for progress variant
   progress: {
     type: Number,
     default: 0,
-    validator: (value) => value >= 0 && value <= 100
+    validator: value => value >= 0 && value <= 100
   },
-  
+
   // Show percentage for progress variant
   showPercentage: {
     type: Boolean,
     default: false
   },
-  
+
   // Icon for icon variant
   icon: {
     type: String,
     default: 'loader'
   },
-  
+
   // Overlay mode
   overlay: {
     type: Boolean,
     default: false
   },
-  
+
   // Skeleton-specific props
   skeletonType: {
     type: String,
@@ -170,7 +157,7 @@ defineProps({
     type: Number,
     default: 4
   },
-  
+
   // Accessibility
   ariaLabel: {
     type: String,
@@ -262,8 +249,12 @@ defineProps({
 }
 
 @keyframes spinner-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Dots Variant */
@@ -283,12 +274,20 @@ defineProps({
   animation: dots-bounce 1.4s ease-in-out both infinite;
 }
 
-.loading-dots .dot:nth-child(1) { animation-delay: -0.32s; }
-.loading-dots .dot:nth-child(2) { animation-delay: -0.16s; }
-.loading-dots .dot:nth-child(3) { animation-delay: 0s; }
+.loading-dots .dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.loading-dots .dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+.loading-dots .dot:nth-child(3) {
+  animation-delay: 0s;
+}
 
 @keyframes dots-bounce {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0);
   }
   40% {
@@ -367,8 +366,12 @@ defineProps({
 }
 
 @keyframes icon-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Skeleton Variant */
@@ -420,11 +423,11 @@ defineProps({
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .loading-backdrop {
+[data-theme='dark'] .loading-backdrop {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-[data-theme="dark"] .spinner {
+[data-theme='dark'] .spinner {
   border-color: var(--color-gray-700);
   border-top-color: var(--color-primary);
 }
@@ -435,12 +438,12 @@ defineProps({
   .loading-icon-svg {
     animation: none;
   }
-  
+
   .loading-dots .dot {
     animation: none;
     opacity: 0.7;
   }
-  
+
   .pulse-circle {
     animation: none;
     opacity: 0.7;
@@ -452,11 +455,11 @@ defineProps({
   .loading-progress {
     max-width: 100%;
   }
-  
+
   .card-placeholder {
     padding: var(--space-3);
   }
-  
+
   .card-actions-placeholder {
     flex-direction: column;
   }

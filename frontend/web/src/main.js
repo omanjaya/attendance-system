@@ -22,38 +22,38 @@ axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 // Add request interceptor to handle CSRF token
 axios.interceptors.request.use(
-  (config) => {
+  config => {
     // Get XSRF token from cookie
     const token = document.cookie
       .split('; ')
       .find(row => row.startsWith('XSRF-TOKEN='))
       ?.split('=')[1]
-    
+
     if (token) {
       config.headers['X-XSRF-TOKEN'] = decodeURIComponent(token)
     }
-    
+
     return config
   },
-  (error) => {
+  error => {
     return Promise.reject(error)
   }
 )
 
 // Add response interceptor for error handling
 axios.interceptors.response.use(
-  (response) => response,
-  async (error) => {
+  response => response,
+  async error => {
     const originalRequest = error.config
-    
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
-      
+
       // Try to refresh token first
       try {
         // Import authStore reference from below
         const refreshed = await authStore.refreshToken()
-        
+
         if (refreshed) {
           // Retry the original request with new token
           return axios(originalRequest)
@@ -61,7 +61,7 @@ axios.interceptors.response.use(
       } catch (refreshError) {
         console.warn('Token refresh failed:', refreshError)
       }
-      
+
       // If refresh fails or no token, clear auth and redirect
       authStore.clearAuth()
       if (window.location.pathname !== '/auth/login') {
@@ -71,7 +71,7 @@ axios.interceptors.response.use(
       // Session expired - refresh page
       window.location.reload()
     }
-    
+
     return Promise.reject(error)
   }
 )
@@ -138,7 +138,7 @@ import { accessibilityDirective } from './composables/useAccessibility'
 app.directive('a11y', accessibilityDirective)
 
 // Global performance system
-import { performanceDirective, lazyDirective } from './composables/usePerformance'
+import { lazyDirective, performanceDirective } from './composables/usePerformance'
 app.directive('performance', performanceDirective)
 app.directive('lazy', lazyDirective)
 
@@ -179,7 +179,7 @@ app.config.errorHandler = (error, vm, info) => {
   if (originalErrorHandler) {
     originalErrorHandler(error, vm, info)
   }
-  
+
   // Enhanced error tracking
   performanceMonitor.recordMetric('applicationError', {
     error: error.message,
@@ -197,16 +197,16 @@ if (process.env.NODE_ENV === 'development') {
   window.performanceMonitor = performanceMonitor
   window.featureFlags = featureFlags
   window.codeQualityMetrics = codeQualityMetrics
-  
+
   // Performance warnings
-  const devObserver = new PerformanceObserver((list) => {
+  const devObserver = new PerformanceObserver(list => {
     for (const entry of list.getEntries()) {
       if (entry.duration > 16.67) {
         console.warn('⚠️ Slow performance detected:', entry.name, `${entry.duration.toFixed(2)}ms`)
       }
     }
   })
-  
+
   try {
     devObserver.observe({ entryTypes: ['measure'] })
   } catch (e) {
@@ -217,7 +217,7 @@ if (process.env.NODE_ENV === 'development') {
 // Mount app
 app.mount('#app')
 
-// Get initial CSRF cookie  
+// Get initial CSRF cookie
 axios.get('/sanctum/csrf-cookie').catch(error => {
   console.warn('Failed to get CSRF cookie:', error)
 })

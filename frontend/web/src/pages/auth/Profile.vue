@@ -6,13 +6,16 @@
           <div class="card-header">
             <h3 class="card-title">Profile Settings</h3>
           </div>
-          
+
           <div class="card-body">
             <form @submit.prevent="updateProfile">
               <!-- Avatar -->
               <div class="row align-items-center mb-3">
                 <div class="col-auto">
-                  <span class="avatar avatar-xl" :style="`background-image: url(${userAvatar})`"></span>
+                  <span
+                    class="avatar avatar-xl"
+                    :style="`background-image: url(${userAvatar})`"
+                  ></span>
                 </div>
                 <div class="col">
                   <div class="mb-2">
@@ -24,51 +27,47 @@
                   </div>
                 </div>
               </div>
-              
+
               <!-- Name -->
               <div class="mb-3">
                 <label class="form-label">Full Name</label>
-                <input 
+                <input
                   v-model="form.name"
-                  type="text" 
+                  type="text"
                   class="form-control"
                   :class="{ 'is-invalid': errors.name }"
                   required
-                >
+                />
                 <div v-if="errors.name" class="invalid-feedback">{{ errors.name }}</div>
               </div>
-              
+
               <!-- Email -->
               <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input 
+                <input
                   v-model="form.email"
-                  type="email" 
+                  type="email"
                   class="form-control"
                   :class="{ 'is-invalid': errors.email }"
                   required
-                >
+                />
                 <div v-if="errors.email" class="invalid-feedback">{{ errors.email }}</div>
               </div>
-              
+
               <!-- Phone -->
               <div class="mb-3">
                 <label class="form-label">Phone Number</label>
-                <input 
+                <input
                   v-model="form.phone"
-                  type="tel" 
+                  type="tel"
                   class="form-control"
                   placeholder="Enter phone number"
-                >
+                />
               </div>
-              
+
               <!-- Submit -->
               <div class="form-footer">
-                <button 
-                  type="submit" 
-                  class="btn btn-primary"
-                  :disabled="loading"
-                >
+                <button type="submit" class="btn btn-primary" :disabled="loading">
                   <span v-if="loading" class="spinner-border spinner-border-sm me-2"></span>
                   Update Profile
                 </button>
@@ -76,67 +75,63 @@
             </form>
           </div>
         </div>
-        
+
         <!-- Change Password -->
         <div class="card mt-4">
           <div class="card-header">
             <h3 class="card-title">Change Password</h3>
           </div>
-          
+
           <div class="card-body">
             <form @submit.prevent="changePassword">
               <!-- Current Password -->
               <div class="mb-3">
                 <label class="form-label">Current Password</label>
-                <input 
+                <input
                   v-model="passwordForm.current_password"
-                  type="password" 
+                  type="password"
                   class="form-control"
                   :class="{ 'is-invalid': passwordErrors.current_password }"
                   required
-                >
+                />
                 <div v-if="passwordErrors.current_password" class="invalid-feedback">
                   {{ passwordErrors.current_password }}
                 </div>
               </div>
-              
+
               <!-- New Password -->
               <div class="mb-3">
                 <label class="form-label">New Password</label>
-                <input 
+                <input
                   v-model="passwordForm.password"
-                  type="password" 
+                  type="password"
                   class="form-control"
                   :class="{ 'is-invalid': passwordErrors.password }"
                   required
-                >
+                />
                 <div v-if="passwordErrors.password" class="invalid-feedback">
                   {{ passwordErrors.password }}
                 </div>
               </div>
-              
+
               <!-- Confirm Password -->
               <div class="mb-3">
                 <label class="form-label">Confirm New Password</label>
-                <input 
+                <input
                   v-model="passwordForm.password_confirmation"
-                  type="password" 
+                  type="password"
                   class="form-control"
                   :class="{ 'is-invalid': passwordErrors.password_confirmation }"
                   required
-                >
+                />
                 <div v-if="passwordErrors.password_confirmation" class="invalid-feedback">
                   {{ passwordErrors.password_confirmation }}
                 </div>
               </div>
-              
+
               <!-- Submit -->
               <div class="form-footer">
-                <button 
-                  type="submit" 
-                  class="btn btn-warning"
-                  :disabled="passwordLoading"
-                >
+                <button type="submit" class="btn btn-warning" :disabled="passwordLoading">
                   <span v-if="passwordLoading" class="spinner-border spinner-border-sm me-2"></span>
                   Change Password
                 </button>
@@ -150,7 +145,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useAuthStore } from '../../stores/auth'
 
 const authStore = useAuthStore()
@@ -187,17 +182,17 @@ const passwordErrors = reactive({
 
 const updateProfile = async () => {
   // Clear errors
-  Object.keys(errors).forEach(key => errors[key] = '')
-  
+  Object.keys(errors).forEach(key => (errors[key] = ''))
+
   loading.value = true
-  
+
   try {
     const result = await authStore.updateProfile({
       name: form.name,
       email: form.email,
       phone: form.phone
     })
-    
+
     if (result.success) {
       // Success notification would go here
       console.log('Profile updated successfully')
@@ -216,26 +211,26 @@ const updateProfile = async () => {
 
 const changePassword = async () => {
   // Clear errors
-  Object.keys(passwordErrors).forEach(key => passwordErrors[key] = '')
-  
+  Object.keys(passwordErrors).forEach(key => (passwordErrors[key] = ''))
+
   // Validate passwords match
   if (passwordForm.password !== passwordForm.password_confirmation) {
     passwordErrors.password_confirmation = 'Passwords do not match'
     return
   }
-  
+
   passwordLoading.value = true
-  
+
   try {
     const result = await authStore.changePassword({
       current_password: passwordForm.current_password,
       password: passwordForm.password,
       password_confirmation: passwordForm.password_confirmation
     })
-    
+
     if (result.success) {
       // Clear form
-      Object.keys(passwordForm).forEach(key => passwordForm[key] = '')
+      Object.keys(passwordForm).forEach(key => (passwordForm[key] = ''))
       console.log('Password changed successfully')
     } else {
       // Handle validation errors

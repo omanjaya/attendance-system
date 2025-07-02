@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-3" style="background: #f8f9fa; border: 1px solid #dee2e6;">
+  <div class="card mb-3" style="background: #f8f9fa; border: 1px solid #dee2e6">
     <div class="card-header">
       <h6 class="card-title mb-0">🐛 Debug Information</h6>
     </div>
@@ -15,9 +15,7 @@
         </div>
       </div>
       <div class="mt-3">
-        <button class="btn btn-sm btn-outline-primary" @click="testApiCall">
-          Test API Call
-        </button>
+        <button class="btn btn-sm btn-outline-primary" @click="testApiCall">Test API Call</button>
         <button class="btn btn-sm btn-outline-secondary ms-2" @click="logCurrentConfig">
           Log Current Config
         </button>
@@ -27,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import api from '@/services/api'
 import axios from 'axios'
 
@@ -43,7 +41,7 @@ onMounted(() => {
     PROD: import.meta.env.PROD,
     BASE_URL: import.meta.env.BASE_URL
   }
-  
+
   // Capture axios configuration
   axiosConfig.value = {
     api_baseURL: api.defaults.baseURL,

@@ -1,17 +1,12 @@
 <template>
   <div class="global-search" :class="{ 'is-expanded': isExpanded }">
     <div class="search-input-wrapper">
-      <button
-        v-if="!isExpanded"
-        class="search-trigger"
-        @click="expandSearch"
-        :title="searchHint"
-      >
+      <button v-if="!isExpanded" class="search-trigger" :title="searchHint" @click="expandSearch">
         <svg class="search-icon">
           <use href="#tabler-search"></use>
         </svg>
       </button>
-      
+
       <div v-else class="search-input-container">
         <input
           ref="searchInput"
@@ -19,30 +14,21 @@
           type="search"
           class="search-input"
           :placeholder="placeholder"
+          autocomplete="off"
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
           @keydown="handleKeydown"
-          autocomplete="off"
-        >
-        
+        />
+
         <div class="search-actions">
-          <button
-            v-if="searchQuery"
-            class="search-clear"
-            @click="clearSearch"
-            title="Clear search"
-          >
+          <button v-if="searchQuery" class="search-clear" title="Clear search" @click="clearSearch">
             <svg class="search-icon">
               <use href="#tabler-x"></use>
             </svg>
           </button>
-          
-          <button
-            class="search-close"
-            @click="collapseSearch"
-            title="Close search"
-          >
+
+          <button class="search-close" title="Close search" @click="collapseSearch">
             <svg class="search-icon">
               <use href="#tabler-x"></use>
             </svg>
@@ -50,7 +36,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Search Results Dropdown -->
     <div
       v-if="isExpanded && (isLoading || results.length > 0 || showNoResults)"
@@ -63,7 +49,7 @@
         </div>
         <span class="search-loading-text">Searching...</span>
       </div>
-      
+
       <!-- Results -->
       <div v-else-if="results.length > 0" class="search-results-list">
         <div
@@ -78,14 +64,16 @@
             <span class="search-category-title">{{ getCategoryLabel(categoryName) }}</span>
             <span class="search-category-count">{{ category.length }}</span>
           </div>
-          
+
           <div class="search-category-items">
             <a
               v-for="(result, index) in category.slice(0, maxResultsPerCategory)"
               :key="result.id"
               :href="result.url"
               class="search-result-item"
-              :class="{ 'is-highlighted': highlightedIndex === getGlobalIndex(categoryName, index) }"
+              :class="{
+                'is-highlighted': highlightedIndex === getGlobalIndex(categoryName, index)
+              }"
               @click="selectResult(result)"
               @mouseenter="highlightedIndex = getGlobalIndex(categoryName, index)"
             >
@@ -94,19 +82,23 @@
                   <use :href="`#tabler-${result.icon || getCategoryIcon(categoryName)}`"></use>
                 </svg>
               </div>
-              
+
               <div class="search-result-content">
                 <div class="search-result-title" v-html="highlightMatch(result.title)"></div>
-                <div v-if="result.subtitle" class="search-result-subtitle" v-html="highlightMatch(result.subtitle)"></div>
+                <div
+                  v-if="result.subtitle"
+                  class="search-result-subtitle"
+                  v-html="highlightMatch(result.subtitle)"
+                ></div>
               </div>
-              
+
               <div v-if="result.badge" class="search-result-badge">
                 <span class="badge" :class="`bg-${result.badgeColor || 'secondary'}`">
                   {{ result.badge }}
                 </span>
               </div>
             </a>
-            
+
             <div v-if="category.length > maxResultsPerCategory" class="search-see-more">
               <router-link :to="getCategoryUrl(categoryName)" class="search-see-more-link">
                 See all {{ category.length }} {{ getCategoryLabel(categoryName).toLowerCase() }}
@@ -115,7 +107,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- No Results -->
       <div v-else-if="showNoResults" class="search-no-results">
         <div class="search-no-results-icon">
@@ -130,7 +122,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Quick Links -->
       <div v-if="searchQuery && quickLinks.length > 0" class="search-quick-links">
         <div class="search-category-header">
@@ -159,18 +151,14 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Backdrop -->
-    <div
-      v-if="isExpanded"
-      class="search-backdrop"
-      @click="collapseSearch"
-    ></div>
+    <div v-if="isExpanded" class="search-backdrop" @click="collapseSearch"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 const props = defineProps({
@@ -178,17 +166,17 @@ const props = defineProps({
     type: String,
     default: 'Search employees, schedules, reports...'
   },
-  
+
   searchHint: {
     type: String,
     default: 'Search (Ctrl+K)'
   },
-  
+
   maxResultsPerCategory: {
     type: Number,
     default: 3
   },
-  
+
   debounceMs: {
     type: Number,
     default: 300
@@ -226,15 +214,15 @@ const groupedResults = computed(() => {
 
 const quickLinks = computed(() => {
   if (!searchQuery.value) return []
-  
+
   return [
     {
-      label: `Add new employee`,
+      label: 'Add new employee',
       to: '/employees/create',
       icon: 'user-plus'
     },
     {
-      label: `Search in reports`,
+      label: 'Search in reports',
       to: `/reports?search=${searchQuery.value}`,
       icon: 'chart-bar'
     },
@@ -274,7 +262,7 @@ const handleFocus = () => {
   }
 }
 
-const handleBlur = (event) => {
+const handleBlur = event => {
   // Don't close if clicking on results
   if (event.relatedTarget?.closest('.search-results')) {
     return
@@ -286,24 +274,24 @@ const handleBlur = (event) => {
   }, 150)
 }
 
-const handleKeydown = (event) => {
+const handleKeydown = event => {
   const totalResults = results.value.length
-  
+
   switch (event.key) {
     case 'Escape':
       collapseSearch()
       break
-      
+
     case 'ArrowDown':
       event.preventDefault()
       highlightedIndex.value = Math.min(highlightedIndex.value + 1, totalResults - 1)
       break
-      
+
     case 'ArrowUp':
       event.preventDefault()
       highlightedIndex.value = Math.max(highlightedIndex.value - 1, -1)
       break
-      
+
     case 'Enter':
       event.preventDefault()
       if (highlightedIndex.value >= 0 && results.value[highlightedIndex.value]) {
@@ -322,18 +310,18 @@ const clearSearch = () => {
 
 const performSearch = async () => {
   const query = searchQuery.value.trim()
-  
+
   if (!query) {
     results.value = []
     return
   }
-  
+
   isLoading.value = true
-  
+
   try {
     // Mock search results - replace with actual API call
     await new Promise(resolve => setTimeout(resolve, 200))
-    
+
     results.value = mockSearch(query)
     emit('search', { query, results: results.value })
   } catch (error) {
@@ -344,18 +332,18 @@ const performSearch = async () => {
   }
 }
 
-const selectResult = (result) => {
+const selectResult = result => {
   emit('select', result)
-  
+
   if (result.url) {
     router.push(result.url)
   }
-  
+
   collapseSearch()
 }
 
 // Helper methods
-const getCategoryIcon = (category) => {
+const getCategoryIcon = category => {
   const icons = {
     employees: 'users',
     attendance: 'calendar',
@@ -366,7 +354,7 @@ const getCategoryIcon = (category) => {
   return icons[category] || 'file'
 }
 
-const getCategoryLabel = (category) => {
+const getCategoryLabel = category => {
   const labels = {
     employees: 'Employees',
     attendance: 'Attendance',
@@ -377,7 +365,7 @@ const getCategoryLabel = (category) => {
   return labels[category] || category
 }
 
-const getCategoryUrl = (category) => {
+const getCategoryUrl = category => {
   const urls = {
     employees: '/employees',
     attendance: '/attendance',
@@ -399,38 +387,94 @@ const getGlobalIndex = (categoryName, localIndex) => {
   return globalIndex
 }
 
-const highlightMatch = (text) => {
+const highlightMatch = text => {
   if (!searchQuery.value || !text) return text
-  
+
   const regex = new RegExp(`(${searchQuery.value})`, 'gi')
   return text.replace(regex, '<mark>$1</mark>')
 }
 
 // Mock search function - replace with actual search API
-const mockSearch = (query) => {
+const mockSearch = query => {
   const mockData = [
     // Employees
-    { id: 1, category: 'employees', title: 'John Doe', subtitle: 'Mathematics Teacher', url: '/employees/1', icon: 'user', badge: 'Active', badgeColor: 'success' },
-    { id: 2, category: 'employees', title: 'Jane Smith', subtitle: 'English Teacher', url: '/employees/2', icon: 'user', badge: 'Active', badgeColor: 'success' },
-    { id: 3, category: 'employees', title: 'Ahmad Rahman', subtitle: 'IT Staff', url: '/employees/3', icon: 'user', badge: 'Inactive', badgeColor: 'secondary' },
-    
+    {
+      id: 1,
+      category: 'employees',
+      title: 'John Doe',
+      subtitle: 'Mathematics Teacher',
+      url: '/employees/1',
+      icon: 'user',
+      badge: 'Active',
+      badgeColor: 'success'
+    },
+    {
+      id: 2,
+      category: 'employees',
+      title: 'Jane Smith',
+      subtitle: 'English Teacher',
+      url: '/employees/2',
+      icon: 'user',
+      badge: 'Active',
+      badgeColor: 'success'
+    },
+    {
+      id: 3,
+      category: 'employees',
+      title: 'Ahmad Rahman',
+      subtitle: 'IT Staff',
+      url: '/employees/3',
+      icon: 'user',
+      badge: 'Inactive',
+      badgeColor: 'secondary'
+    },
+
     // Attendance
-    { id: 4, category: 'attendance', title: 'Today\'s Attendance', subtitle: '85 present, 10 absent', url: '/attendance/today', icon: 'calendar-check' },
-    { id: 5, category: 'attendance', title: 'Monthly Report', subtitle: 'December 2024', url: '/attendance/monthly', icon: 'calendar-stats' },
-    
+    {
+      id: 4,
+      category: 'attendance',
+      title: "Today's Attendance",
+      subtitle: '85 present, 10 absent',
+      url: '/attendance/today',
+      icon: 'calendar-check'
+    },
+    {
+      id: 5,
+      category: 'attendance',
+      title: 'Monthly Report',
+      subtitle: 'December 2024',
+      url: '/attendance/monthly',
+      icon: 'calendar-stats'
+    },
+
     // Reports
-    { id: 6, category: 'reports', title: 'Payroll Report', subtitle: 'December 2024', url: '/reports/payroll', icon: 'receipt' },
-    { id: 7, category: 'reports', title: 'Attendance Summary', subtitle: 'Year-end report', url: '/reports/attendance', icon: 'chart-line' }
+    {
+      id: 6,
+      category: 'reports',
+      title: 'Payroll Report',
+      subtitle: 'December 2024',
+      url: '/reports/payroll',
+      icon: 'receipt'
+    },
+    {
+      id: 7,
+      category: 'reports',
+      title: 'Attendance Summary',
+      subtitle: 'Year-end report',
+      url: '/reports/attendance',
+      icon: 'chart-line'
+    }
   ]
-  
-  return mockData.filter(item => 
-    item.title.toLowerCase().includes(query.toLowerCase()) ||
-    item.subtitle?.toLowerCase().includes(query.toLowerCase())
+
+  return mockData.filter(
+    item =>
+      item.title.toLowerCase().includes(query.toLowerCase()) ||
+      item.subtitle?.toLowerCase().includes(query.toLowerCase())
   )
 }
 
 // Keyboard shortcuts
-const handleGlobalKeydown = (event) => {
+const handleGlobalKeydown = event => {
   if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
     event.preventDefault()
     if (!isExpanded.value) {
@@ -449,11 +493,14 @@ onUnmounted(() => {
 })
 
 // Watch for route changes to close search
-watch(() => router.currentRoute.value, () => {
-  if (isExpanded.value) {
-    collapseSearch()
+watch(
+  () => router.currentRoute.value,
+  () => {
+    if (isExpanded.value) {
+      collapseSearch()
+    }
   }
-})
+)
 </script>
 
 <style scoped>
@@ -750,37 +797,37 @@ mark {
     width: 100%;
     max-width: none;
   }
-  
+
   .search-results {
     left: -1rem;
     right: -1rem;
     max-height: 60vh;
   }
-  
+
   .search-category-header {
     padding: var(--space-2);
   }
-  
+
   .search-result-item {
     padding: var(--space-3) var(--space-2);
   }
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .search-trigger:hover {
+[data-theme='dark'] .search-trigger:hover {
   background-color: var(--color-gray-800);
 }
 
-[data-theme="dark"] .search-clear:hover,
-[data-theme="dark"] .search-close:hover {
+[data-theme='dark'] .search-clear:hover,
+[data-theme='dark'] .search-close:hover {
   background-color: var(--color-gray-700);
 }
 
-[data-theme="dark"] .search-result-icon {
+[data-theme='dark'] .search-result-icon {
   background-color: var(--color-gray-800);
 }
 
-[data-theme="dark"] .search-category-count {
+[data-theme='dark'] .search-category-count {
   background-color: var(--color-gray-800);
   color: var(--color-gray-300);
 }

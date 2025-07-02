@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import FormField from '@/components/common/FormField.vue'
 
@@ -314,25 +314,25 @@ describe('FormField.vue', () => {
   describe('Events', () => {
     it('emits focus event when input is focused', async () => {
       wrapper = createWrapper()
-      
+
       await wrapper.find('input').trigger('focus')
-      
+
       expect(wrapper.emitted('focus')).toBeTruthy()
     })
 
     it('emits blur event when input loses focus', async () => {
       wrapper = createWrapper()
-      
+
       await wrapper.find('input').trigger('blur')
-      
+
       expect(wrapper.emitted('blur')).toBeTruthy()
     })
 
     it('emits keydown event when key is pressed', async () => {
       wrapper = createWrapper()
-      
+
       await wrapper.find('input').trigger('keydown', { key: 'Enter' })
-      
+
       expect(wrapper.emitted('keydown')).toBeTruthy()
     })
   })
@@ -345,7 +345,7 @@ describe('FormField.vue', () => {
 
       const input = wrapper.find('input')
       const label = wrapper.find('label')
-      
+
       expect(input.attributes('id')).toBeDefined()
       expect(label.attributes('for')).toBe(input.attributes('id'))
     })

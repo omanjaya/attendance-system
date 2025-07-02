@@ -8,54 +8,35 @@
             {{ channel }}
           </option>
         </select>
-        <input 
-          v-model="lines" 
-          type="number" 
-          min="10" 
-          max="1000" 
+        <input
+          v-model="lines"
+          type="number"
+          min="10"
+          max="1000"
           placeholder="Lines"
           @change="fetchLogs"
-        >
-        <button @click="fetchLogs" :disabled="loading">
+        />
+        <button :disabled="loading" @click="fetchLogs">
           {{ loading ? 'Loading...' : 'Refresh' }}
         </button>
-        <button @click="clearLogs" :disabled="loading">
-          Clear
-        </button>
-        <button @click="exportFrontendLogs">
-          Export Frontend Logs
-        </button>
-        <button @click="toggleAutoRefresh">
-          Auto: {{ autoRefresh ? 'ON' : 'OFF' }}
-        </button>
+        <button :disabled="loading" @click="clearLogs">Clear</button>
+        <button @click="exportFrontendLogs">Export Frontend Logs</button>
+        <button @click="toggleAutoRefresh">Auto: {{ autoRefresh ? 'ON' : 'OFF' }}</button>
       </div>
     </div>
 
     <div class="log-viewer-content">
       <div class="log-filters">
-        <label>
-          <input type="checkbox" v-model="filters.error"> Errors
-        </label>
-        <label>
-          <input type="checkbox" v-model="filters.warning"> Warnings
-        </label>
-        <label>
-          <input type="checkbox" v-model="filters.info"> Info
-        </label>
-        <label>
-          <input type="checkbox" v-model="filters.debug"> Debug
-        </label>
-        <input 
-          v-model="searchTerm" 
-          type="text" 
-          placeholder="Search logs..."
-          class="log-search"
-        >
+        <label> <input v-model="filters.error" type="checkbox" /> Errors </label>
+        <label> <input v-model="filters.warning" type="checkbox" /> Warnings </label>
+        <label> <input v-model="filters.info" type="checkbox" /> Info </label>
+        <label> <input v-model="filters.debug" type="checkbox" /> Debug </label>
+        <input v-model="searchTerm" type="text" placeholder="Search logs..." class="log-search" />
       </div>
 
-      <div class="log-container" ref="logContainer">
-        <div 
-          v-for="(log, index) in filteredLogs" 
+      <div ref="logContainer" class="log-container">
+        <div
+          v-for="(log, index) in filteredLogs"
           :key="index"
           :class="['log-entry', getLogClass(log)]"
         >
@@ -77,7 +58,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import api from '@/services/api'
 import logger from '@/utils/logger'
 
@@ -118,9 +99,10 @@ export default {
       // Apply search filter
       if (searchTerm.value) {
         const term = searchTerm.value.toLowerCase()
-        filtered = filtered.filter(log => 
-          log.message?.toLowerCase().includes(term) ||
-          JSON.stringify(log.context).toLowerCase().includes(term)
+        filtered = filtered.filter(
+          log =>
+            log.message?.toLowerCase().includes(term) ||
+            JSON.stringify(log.context).toLowerCase().includes(term)
         )
       }
 
@@ -140,7 +122,7 @@ export default {
         if (response.data.success) {
           logs.value = parseLogs(response.data.data.logs)
           lastUpdated.value = new Date().toISOString()
-          
+
           // Scroll to bottom
           setTimeout(() => {
             if (logContainer.value) {
@@ -183,7 +165,7 @@ export default {
 
     const toggleAutoRefresh = () => {
       autoRefresh.value = !autoRefresh.value
-      
+
       if (autoRefresh.value) {
         autoRefreshInterval.value = setInterval(fetchLogs, 5000)
       } else {
@@ -194,45 +176,49 @@ export default {
       }
     }
 
-    const parseLogs = (rawLogs) => {
-      return rawLogs.map(line => {
-        try {
-          // Try to parse as JSON first (structured logs)
-          if (line.trim().startsWith('{')) {
-            return JSON.parse(line)
-          }
-          
-          // Parse Laravel log format
-          const match = line.match(/\[(\d{4}-\d{2}-\d{2}[T\s]\d{2}:\d{2}:\d{2}[^\]]*)\]\s+(\w+)\.(\w+):\s+(.+)/)
-          if (match) {
+    const parseLogs = rawLogs => {
+      return rawLogs
+        .map(line => {
+          try {
+            // Try to parse as JSON first (structured logs)
+            if (line.trim().startsWith('{')) {
+              return JSON.parse(line)
+            }
+
+            // Parse Laravel log format
+            const match = line.match(
+              /\[(\d{4}-\d{2}-\d{2}[T\s]\d{2}:\d{2}:\d{2}[^\]]*)\]\s+(\w+)\.(\w+):\s+(.+)/
+            )
+            if (match) {
+              return {
+                timestamp: match[1],
+                channel: match[2],
+                level: match[3],
+                message: match[4],
+                context: {}
+              }
+            }
+
+            // Fallback for unknown format
             return {
-              timestamp: match[1],
-              channel: match[2],
-              level: match[3],
-              message: match[4],
+              timestamp: new Date().toISOString(),
+              level: 'info',
+              message: line,
+              context: {}
+            }
+          } catch (e) {
+            return {
+              timestamp: new Date().toISOString(),
+              level: 'info',
+              message: line,
               context: {}
             }
           }
-          
-          // Fallback for unknown format
-          return {
-            timestamp: new Date().toISOString(),
-            level: 'info',
-            message: line,
-            context: {}
-          }
-        } catch (e) {
-          return {
-            timestamp: new Date().toISOString(),
-            level: 'info',
-            message: line,
-            context: {}
-          }
-        }
-      }).filter(log => log.message?.trim())
+        })
+        .filter(log => log.message?.trim())
     }
 
-    const getLogClass = (log) => {
+    const getLogClass = log => {
       const level = log.level?.toLowerCase()
       if (level === 'error') return 'log-error'
       if (['warn', 'warning'].includes(level)) return 'log-warning'
@@ -240,7 +226,7 @@ export default {
       return 'log-debug'
     }
 
-    const formatTimestamp = (timestamp) => {
+    const formatTimestamp = timestamp => {
       if (!timestamp) return ''
       try {
         return new Date(timestamp).toLocaleString()

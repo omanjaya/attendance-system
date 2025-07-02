@@ -3,7 +3,7 @@
   <div v-if="hasAccess" :class="wrapperClass">
     <slot />
   </div>
-  
+
   <!-- Fallback content for unauthorized users -->
   <div v-else-if="showFallback" :class="fallbackClass">
     <slot name="fallback">
@@ -28,32 +28,32 @@ const props = defineProps({
     type: [String, Array],
     default: null
   },
-  
+
   // Permission-based access
   permissions: {
     type: [String, Array],
     default: null
   },
-  
+
   // Require ALL roles/permissions vs ANY (default: any)
   requireAll: {
     type: Boolean,
     default: false
   },
-  
+
   // Show fallback content when access denied
   showFallback: {
     type: Boolean,
     default: true
   },
-  
+
   // Custom fallback message
   fallbackMessage: String,
-  
+
   // CSS classes
   wrapperClass: String,
   fallbackClass: String,
-  
+
   // Invert logic (hide if user HAS the roles/permissions)
   invert: {
     type: Boolean,
@@ -69,14 +69,14 @@ const hasAccess = computed(() => {
   if (!isAuthenticated.value) {
     return props.invert ? true : false
   }
-  
+
   let hasRoleAccess = true
   let hasPermissionAccess = true
-  
+
   // Check role requirements
   if (props.roles) {
     const roleArray = Array.isArray(props.roles) ? props.roles : [props.roles]
-    
+
     if (props.requireAll) {
       // User must have ALL specified roles
       hasRoleAccess = roleArray.every(role => hasRole(role))
@@ -85,11 +85,13 @@ const hasAccess = computed(() => {
       hasRoleAccess = hasAnyRole(roleArray)
     }
   }
-  
+
   // Check permission requirements
   if (props.permissions) {
-    const permissionArray = Array.isArray(props.permissions) ? props.permissions : [props.permissions]
-    
+    const permissionArray = Array.isArray(props.permissions)
+      ? props.permissions
+      : [props.permissions]
+
     if (props.requireAll) {
       // User must have ALL specified permissions
       hasPermissionAccess = permissionArray.every(permission => hasPermission(permission))
@@ -98,9 +100,9 @@ const hasAccess = computed(() => {
       hasPermissionAccess = hasAnyPermission(permissionArray)
     }
   }
-  
+
   const access = hasRoleAccess && hasPermissionAccess
-  
+
   // Invert logic if requested
   return props.invert ? !access : access
 })

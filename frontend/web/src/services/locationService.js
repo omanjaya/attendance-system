@@ -21,7 +21,7 @@ export const locationService = {
       }
 
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        position => {
           resolve({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
@@ -29,9 +29,9 @@ export const locationService = {
             timestamp: position.timestamp
           })
         },
-        (error) => {
+        error => {
           let message = 'Location access failed'
-          
+
           switch (error.code) {
             case error.PERMISSION_DENIED:
               message = 'Location access denied by user'
@@ -43,7 +43,7 @@ export const locationService = {
               message = 'Location request timed out'
               break
           }
-          
+
           reject(new Error(message))
         },
         config
@@ -54,15 +54,15 @@ export const locationService = {
   // Calculate distance between two points (Haversine formula)
   calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371e3 // Earth's radius in meters
-    const φ1 = lat1 * Math.PI / 180
-    const φ2 = lat2 * Math.PI / 180
-    const Δφ = (lat2 - lat1) * Math.PI / 180
-    const Δλ = (lon2 - lon1) * Math.PI / 180
+    const φ1 = (lat1 * Math.PI) / 180
+    const φ2 = (lat2 * Math.PI) / 180
+    const Δφ = ((lat2 - lat1) * Math.PI) / 180
+    const Δλ = ((lon2 - lon1) * Math.PI) / 180
 
-    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-              Math.cos(φ1) * Math.cos(φ2) *
-              Math.sin(Δλ/2) * Math.sin(Δλ/2)
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+    const a =
+      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
     return R * c // Distance in meters
   },
@@ -71,12 +71,12 @@ export const locationService = {
   validateLocation(currentLat, currentLon, allowedLocations, toleranceMeters = 100) {
     for (const location of allowedLocations) {
       const distance = this.calculateDistance(
-        currentLat, 
-        currentLon, 
-        location.latitude, 
+        currentLat,
+        currentLon,
+        location.latitude,
         location.longitude
       )
-      
+
       if (distance <= (location.radius || toleranceMeters)) {
         return {
           valid: true,
@@ -93,12 +93,12 @@ export const locationService = {
 
     for (const location of allowedLocations) {
       const distance = this.calculateDistance(
-        currentLat, 
-        currentLon, 
-        location.latitude, 
+        currentLat,
+        currentLon,
+        location.latitude,
         location.longitude
       )
-      
+
       if (distance < nearestDistance) {
         nearestDistance = distance
         nearestLocation = location
@@ -122,20 +122,20 @@ export const locationService = {
       const response = await fetch(
         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
       )
-      
+
       if (!response.ok) {
         throw new Error('Geocoding service unavailable')
       }
-      
+
       const data = await response.json()
-      
+
       return {
         address: data.locality || data.city || 'Unknown location',
         city: data.city,
         country: data.countryName,
-        fullAddress: data.localityInfo?.administrative?.[2]?.name + ', ' + 
-                    data.localityInfo?.administrative?.[1]?.name + ', ' + 
-                    data.countryName
+        fullAddress: `${data.localityInfo?.administrative?.[2]?.name}, ${
+          data.localityInfo?.administrative?.[1]?.name
+        }, ${data.countryName}`
       }
     } catch (error) {
       console.error('Reverse geocoding failed:', error)
@@ -160,7 +160,7 @@ export const locationService = {
       },
       {
         name: 'School Office',
-        latitude: -6.2090,
+        latitude: -6.209,
         longitude: 106.8458,
         radius: 50,
         description: 'Administrative building'
@@ -168,7 +168,7 @@ export const locationService = {
       {
         name: 'Sports Complex',
         latitude: -6.2085,
-        longitude: 106.8460,
+        longitude: 106.846,
         radius: 150,
         description: 'Sports and recreation area'
       }
@@ -208,7 +208,7 @@ export const locationService = {
   // Format location for display
   formatLocationForDisplay(location) {
     const { latitude, longitude, accuracy } = location
-    
+
     return {
       coordinates: `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`,
       accuracy: accuracy ? `±${Math.round(accuracy)}m` : 'Unknown',
@@ -219,7 +219,7 @@ export const locationService = {
   // Determine location accuracy quality
   getLocationQuality(accuracy) {
     if (!accuracy) return 'unknown'
-    
+
     if (accuracy <= 5) return 'excellent'
     if (accuracy <= 20) return 'good'
     if (accuracy <= 50) return 'fair'

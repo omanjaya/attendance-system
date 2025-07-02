@@ -1,4 +1,4 @@
-import { ref, computed, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 /**
@@ -7,28 +7,28 @@ import { useRoute, useRouter } from 'vue-router'
 export const useContextualActions = () => {
   const route = useRoute()
   const router = useRouter()
-  
+
   // State
   const selectedItems = ref([])
   const contextualData = ref({})
   const availableActions = ref([])
-  
+
   /**
    * Set selected items for bulk actions
    */
-  const setSelectedItems = (items) => {
+  const setSelectedItems = items => {
     selectedItems.value = Array.isArray(items) ? items : [items]
     updateAvailableActions()
   }
-  
+
   /**
    * Set contextual data (user permissions, current state, etc.)
    */
-  const setContextualData = (data) => {
+  const setContextualData = data => {
     contextualData.value = { ...contextualData.value, ...data }
     updateAvailableActions()
   }
-  
+
   /**
    * Update available actions based on context
    */
@@ -40,7 +40,7 @@ export const useContextualActions = () => {
     const isMultipleSelection = selectedCount > 1
     const userData = contextualData.value.user || {}
     const permissions = userData.permissions || []
-    
+
     // Route-based actions
     if (currentPath.startsWith('/employees')) {
       // Employee management actions
@@ -56,7 +56,7 @@ export const useContextualActions = () => {
           group: 'primary'
         })
       }
-      
+
       if (hasSelection) {
         if (hasPermission('edit_employee', permissions)) {
           actions.push({
@@ -70,7 +70,7 @@ export const useContextualActions = () => {
             group: 'edit'
           })
         }
-        
+
         if (hasPermission('delete_employee', permissions)) {
           actions.push({
             id: 'delete-employee',
@@ -81,12 +81,12 @@ export const useContextualActions = () => {
             action: () => handleBulkDelete(),
             visible: true,
             group: 'danger',
-            confirmMessage: isMultipleSelection 
+            confirmMessage: isMultipleSelection
               ? `Are you sure you want to delete ${selectedCount} employees?`
               : 'Are you sure you want to delete this employee?'
           })
         }
-        
+
         // Status actions
         actions.push({
           id: 'activate-employee',
@@ -97,7 +97,7 @@ export const useContextualActions = () => {
           visible: hasInactiveItems(),
           group: 'status'
         })
-        
+
         actions.push({
           id: 'deactivate-employee',
           label: isMultipleSelection ? 'Deactivate Selected' : 'Deactivate Employee',
@@ -107,7 +107,7 @@ export const useContextualActions = () => {
           visible: hasActiveItems(),
           group: 'status'
         })
-        
+
         // Export actions
         actions.push({
           id: 'export-selected',
@@ -119,7 +119,7 @@ export const useContextualActions = () => {
           group: 'export'
         })
       }
-      
+
       // General actions
       actions.push({
         id: 'import-employees',
@@ -130,7 +130,7 @@ export const useContextualActions = () => {
         visible: hasPermission('import_employee', permissions),
         group: 'import'
       })
-      
+
       actions.push({
         id: 'export-all',
         label: 'Export All',
@@ -141,7 +141,7 @@ export const useContextualActions = () => {
         group: 'export'
       })
     }
-    
+
     // Attendance actions
     if (currentPath.startsWith('/attendance')) {
       actions.push({
@@ -154,7 +154,7 @@ export const useContextualActions = () => {
         visible: hasPermission('manage_attendance', permissions),
         group: 'primary'
       })
-      
+
       if (hasSelection) {
         actions.push({
           id: 'mark-present',
@@ -165,7 +165,7 @@ export const useContextualActions = () => {
           visible: true,
           group: 'attendance'
         })
-        
+
         actions.push({
           id: 'mark-absent',
           label: 'Mark as Absent',
@@ -177,7 +177,7 @@ export const useContextualActions = () => {
         })
       }
     }
-    
+
     // Reports actions
     if (currentPath.startsWith('/reports')) {
       actions.push({
@@ -191,7 +191,7 @@ export const useContextualActions = () => {
         group: 'primary'
       })
     }
-    
+
     // Universal actions
     actions.push({
       id: 'refresh',
@@ -203,51 +203,51 @@ export const useContextualActions = () => {
       visible: true,
       group: 'general'
     })
-    
+
     availableActions.value = actions.filter(action => action.visible)
   }
-  
+
   /**
    * Get actions by group
    */
-  const getActionsByGroup = (group) => {
+  const getActionsByGroup = group => {
     return availableActions.value.filter(action => action.group === group)
   }
-  
+
   /**
    * Get primary actions (most important)
    */
   const getPrimaryActions = () => {
-    return availableActions.value.filter(action => 
-      action.group === 'primary' || action.variant === 'primary'
-    ).slice(0, 3)
+    return availableActions.value
+      .filter(action => action.group === 'primary' || action.variant === 'primary')
+      .slice(0, 3)
   }
-  
+
   /**
    * Get secondary actions
    */
   const getSecondaryActions = () => {
-    return availableActions.value.filter(action => 
-      action.group !== 'primary' && action.variant !== 'primary'
+    return availableActions.value.filter(
+      action => action.group !== 'primary' && action.variant !== 'primary'
     )
   }
-  
+
   /**
    * Execute action with confirmation if needed
    */
   const executeAction = async (actionId, options = {}) => {
     const action = availableActions.value.find(a => a.id === actionId)
     if (!action) return
-    
+
     // Show confirmation if required
     if (action.confirmMessage && !options.skipConfirmation) {
       const confirmed = await showConfirmation(action.confirmMessage)
       if (!confirmed) return
     }
-    
+
     try {
       await action.action()
-      
+
       // Emit success event
       emitActionEvent('action-success', { action, data: selectedItems.value })
     } catch (error) {
@@ -255,7 +255,7 @@ export const useContextualActions = () => {
       emitActionEvent('action-error', { action, error })
     }
   }
-  
+
   /**
    * Clear selection
    */
@@ -263,7 +263,7 @@ export const useContextualActions = () => {
     selectedItems.value = []
     updateAvailableActions()
   }
-  
+
   /**
    * Smart action suggestions based on context
    */
@@ -271,7 +271,7 @@ export const useContextualActions = () => {
     const suggestions = []
     const timeOfDay = new Date().getHours()
     const dayOfWeek = new Date().getDay()
-    
+
     // Time-based suggestions
     if (timeOfDay >= 8 && timeOfDay <= 10 && route.path.startsWith('/attendance')) {
       suggestions.push({
@@ -283,9 +283,10 @@ export const useContextualActions = () => {
         reason: 'Morning attendance period'
       })
     }
-    
+
     // Day-based suggestions
-    if (dayOfWeek === 1 && route.path === '/') { // Monday
+    if (dayOfWeek === 1 && route.path === '/') {
+      // Monday
       suggestions.push({
         id: 'weekly-report',
         label: 'Generate Weekly Report',
@@ -295,36 +296,39 @@ export const useContextualActions = () => {
         reason: 'Start of the week'
       })
     }
-    
+
     return suggestions
   }
-  
+
   // Computed properties
   const hasSelectedItems = computed(() => selectedItems.value.length > 0)
   const selectedCount = computed(() => selectedItems.value.length)
   const primaryActions = computed(() => getPrimaryActions())
   const secondaryActions = computed(() => getSecondaryActions())
   const smartSuggestions = computed(() => getSmartSuggestions())
-  
+
   // Watch route changes to update actions
-  watch(() => route.path, () => {
-    clearSelection()
-    updateAvailableActions()
-  })
-  
+  watch(
+    () => route.path,
+    () => {
+      clearSelection()
+      updateAvailableActions()
+    }
+  )
+
   return {
     // State
     selectedItems,
     contextualData,
     availableActions,
-    
+
     // Computed
     hasSelectedItems,
     selectedCount,
     primaryActions,
     secondaryActions,
     smartSuggestions,
-    
+
     // Methods
     setSelectedItems,
     setContextualData,
@@ -366,7 +370,7 @@ const handleBulkDelete = () => {
   console.log('Bulk delete action')
 }
 
-const handleBulkStatusChange = (status) => {
+const handleBulkStatusChange = status => {
   // Implementation for status change
   console.log('Bulk status change:', status)
 }
@@ -381,7 +385,7 @@ const handleImport = () => {
   console.log('Import action')
 }
 
-const handleAttendanceChange = (status) => {
+const handleAttendanceChange = status => {
   // Implementation for attendance change
   console.log('Attendance change:', status)
 }
@@ -391,7 +395,7 @@ const handleRefresh = () => {
   window.location.reload()
 }
 
-const showConfirmation = async (message) => {
+const showConfirmation = async message => {
   // Implementation would show a confirmation dialog
   return window.confirm(message)
 }
@@ -411,13 +415,13 @@ export const quickActions = {
     import: () => ({ action: 'modal', target: 'import-employees' }),
     export: () => ({ action: 'download', target: 'employees.xlsx' })
   },
-  
+
   attendance: {
     take: () => ({ action: 'navigate', target: '/attendance/take' }),
     report: () => ({ action: 'navigate', target: '/reports/attendance' }),
     calendar: () => ({ action: 'navigate', target: '/attendance/calendar' })
   },
-  
+
   reports: {
     generate: () => ({ action: 'modal', target: 'report-generator' }),
     schedule: () => ({ action: 'modal', target: 'schedule-report' }),

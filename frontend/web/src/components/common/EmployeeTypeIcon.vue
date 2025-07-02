@@ -1,6 +1,6 @@
 <template>
-  <TablerIcon 
-    :name="iconName" 
+  <TablerIcon
+    :name="iconName"
     :size="size"
     :class="iconClasses"
     :aria-label="ariaLabel"
@@ -16,10 +16,18 @@ const props = defineProps({
   type: {
     type: String,
     required: true,
-    validator: (value) => [
-      'permanent_teacher', 'honorary_teacher', 'permanent_staff', 'honorary_staff',
-      'teacher', 'staff', 'admin', 'permanent', 'honorary'
-    ].includes(value)
+    validator: value =>
+      [
+        'permanent_teacher',
+        'honorary_teacher',
+        'permanent_staff',
+        'honorary_staff',
+        'teacher',
+        'staff',
+        'admin',
+        'permanent',
+        'honorary'
+      ].includes(value)
   },
   size: {
     type: [String, Number],
@@ -41,7 +49,7 @@ const typeIconMap = {
   honorary_teacher: 'user-check',
   permanent_staff: 'briefcase',
   honorary_staff: 'user-cog',
-  
+
   // Simplified aliases
   teacher: 'school',
   staff: 'briefcase',
@@ -56,7 +64,7 @@ const typeColorMap = {
   honorary_teacher: 'text-info',
   permanent_staff: 'text-success',
   honorary_staff: 'text-warning',
-  
+
   // Simplified aliases
   teacher: 'text-primary',
   staff: 'text-success',
@@ -95,15 +103,15 @@ const iconName = computed(() => typeIconMap[props.type] || 'user')
 
 const iconClasses = computed(() => {
   const classes = [typeColorMap[props.type] || 'text-muted']
-  
+
   // Add type-specific classes
   classes.push(`employee-type-${props.type.replace('_', '-')}`)
-  
+
   // Add tooltip class if enabled
   if (props.showTooltip) {
     classes.push('has-tooltip')
   }
-  
+
   return classes
 })
 
@@ -193,8 +201,8 @@ const tooltipText = computed(() => {
 }
 
 /* Badge-like appearance for smaller sizes */
-.tabler-icon[data-size="16"],
-.tabler-icon[data-size="xs"] {
+.tabler-icon[data-size='16'],
+.tabler-icon[data-size='xs'] {
   padding: 0.125rem;
   border-radius: 50%;
   background: rgba(var(--icon-color), 0.1);

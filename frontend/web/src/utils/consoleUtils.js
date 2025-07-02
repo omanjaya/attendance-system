@@ -86,17 +86,21 @@ console.log = (...args) => {
 
   // Filter out most other logs in development
   const firstArg = String(args[0])
-  if (firstArg.includes('Registering') ||
-      firstArg.includes('Using fallback') ||
-      firstArg.includes('Initializing') ||
-      firstArg.includes('Performance Metrics')) {
+  if (
+    firstArg.includes('Registering') ||
+    firstArg.includes('Using fallback') ||
+    firstArg.includes('Initializing') ||
+    firstArg.includes('Performance Metrics')
+  ) {
     return
   }
 
   // Only show important app lifecycle logs
-  if (firstArg.includes('Navigation') || 
-      firstArg.includes('component') ||
-      firstArg.includes('mounted')) {
+  if (
+    firstArg.includes('Navigation') ||
+    firstArg.includes('component') ||
+    firstArg.includes('mounted')
+  ) {
     originalConsole.log(...args)
     return
   }
@@ -136,7 +140,7 @@ export const cleanConsole = {
 
   // App lifecycle logs
   app: {
-    mount: (component) => originalConsole.log('⚡ MOUNTED:', component),
+    mount: component => originalConsole.log('⚡ MOUNTED:', component),
     error: (message, error) => originalConsole.error('⚠️ APP ERROR:', message, error)
   }
 }

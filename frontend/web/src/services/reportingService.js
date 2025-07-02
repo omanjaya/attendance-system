@@ -8,8 +8,8 @@ import { apiUtils } from './api.js'
 export const reportingService = {
   // Get dashboard analytics
   async getDashboardAnalytics(period = 'month') {
-    const response = await apiUtils.get('/reports/dashboard', { 
-      params: { period } 
+    const response = await apiUtils.get('/reports/dashboard', {
+      params: { period }
     })
     return response.data
   },
@@ -40,8 +40,7 @@ export const reportingService = {
 
   // Export reports
   async exportReport(reportType, format = 'excel', params = {}) {
-    return apiUtils.download(`/reports/${reportType}/export`, 
-      `${reportType}-report.${format}`, {
+    return apiUtils.download(`/reports/${reportType}/export`, `${reportType}-report.${format}`, {
       params: { format, ...params }
     })
   },
@@ -125,7 +124,10 @@ export const reportingService = {
       if (record.department) {
         if (!analytics.departmentStats[record.department]) {
           analytics.departmentStats[record.department] = {
-            present: 0, absent: 0, late: 0, total: 0
+            present: 0,
+            absent: 0,
+            late: 0,
+            total: 0
           }
         }
         analytics.departmentStats[record.department][record.status]++
@@ -136,7 +138,10 @@ export const reportingService = {
       if (record.employee_type) {
         if (!analytics.employeeTypeStats[record.employee_type]) {
           analytics.employeeTypeStats[record.employee_type] = {
-            present: 0, absent: 0, late: 0, total: 0
+            present: 0,
+            absent: 0,
+            late: 0,
+            total: 0
           }
         }
         analytics.employeeTypeStats[record.employee_type][record.status]++
@@ -147,8 +152,10 @@ export const reportingService = {
     // Calculate rates
     const workingDays = analytics.presentDays + analytics.absentDays
     analytics.attendanceRate = workingDays > 0 ? (analytics.presentDays / workingDays) * 100 : 0
-    analytics.punctualityRate = analytics.presentDays > 0 ? (punctualDays / analytics.presentDays) * 100 : 0
-    analytics.averageWorkHours = analytics.presentDays > 0 ? totalWorkHours / analytics.presentDays : 0
+    analytics.punctualityRate =
+      analytics.presentDays > 0 ? (punctualDays / analytics.presentDays) * 100 : 0
+    analytics.averageWorkHours =
+      analytics.presentDays > 0 ? totalWorkHours / analytics.presentDays : 0
 
     return analytics
   },
@@ -166,7 +173,7 @@ export const reportingService = {
       departmentBreakdown: {},
       salaryDistribution: {
         ranges: {
-          'below_2M': 0,
+          below_2M: 0,
           '2M_5M': 0,
           '5M_10M': 0,
           '10M_above': 0
@@ -183,7 +190,10 @@ export const reportingService = {
 
       // Calculate total deductions and allowances
       if (payroll.deductions) {
-        const empDeductions = Object.values(payroll.deductions).reduce((sum, amount) => sum + amount, 0)
+        const empDeductions = Object.values(payroll.deductions).reduce(
+          (sum, amount) => sum + amount,
+          0
+        )
         analytics.totalDeductions += empDeductions
 
         // Deduction breakdown
@@ -193,7 +203,10 @@ export const reportingService = {
       }
 
       if (payroll.allowances) {
-        const empAllowances = Object.values(payroll.allowances).reduce((sum, amount) => sum + amount, 0)
+        const empAllowances = Object.values(payroll.allowances).reduce(
+          (sum, amount) => sum + amount,
+          0
+        )
         analytics.totalAllowances += empAllowances
 
         // Allowance breakdown
@@ -247,7 +260,8 @@ export const reportingService = {
     })
 
     // Calculate averages
-    analytics.averageSalary = analytics.totalEmployees > 0 ? analytics.totalNetPay / analytics.totalEmployees : 0
+    analytics.averageSalary =
+      analytics.totalEmployees > 0 ? analytics.totalNetPay / analytics.totalEmployees : 0
 
     Object.keys(analytics.employeeTypeBreakdown).forEach(type => {
       const data = analytics.employeeTypeBreakdown[type]
@@ -275,7 +289,7 @@ export const reportingService = {
       const empPayroll = payrollData.find(p => p.employee_id === employee.id)
 
       const attendanceAnalytics = this.generateAttendanceAnalytics(empAttendance)
-      
+
       performance[employee.id] = {
         employee_id: employee.id,
         employee_name: employee.name,
@@ -308,7 +322,10 @@ export const reportingService = {
 
     // Work hours consistency (20% weight)
     const targetHours = 8
-    const hoursScore = Math.max(0, 1 - Math.abs(attendanceAnalytics.averageWorkHours - targetHours) / targetHours)
+    const hoursScore = Math.max(
+      0,
+      1 - Math.abs(attendanceAnalytics.averageWorkHours - targetHours) / targetHours
+    )
     score += hoursScore * 20
 
     // Overtime contribution (10% weight)
@@ -331,14 +348,14 @@ export const reportingService = {
     const dayNum = d.getUTCDay() || 7
     d.setUTCDate(d.getUTCDate() + 4 - dayNum)
     const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
-    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7)
+    return Math.ceil(((d - yearStart) / 86400000 + 1) / 7)
   },
 
   // Format currency
   formatCurrency(amount, currency = 'IDR') {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
-      currency: currency,
+      currency,
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(amount)
@@ -353,9 +370,9 @@ export const reportingService = {
   generateAttendanceChartData(trends, period = 'daily') {
     const data = trends[period]
     const labels = Object.keys(data).sort()
-    
+
     return {
-      labels: labels,
+      labels,
       datasets: [
         {
           label: 'Present',
@@ -365,7 +382,7 @@ export const reportingService = {
           tension: 0.1
         },
         {
-          label: 'Absent', 
+          label: 'Absent',
           data: labels.map(key => data[key].absent || 0),
           backgroundColor: 'rgba(239, 68, 68, 0.8)',
           borderColor: 'rgb(239, 68, 68)',
@@ -385,21 +402,30 @@ export const reportingService = {
   // Generate pie chart data
   generatePieChartData(data, colors = []) {
     const defaultColors = [
-      '#3b82f6', '#ef4444', '#10b981', '#f59e0b', 
-      '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'
+      '#3b82f6',
+      '#ef4444',
+      '#10b981',
+      '#f59e0b',
+      '#8b5cf6',
+      '#06b6d4',
+      '#84cc16',
+      '#f97316'
     ]
-    
+
     const labels = Object.keys(data)
     const values = Object.values(data)
-    
+
     return {
-      labels: labels,
-      datasets: [{
-        data: values,
-        backgroundColor: colors.length >= labels.length ? colors : defaultColors.slice(0, labels.length),
-        borderWidth: 2,
-        borderColor: '#ffffff'
-      }]
+      labels,
+      datasets: [
+        {
+          data: values,
+          backgroundColor:
+            colors.length >= labels.length ? colors : defaultColors.slice(0, labels.length),
+          borderWidth: 2,
+          borderColor: '#ffffff'
+        }
+      ]
     }
   }
 }

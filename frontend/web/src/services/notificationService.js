@@ -20,25 +20,23 @@ export const notificationService = {
 
   // Initialize notification service
   async init(userId) {
-    
     // Load existing notifications from API
     await this.loadNotifications()
-    
+
     // WebSocket is disabled - no WebSocket server available
     // this.connectWebSocket(userId)
-    
+
     // Request notification permission
     await this.requestNotificationPermission()
-    
   },
 
   // Load notifications from API
   async loadNotifications(params = {}) {
     try {
-      const response = await apiUtils.get('/notifications', { 
-        params: { limit: 50, ...params } 
+      const response = await apiUtils.get('/notifications', {
+        params: { limit: 50, ...params }
       })
-      
+
       if (response.data.success) {
         notifications.value = response.data.data || []
         unreadCount.value = notifications.value.filter(n => !n.read_at).length
@@ -47,9 +45,9 @@ export const notificationService = {
       // Gracefully handle API errors - notifications are not critical to app function
       if (error.response?.status === 500) {
         // Silently handle notification API errors
-      if (error.response?.status !== 500) {
-        console.warn('Notification service temporarily unavailable')
-      }
+        if (error.response?.status !== 500) {
+          console.warn('Notification service temporarily unavailable')
+        }
       }
       // Initialize with empty state to prevent UI errors
       notifications.value = []
@@ -61,14 +59,14 @@ export const notificationService = {
   connectWebSocket(userId) {
     // WebSocket is disabled - server not available
     return
-    
+
     if (this.websocket) {
       this.websocket.close()
     }
 
     try {
       const wsUrl = `${import.meta.env.VITE_WS_URL || 'ws://localhost:8080'}/notifications/${userId}`
-      
+
       this.websocket = new WebSocket(wsUrl)
 
       this.websocket.onopen = () => {
@@ -77,28 +75,26 @@ export const notificationService = {
         this.startHeartbeat()
       }
 
-      this.websocket.onmessage = (event) => {
+      this.websocket.onmessage = event => {
         try {
           const data = JSON.parse(event.data)
           this.handleWebSocketMessage(data)
-        } catch (error) {
-        }
+        } catch (error) {}
       }
 
-      this.websocket.onclose = (event) => {
+      this.websocket.onclose = event => {
         isConnected.value = false
         this.stopHeartbeat()
-        
+
         if (reconnectAttempts.value < maxReconnectAttempts) {
           this.scheduleReconnect(userId)
         }
       }
 
-      this.websocket.onerror = (error) => {
+      this.websocket.onerror = error => {
         // Silently handle WebSocket errors - this is expected when WebSocket server is not running
         isConnected.value = false
       }
-
     } catch (error) {
       // WebSocket creation failed - this is expected when server is not running
       isConnected.value = false
@@ -108,27 +104,26 @@ export const notificationService = {
 
   // Handle WebSocket messages
   handleWebSocketMessage(data) {
-
     switch (data.type) {
-      case 'notification':
-        this.addNotification(data.notification)
-        break
-      case 'attendance_update':
-        this.handleAttendanceUpdate(data)
-        break
-      case 'leave_request':
-        this.handleLeaveRequest(data)
-        break
-      case 'payroll_update':
-        this.handlePayrollUpdate(data)
-        break
-      case 'system_alert':
-        this.handleSystemAlert(data)
-        break
-      case 'heartbeat':
-        // Keep connection alive
-        break
-      default:
+    case 'notification':
+      this.addNotification(data.notification)
+      break
+    case 'attendance_update':
+      this.handleAttendanceUpdate(data)
+      break
+    case 'leave_request':
+      this.handleLeaveRequest(data)
+      break
+    case 'payroll_update':
+      this.handlePayrollUpdate(data)
+      break
+    case 'system_alert':
+      this.handleSystemAlert(data)
+      break
+    case 'heartbeat':
+      // Keep connection alive
+      break
+    default:
     }
   },
 
@@ -164,9 +159,9 @@ export const notificationService = {
       message: data.message || `${data.employee_name} has ${data.action}`,
       icon: 'clock',
       priority: 'normal',
-      data: data
+      data
     }
-    
+
     this.addNotification(notification)
   },
 
@@ -177,9 +172,9 @@ export const notificationService = {
       message: data.message || `New leave request from ${data.employee_name}`,
       icon: 'calendar',
       priority: 'high',
-      data: data
+      data
     }
-    
+
     this.addNotification(notification)
   },
 
@@ -190,9 +185,9 @@ export const notificationService = {
       message: data.message || 'Payroll processing completed',
       icon: 'dollar-sign',
       priority: 'normal',
-      data: data
+      data
     }
-    
+
     this.addNotification(notification)
   },
 
@@ -203,9 +198,9 @@ export const notificationService = {
       message: data.message || 'System notification',
       icon: 'alert-triangle',
       priority: data.priority || 'high',
-      data: data
+      data
     }
-    
+
     this.addNotification(notification)
   },
 
@@ -228,7 +223,7 @@ export const notificationService = {
       browserNotification.onclick = () => {
         window.focus()
         browserNotification.close()
-        
+
         // Navigate to relevant page if needed
         if (notification.data?.url) {
           window.location.href = notification.data.url
@@ -239,9 +234,7 @@ export const notificationService = {
       setTimeout(() => {
         browserNotification.close()
       }, 5000)
-
-    } catch (error) {
-    }
+    } catch (error) {}
   },
 
   // Show in-app toast notification
@@ -255,16 +248,19 @@ export const notificationService = {
         duration: notification.priority === 'high' ? 8000 : 4000
       }
     })
-    
+
     window.dispatchEvent(event)
   },
 
   // Get toast type based on priority
   getToastType(priority) {
     switch (priority) {
-      case 'high': return 'warning'
-      case 'low': return 'info'
-      default: return 'success'
+    case 'high':
+        return 'warning'
+    case 'low':
+        return 'info'
+    default:
+        return 'success'
     }
   },
 
@@ -272,37 +268,35 @@ export const notificationService = {
   async markAsRead(notificationId) {
     try {
       await apiUtils.patch(`/notifications/${notificationId}/read`)
-      
+
       const notification = notifications.value.find(n => n.id === notificationId)
       if (notification && !notification.read_at) {
         notification.read_at = new Date().toISOString()
         unreadCount.value = Math.max(0, unreadCount.value - 1)
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   },
 
   // Mark all notifications as read
   async markAllAsRead() {
     try {
       await apiUtils.patch('/notifications/mark-all-read')
-      
+
       notifications.value.forEach(notification => {
         if (!notification.read_at) {
           notification.read_at = new Date().toISOString()
         }
       })
-      
+
       unreadCount.value = 0
-    } catch (error) {
-    }
+    } catch (error) {}
   },
 
   // Delete notification
   async deleteNotification(notificationId) {
     try {
       await apiUtils.delete(`/notifications/${notificationId}`)
-      
+
       const index = notifications.value.findIndex(n => n.id === notificationId)
       if (index > -1) {
         const notification = notifications.value[index]
@@ -311,8 +305,7 @@ export const notificationService = {
         }
         notifications.value.splice(index, 1)
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   },
 
   // Clear all notifications
@@ -321,8 +314,7 @@ export const notificationService = {
       await apiUtils.delete('/notifications')
       notifications.value = []
       unreadCount.value = 0
-    } catch (error) {
-    }
+    } catch (error) {}
   },
 
   // Request notification permission
@@ -351,8 +343,7 @@ export const notificationService = {
   scheduleReconnect(userId) {
     reconnectAttempts.value++
     const delay = Math.min(1000 * Math.pow(2, reconnectAttempts.value), 30000) // Exponential backoff, max 30s
-    
-    
+
     setTimeout(() => {
       if (reconnectAttempts.value <= maxReconnectAttempts) {
         this.connectWebSocket(userId)
@@ -389,12 +380,11 @@ export const notificationService = {
 
   // Disconnect and cleanup
   disconnect() {
-    
     if (this.websocket) {
       this.websocket.close()
       this.websocket = null
     }
-    
+
     this.stopHeartbeat()
     isConnected.value = false
     reconnectAttempts.value = 0
@@ -440,25 +430,25 @@ export const notificationService = {
     if (diff < 60000) {
       return 'Just now'
     }
-    
+
     // Less than 1 hour
     if (diff < 3600000) {
       const minutes = Math.floor(diff / 60000)
       return `${minutes} minute${minutes > 1 ? 's' : ''} ago`
     }
-    
+
     // Less than 1 day
     if (diff < 86400000) {
       const hours = Math.floor(diff / 3600000)
       return `${hours} hour${hours > 1 ? 's' : ''} ago`
     }
-    
+
     // More than 1 day
     const days = Math.floor(diff / 86400000)
     if (days < 7) {
       return `${days} day${days > 1 ? 's' : ''} ago`
     }
-    
+
     // Format as date
     return date.toLocaleDateString('en-US', {
       month: 'short',

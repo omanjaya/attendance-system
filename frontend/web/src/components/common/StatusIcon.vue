@@ -1,6 +1,6 @@
 <template>
-  <TablerIcon 
-    :name="iconName" 
+  <TablerIcon
+    :name="iconName"
     :size="size"
     :class="iconClasses"
     :aria-label="ariaLabel"
@@ -16,10 +16,20 @@ const props = defineProps({
   status: {
     type: String,
     required: true,
-    validator: (value) => [
-      'present', 'absent', 'late', 'approved', 'pending', 
-      'active', 'inactive', 'success', 'error', 'warning', 'info'
-    ].includes(value)
+    validator: value =>
+      [
+        'present',
+        'absent',
+        'late',
+        'approved',
+        'pending',
+        'active',
+        'inactive',
+        'success',
+        'error',
+        'warning',
+        'info'
+      ].includes(value)
   },
   size: {
     type: [String, Number],
@@ -41,11 +51,11 @@ const statusIconMap = {
   present: 'check',
   absent: 'x',
   late: 'clock',
-  
+
   // Approval status
   approved: 'circle-check',
   pending: 'clock-pause',
-  
+
   // General status
   active: 'circle-check',
   inactive: 'circle-x',
@@ -89,10 +99,10 @@ const iconName = computed(() => statusIconMap[props.status] || 'help')
 
 const iconClasses = computed(() => {
   const classes = [statusColorMap[props.status] || 'text-muted']
-  
+
   // Add status-specific classes
   classes.push(`status-icon-${props.status}`)
-  
+
   return classes
 })
 
@@ -149,7 +159,9 @@ const ariaLabel = computed(() => {
 
 /* Animation for status changes */
 .tabler-icon {
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .tabler-icon:hover {
@@ -162,7 +174,8 @@ const ariaLabel = computed(() => {
 }
 
 @keyframes pulse-warning {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {

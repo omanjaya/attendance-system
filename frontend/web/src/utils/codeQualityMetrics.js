@@ -15,7 +15,7 @@ class CodeQualityMetrics {
       dependencies: new Map(),
       performance: new Map()
     }
-    
+
     this.thresholds = {
       cyclomaticComplexity: {
         low: 10,
@@ -56,8 +56,19 @@ class CodeQualityMetrics {
   // Cyclomatic Complexity Analysis
   calculateCyclomaticComplexity(code) {
     const complexityKeywords = [
-      'if', 'else', 'for', 'while', 'do', 'switch', 'case',
-      'catch', 'finally', '&&', '||', '?', 'throw'
+      'if',
+      'else',
+      'for',
+      'while',
+      'do',
+      'switch',
+      'case',
+      'catch',
+      'finally',
+      '&&',
+      '||',
+      '?',
+      'throw'
     ]
 
     let complexity = 1 // Base complexity
@@ -76,7 +87,7 @@ class CodeQualityMetrics {
   analyzeFileComplexity(filePath, code) {
     const complexity = this.calculateCyclomaticComplexity(code)
     const functions = this.extractFunctions(code)
-    
+
     const fileMetrics = {
       filePath,
       totalComplexity: complexity,
@@ -95,15 +106,16 @@ class CodeQualityMetrics {
   }
 
   extractFunctions(code) {
-    const functionRegex = /(?:function\s+(\w+)|const\s+(\w+)\s*=\s*(?:async\s+)?\(|(\w+)\s*:\s*(?:async\s+)?function|\w+\s*\(\s*\)\s*=>)/g
+    const functionRegex =
+      /(?:function\s+(\w+)|const\s+(\w+)\s*=\s*(?:async\s+)?\(|(\w+)\s*:\s*(?:async\s+)?function|\w+\s*\(\s*\)\s*=>)/g
     const functions = []
     let match
 
     while ((match = functionRegex.exec(code)) !== null) {
       const funcName = match[1] || match[2] || match[3] || 'anonymous'
-      
+
       // Extract function body (simplified)
-      let start = match.index
+      const start = match.index
       let braceCount = 0
       let inFunction = false
       let funcCode = ''
@@ -155,7 +167,7 @@ class CodeQualityMetrics {
         }
         codeBlocks.get(hash).push({
           file: file.path,
-          block: block,
+          block,
           code: block.code
         })
       })
@@ -177,7 +189,10 @@ class CodeQualityMetrics {
     const metrics = {
       totalFiles: files.length,
       duplicateBlocks: duplicates.length,
-      duplicatePercentage: duplicates.length > 0 ? (duplicates.reduce((sum, dup) => sum + dup.duplicateCount, 0) / files.length) * 100 : 0,
+      duplicatePercentage:
+        duplicates.length > 0
+          ? (duplicates.reduce((sum, dup) => sum + dup.duplicateCount, 0) / files.length) * 100
+          : 0,
       duplicates,
       timestamp: Date.now()
     }
@@ -192,10 +207,15 @@ class CodeQualityMetrics {
     let currentBlock = []
 
     lines.forEach((line, index) => {
-      if (line.trim().length > 0 && !line.trim().startsWith('//') && !line.trim().startsWith('/*')) {
+      if (
+        line.trim().length > 0 &&
+        !line.trim().startsWith('//') &&
+        !line.trim().startsWith('/*')
+      ) {
         currentBlock.push(line)
       } else {
-        if (currentBlock.length >= 5) { // Minimum 5 lines to consider
+        if (currentBlock.length >= 5) {
+          // Minimum 5 lines to consider
           blocks.push({
             startLine: index - currentBlock.length + 1,
             endLine: index,
@@ -213,7 +233,7 @@ class CodeQualityMetrics {
     let hash = 0
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i)
-      hash = ((hash << 5) - hash) + char
+      hash = (hash << 5) - hash + char
       hash = hash & hash // Convert to 32bit integer
     }
     return hash
@@ -259,22 +279,39 @@ class CodeQualityMetrics {
   }
 
   analyzeFileCoverage(files) {
-    return Object.entries(files).map(([filePath, fileData]) => ({
-      path: filePath,
-      statements: (fileData.s ? Object.values(fileData.s).filter(v => v > 0).length / Object.keys(fileData.s).length : 0) * 100,
-      branches: (fileData.b ? Object.values(fileData.b).flat().filter(v => v > 0).length / Object.values(fileData.b).flat().length : 0) * 100,
-      functions: (fileData.f ? Object.values(fileData.f).filter(v => v > 0).length / Object.keys(fileData.f).length : 0) * 100,
-      lines: (fileData.l ? Object.values(fileData.l).filter(v => v > 0).length / Object.keys(fileData.l).length : 0) * 100
-    })).sort((a, b) => a.statements - b.statements)
+    return Object.entries(files)
+      .map(([filePath, fileData]) => ({
+        path: filePath,
+        statements:
+          (fileData.s
+            ? Object.values(fileData.s).filter(v => v > 0).length / Object.keys(fileData.s).length
+            : 0) * 100,
+        branches:
+          (fileData.b
+            ? Object.values(fileData.b)
+                .flat()
+                .filter(v => v > 0).length / Object.values(fileData.b).flat().length
+            : 0) * 100,
+        functions:
+          (fileData.f
+            ? Object.values(fileData.f).filter(v => v > 0).length / Object.keys(fileData.f).length
+            : 0) * 100,
+        lines:
+          (fileData.l
+            ? Object.values(fileData.l).filter(v => v > 0).length / Object.keys(fileData.l).length
+            : 0) * 100
+      }))
+      .sort((a, b) => a.statements - b.statements)
   }
 
   rateCoverage(coverageData) {
-    const avgCoverage = (
-      (coverageData.total.covered / coverageData.total.statements) +
-      (coverageData.total.branchesCovered / coverageData.total.branches) +
-      (coverageData.total.functionsCovered / coverageData.total.functions) +
-      (coverageData.total.linesCovered / coverageData.total.lines)
-    ) / 4 * 100
+    const avgCoverage =
+      ((coverageData.total.covered / coverageData.total.statements +
+        coverageData.total.branchesCovered / coverageData.total.branches +
+        coverageData.total.functionsCovered / coverageData.total.functions +
+        coverageData.total.linesCovered / coverageData.total.lines) /
+        4) *
+      100
 
     if (avgCoverage >= this.thresholds.testCoverage.excellent) return 'excellent'
     if (avgCoverage >= this.thresholds.testCoverage.good) return 'good'
@@ -290,8 +327,14 @@ class CodeQualityMetrics {
     const commentLines = this.countCommentLines(code)
 
     // Simplified maintainability index calculation
-    const maintainabilityIndex = Math.max(0, 
-      (171 - 5.2 * Math.log(halsteadMetrics.volume) - 0.23 * cyclomaticComplexity - 16.2 * Math.log(linesOfCode)) * 100 / 171
+    const maintainabilityIndex = Math.max(
+      0,
+      ((171 -
+        5.2 * Math.log(halsteadMetrics.volume) -
+        0.23 * cyclomaticComplexity -
+        16.2 * Math.log(linesOfCode)) *
+        100) /
+        171
     )
 
     const metrics = {
@@ -311,12 +354,40 @@ class CodeQualityMetrics {
   }
 
   calculateHalsteadMetrics(code) {
-    const operators = ['+', '-', '*', '/', '=', '==', '===', '!=', '!==', '<', '>', '<=', '>=', '&&', '||', '!', '?', ':', ';', ',', '.', '[', ']', '{', '}', '(', ')']
+    const operators = [
+      '+',
+      '-',
+      '*',
+      '/',
+      '=',
+      '==',
+      '===',
+      '!=',
+      '!==',
+      '<',
+      '>',
+      '<=',
+      '>=',
+      '&&',
+      '||',
+      '!',
+      '?',
+      ':',
+      ';',
+      ',',
+      '.',
+      '[',
+      ']',
+      '{',
+      '}',
+      '(',
+      ')'
+    ]
     const operands = code.match(/\b[a-zA-Z_$][a-zA-Z0-9_$]*\b/g) || []
-    
+
     const uniqueOperators = new Set()
     const uniqueOperands = new Set(operands)
-    
+
     operators.forEach(op => {
       if (code.includes(op)) {
         uniqueOperators.add(op)
@@ -325,7 +396,10 @@ class CodeQualityMetrics {
 
     const n1 = uniqueOperators.size // Number of distinct operators
     const n2 = uniqueOperands.size // Number of distinct operands
-    const N1 = operators.reduce((count, op) => count + (code.match(new RegExp(`\\${op}`, 'g')) || []).length, 0) // Total operators
+    const N1 = operators.reduce(
+      (count, op) => count + (code.match(new RegExp(`\\${op}`, 'g')) || []).length,
+      0
+    ) // Total operators
     const N2 = operands.length // Total operands
 
     const vocabulary = n1 + n2
@@ -445,7 +519,7 @@ class CodeQualityMetrics {
     }
 
     // TODO/FIXME comments
-    const todoPattern = /\/\/\s*(TODO|FIXME|HACK|XXX).*$/gmi
+    const todoPattern = /\/\/\s*(TODO|FIXME|HACK|XXX).*$/gim
     const todos = code.match(todoPattern) || []
     todos.forEach(todo => {
       smells.push({
@@ -467,11 +541,11 @@ class CodeQualityMetrics {
 
     lines.forEach(line => {
       const trimmed = line.trim()
-      
+
       // Count opening braces/keywords that increase nesting
       const opens = (trimmed.match(/\{|if\s*\(|for\s*\(|while\s*\(|switch\s*\(/g) || []).length
       const closes = (trimmed.match(/\}/g) || []).length
-      
+
       currentNesting += opens - closes
       maxNesting = Math.max(maxNesting, currentNesting)
     })
@@ -481,9 +555,9 @@ class CodeQualityMetrics {
 
   estimateFixEffort(issue) {
     const effortMap = {
-      'error': 1.0,
-      'warning': 0.5,
-      'info': 0.25
+      error: 1.0,
+      warning: 0.5,
+      info: 0.25
     }
     return effortMap[issue.severity] || 0.5
   }
@@ -553,7 +627,7 @@ class CodeQualityMetrics {
     if (!this.metrics[category]) {
       this.metrics[category] = new Map()
     }
-    
+
     this.metrics[category].set(identifier, {
       ...data,
       id: this.generateId(),
@@ -591,7 +665,7 @@ class CodeQualityMetrics {
       Object.entries(this.metrics).forEach(([category, map]) => {
         serializable[category] = Object.fromEntries(map)
       })
-      
+
       localStorage.setItem('code_quality_metrics', JSON.stringify(serializable))
     } catch (e) {
       console.warn('Failed to save code quality metrics:', e)
@@ -649,7 +723,8 @@ class CodeQualityMetrics {
     })
 
     return {
-      overallScore: Object.values(scores).reduce((sum, score) => sum + score, 0) / Object.keys(scores).length,
+      overallScore:
+        Object.values(scores).reduce((sum, score) => sum + score, 0) / Object.keys(scores).length,
       categoryScores: scores,
       lastUpdated: Date.now()
     }
@@ -657,8 +732,17 @@ class CodeQualityMetrics {
 
   calculateCategoryScore(category, metrics) {
     // Simplified scoring based on ratings
-    const ratingScores = { excellent: 100, good: 80, fair: 60, acceptable: 50, moderate: 40, poor: 20, low: 80, high: 20 }
-    
+    const ratingScores = {
+      excellent: 100,
+      good: 80,
+      fair: 60,
+      acceptable: 50,
+      moderate: 40,
+      poor: 20,
+      low: 80,
+      high: 20
+    }
+
     const scores = metrics.map(metric => ratingScores[metric.rating] || 50)
     return scores.reduce((sum, score) => sum + score, 0) / scores.length
   }
@@ -668,8 +752,11 @@ class CodeQualityMetrics {
     if (complexityMetrics.length === 0) return null
 
     return {
-      avgComplexity: complexityMetrics.reduce((sum, m) => sum + m.avgComplexity, 0) / complexityMetrics.length,
-      highComplexityFiles: complexityMetrics.filter(m => m.rating === 'high' || m.rating === 'very-high').length,
+      avgComplexity:
+        complexityMetrics.reduce((sum, m) => sum + m.avgComplexity, 0) / complexityMetrics.length,
+      highComplexityFiles: complexityMetrics.filter(
+        m => m.rating === 'high' || m.rating === 'very-high'
+      ).length,
       totalFiles: complexityMetrics.length
     }
   }
@@ -695,7 +782,7 @@ class CodeQualityMetrics {
 
   getRecommendations() {
     const recommendations = []
-    
+
     const complexity = this.getComplexitySummary()
     if (complexity && complexity.highComplexityFiles > 0) {
       recommendations.push({
@@ -715,7 +802,7 @@ class CodeQualityMetrics {
     }
 
     const debt = this.getDebtSummary()
-    if (debt && debt.rating === 'high' || debt?.rating === 'critical') {
+    if ((debt && debt.rating === 'high') || debt?.rating === 'critical') {
       recommendations.push({
         type: 'debt',
         priority: 'high',
@@ -731,9 +818,7 @@ class CodeQualityMetrics {
     return {
       timestamp: Date.now(),
       metrics: Object.fromEntries(
-        Object.entries(this.metrics).map(([category, map]) => 
-          [category, Object.fromEntries(map)]
-        )
+        Object.entries(this.metrics).map(([category, map]) => [category, Object.fromEntries(map)])
       ),
       thresholds: this.thresholds,
       report: this.generateQualityReport()

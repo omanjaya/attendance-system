@@ -1,15 +1,14 @@
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 /**
  * Employee Types Composable
  * Handles the 4 employee types with their specific business logic
  */
 export function useEmployeeTypes() {
-  
   // Employee Type Constants (matching backend enum)
   const EMPLOYEE_TYPES = {
     TENAGA_KEPENDIDIKAN: 'tenaga_kependidikan',
-    GURU_TETAP: 'guru_tetap', 
+    GURU_TETAP: 'guru_tetap',
     GURU_HONORER: 'guru_honorer',
     TENAGA_HONORER: 'tenaga_honorer'
   }
@@ -33,9 +32,9 @@ export function useEmployeeTypes() {
         allowances: ['transport', 'meal', 'performance']
       }
     },
-    
+
     [EMPLOYEE_TYPES.GURU_TETAP]: {
-      label: 'Guru Tetap', 
+      label: 'Guru Tetap',
       description: 'Guru dengan status kepegawaian tetap',
       color: 'green',
       icon: 'school',
@@ -51,11 +50,11 @@ export function useEmployeeTypes() {
         allowances: ['transport', 'meal', 'teaching', 'performance']
       }
     },
-    
+
     [EMPLOYEE_TYPES.GURU_HONORER]: {
       label: 'Guru Honorer',
       description: 'Guru dengan sistem pembayaran per jam mengajar',
-      color: 'orange', 
+      color: 'orange',
       icon: 'clock',
       attendanceRules: {
         requiresSchedule: true,
@@ -70,7 +69,7 @@ export function useEmployeeTypes() {
         allowances: ['transport']
       }
     },
-    
+
     [EMPLOYEE_TYPES.TENAGA_HONORER]: {
       label: 'Tenaga Honorer',
       description: 'Tenaga kependidikan dengan sistem pembayaran per jam',
@@ -121,54 +120,54 @@ export function useEmployeeTypes() {
   })
 
   // Helper functions
-  const getEmployeeTypeConfig = (type) => {
+  const getEmployeeTypeConfig = type => {
     return employeeTypeDefinitions.value[type] || null
   }
 
-  const getEmployeeTypeLabel = (type) => {
+  const getEmployeeTypeLabel = type => {
     const config = getEmployeeTypeConfig(type)
     return config ? config.label : 'Unknown Type'
   }
 
-  const getEmployeeTypeColor = (type) => {
+  const getEmployeeTypeColor = type => {
     const config = getEmployeeTypeConfig(type)
     return config ? config.color : 'gray'
   }
 
-  const isHourlyPayment = (type) => {
+  const isHourlyPayment = type => {
     const config = getEmployeeTypeConfig(type)
     return config ? config.payrollConfig.hourlyBased : false
   }
 
-  const isSalaryBased = (type) => {
+  const isSalaryBased = type => {
     const config = getEmployeeTypeConfig(type)
     return config ? config.payrollConfig.salaryBased : false
   }
 
-  const requiresFixedSchedule = (type) => {
+  const requiresFixedSchedule = type => {
     const config = getEmployeeTypeConfig(type)
     return config ? config.attendanceRules.fixedHours : true
   }
 
-  const allowsOvertime = (type) => {
+  const allowsOvertime = type => {
     const config = getEmployeeTypeConfig(type)
     return config ? config.attendanceRules.overtimeAllowed : false
   }
 
-  const getAllowances = (type) => {
+  const getAllowances = type => {
     const config = getEmployeeTypeConfig(type)
     return config ? config.payrollConfig.allowances : []
   }
 
   // Business logic validation
-  const validateEmployeeType = (type) => {
+  const validateEmployeeType = type => {
     return Object.values(EMPLOYEE_TYPES).includes(type)
   }
 
-  const getPayrollCalculationMethod = (type) => {
+  const getPayrollCalculationMethod = type => {
     const config = getEmployeeTypeConfig(type)
     if (!config) return 'unknown'
-    
+
     if (config.payrollConfig.hourlyBased) {
       return 'hourly'
     } else if (config.payrollConfig.salaryBased) {
@@ -178,13 +177,11 @@ export function useEmployeeTypes() {
   }
 
   // Form field configurations based on employee type
-  const getFormFields = (type) => {
+  const getFormFields = type => {
     const config = getEmployeeTypeConfig(type)
     if (!config) return []
 
-    const baseFields = [
-      'employee_id', 'name', 'email', 'phone', 'address', 'hire_date'
-    ]
+    const baseFields = ['employee_id', 'name', 'email', 'phone', 'address', 'hire_date']
 
     const conditionalFields = []
 
@@ -214,15 +211,15 @@ export function useEmployeeTypes() {
   return {
     // Constants
     EMPLOYEE_TYPES,
-    
+
     // Reactive data
     employeeTypeDefinitions,
-    
-    // Computed properties  
+
+    // Computed properties
     employeeTypeOptions,
     hourlyPaymentTypes,
     salaryBasedTypes,
-    
+
     // Helper functions
     getEmployeeTypeConfig,
     getEmployeeTypeLabel,

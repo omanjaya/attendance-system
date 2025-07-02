@@ -8,12 +8,12 @@ export const lazyRoutes = [
     path: '/',
     name: 'Dashboard',
     component: () => import('@/pages/Dashboard.vue'),
-    meta: { 
+    meta: {
       title: 'Dashboard',
       preload: true // Preload this critical route
     }
   },
-  
+
   // Authentication routes
   {
     path: '/auth',
@@ -27,13 +27,13 @@ export const lazyRoutes = [
       },
       {
         path: 'register',
-        name: 'Register', 
+        name: 'Register',
         component: () => import('@/pages/auth/Register.vue'),
         meta: { title: 'Register' }
       }
     ]
   },
-  
+
   // Employee management routes
   {
     path: '/employees',
@@ -65,7 +65,7 @@ export const lazyRoutes = [
       }
     ]
   },
-  
+
   // Attendance routes
   {
     path: '/attendance',
@@ -87,14 +87,14 @@ export const lazyRoutes = [
         path: 'kiosk',
         name: 'AttendanceKiosk',
         component: () => import('@/pages/attendance/AttendanceKiosk.vue'),
-        meta: { 
+        meta: {
           title: 'Attendance Kiosk',
           layout: 'KioskLayout'
         }
       }
     ]
   },
-  
+
   // Reports routes (heavy components)
   {
     path: '/reports',

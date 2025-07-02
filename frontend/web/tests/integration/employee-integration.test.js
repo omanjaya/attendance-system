@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi, computed } from 'vitest'
+import { beforeEach, computed, describe, expect, it, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { mount } from '@vue/test-utils'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -41,8 +41,16 @@ const createTestRouter = () => {
     history: createWebHistory(),
     routes: [
       { path: '/employees', name: 'employees', component: { template: '<div>Employees</div>' } },
-      { path: '/employees/create', name: 'employee-create', component: { template: '<div>Create Employee</div>' } },
-      { path: '/employees/:id/edit', name: 'employee-edit', component: { template: '<div>Edit Employee</div>' } }
+      {
+        path: '/employees/create',
+        name: 'employee-create',
+        component: { template: '<div>Create Employee</div>' }
+      },
+      {
+        path: '/employees/:id/edit',
+        name: 'employee-edit',
+        component: { template: '<div>Edit Employee</div>' }
+      }
     ]
   })
 }
@@ -59,10 +67,10 @@ describe('Employee Integration Tests', () => {
     employeeStore = useEmployeeStore()
     authStore = useAuthStore()
     router = createTestRouter()
-    
+
     vi.clearAllMocks()
     mockShowNotification.mockClear()
-    
+
     // Set up authenticated admin user
     authStore.user = {
       id: 1,
@@ -280,7 +288,8 @@ describe('Employee Integration Tests', () => {
           plugins: [pinia, router],
           stubs: {
             FormField: {
-              template: '<div class="form-field"><input v-bind="$attrs" @input="$emit(\'update:modelValue\', $event.target.value)" /></div>',
+              template:
+                '<div class="form-field"><input v-bind="$attrs" @input="$emit(\'update:modelValue\', $event.target.value)" /></div>',
               emits: ['update:modelValue']
             },
             Modal: true,
@@ -340,7 +349,8 @@ describe('Employee Integration Tests', () => {
           plugins: [pinia, router],
           stubs: {
             DataTable: {
-              template: '<div><button @click="$emit(\'delete\', 1)" class="delete-btn">Delete</button></div>',
+              template:
+                '<div><button @click="$emit(\'delete\', 1)" class="delete-btn">Delete</button></div>',
               emits: ['delete']
             },
             Modal: {
@@ -554,7 +564,7 @@ describe('Employee Integration Tests', () => {
   describe('Employee Export Integration', () => {
     it('integrates export functionality', async () => {
       const exportData = new Blob(['CSV data'], { type: 'text/csv' })
-      
+
       employeeService.export.mockResolvedValueOnce(exportData)
 
       const wrapper = mount(EmployeeTable, {
@@ -562,7 +572,8 @@ describe('Employee Integration Tests', () => {
           plugins: [pinia, router],
           stubs: {
             DataTable: {
-              template: '<div><button @click="$emit(\'export\', \'csv\')" class="export-btn">Export CSV</button></div>',
+              template:
+                '<div><button @click="$emit(\'export\', \'csv\')" class="export-btn">Export CSV</button></div>',
               emits: ['export']
             },
             TablerIcon: true
@@ -573,7 +584,7 @@ describe('Employee Integration Tests', () => {
       // Mock URL.createObjectURL and link click
       global.URL.createObjectURL = vi.fn(() => 'blob:mock-url')
       global.URL.revokeObjectURL = vi.fn()
-      
+
       const mockLink = {
         click: vi.fn(),
         href: '',

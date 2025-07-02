@@ -1,6 +1,6 @@
 <template>
   <teleport to="body">
-    <div 
+    <div
       v-if="visible"
       class="modal fade show"
       :class="modalClass"
@@ -12,18 +12,13 @@
       @click="handleBackdropClick"
       @keydown.esc="handleEscape"
     >
-      <div 
-        class="modal-dialog"
-        :class="dialogClass"
-        role="document"
-        @click.stop
-      >
+      <div class="modal-dialog" :class="dialogClass" role="document" @click.stop>
         <div class="modal-content">
           <!-- Modal Header -->
           <div v-if="$slots.header || title" class="modal-header">
             <slot name="header">
-              <h5 class="modal-title" :id="titleId">{{ title }}</h5>
-              <button 
+              <h5 :id="titleId" class="modal-title">{{ title }}</h5>
+              <button
                 v-if="closable"
                 type="button"
                 class="btn-close"
@@ -32,18 +27,18 @@
               ></button>
             </slot>
           </div>
-          
+
           <!-- Modal Body -->
-          <div class="modal-body" :id="bodyId">
+          <div :id="bodyId" class="modal-body">
             <slot>
               <p v-if="message">{{ message }}</p>
             </slot>
           </div>
-          
+
           <!-- Modal Footer -->
           <div v-if="$slots.footer || showDefaultActions" class="modal-footer">
             <slot name="footer">
-              <button 
+              <button
                 v-if="showCancel"
                 type="button"
                 class="btn"
@@ -52,7 +47,7 @@
               >
                 {{ cancelText }}
               </button>
-              <button 
+              <button
                 v-if="showConfirm"
                 type="button"
                 class="btn"
@@ -68,18 +63,14 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Backdrop -->
-    <div 
-      v-if="visible"
-      class="modal-backdrop fade show"
-      @click="handleBackdropClick"
-    ></div>
+    <div v-if="visible" class="modal-backdrop fade show" @click="handleBackdropClick"></div>
   </teleport>
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { generateId } from '@/utils/helpers'
 import LoadingSpinner from './LoadingSpinner.vue'
 
@@ -91,14 +82,14 @@ const props = defineProps({
   },
   title: String,
   message: String,
-  
+
   // Size
   size: {
     type: String,
     default: 'md',
-    validator: (value) => ['sm', 'md', 'lg', 'xl', 'fullscreen'].includes(value)
+    validator: value => ['sm', 'md', 'lg', 'xl', 'fullscreen'].includes(value)
   },
-  
+
   // Behavior
   closable: {
     type: Boolean,
@@ -116,7 +107,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  
+
   // Actions
   showDefaultActions: {
     type: Boolean,
@@ -146,12 +137,12 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  
+
   // Styling
   variant: {
     type: String,
     default: 'default',
-    validator: (value) => ['default', 'danger', 'warning', 'success', 'info'].includes(value)
+    validator: value => ['default', 'danger', 'warning', 'success', 'info'].includes(value)
   },
   centered: {
     type: Boolean,
@@ -161,7 +152,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  
+
   // Accessibility
   closeLabel: {
     type: String,
@@ -169,15 +160,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits([
-  'update:visible',
-  'show',
-  'shown',
-  'hide',
-  'hidden',
-  'confirm',
-  'cancel'
-])
+const emit = defineEmits(['update:visible', 'show', 'shown', 'hide', 'hidden', 'confirm', 'cancel'])
 
 // State
 const titleId = ref(`modal-title-${generateId()}`)
@@ -216,40 +199,40 @@ const confirmButtonClass = computed(() => {
 // Methods
 const show = () => {
   if (props.visible) return
-  
+
   // Store the currently focused element
   previousActiveElement.value = document.activeElement
-  
+
   emit('update:visible', true)
   emit('show')
-  
+
   nextTick(() => {
     // Focus management
     focusModal()
-    
+
     // Prevent body scroll
     document.body.classList.add('modal-open')
-    
+
     emit('shown')
   })
 }
 
 const hide = () => {
   if (!props.visible) return
-  
+
   emit('hide')
   emit('update:visible', false)
-  
+
   nextTick(() => {
     // Restore focus
     if (previousActiveElement.value) {
       previousActiveElement.value.focus()
       previousActiveElement.value = null
     }
-    
+
     // Restore body scroll
     document.body.classList.remove('modal-open')
-    
+
     emit('hidden')
   })
 }
@@ -290,7 +273,7 @@ const focusModal = () => {
     const focusableElements = modal.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     )
-    
+
     if (focusableElements.length > 0) {
       focusableElements[0].focus()
     } else {
@@ -301,19 +284,19 @@ const focusModal = () => {
 }
 
 // Trap focus within modal
-const trapFocus = (e) => {
+const trapFocus = e => {
   if (!props.visible) return
-  
+
   const modal = document.querySelector('.modal.show')
   if (!modal) return
-  
+
   const focusableElements = modal.querySelectorAll(
     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
   )
-  
+
   const firstElement = focusableElements[0]
   const lastElement = focusableElements[focusableElements.length - 1]
-  
+
   if (e.key === 'Tab') {
     if (e.shiftKey) {
       if (document.activeElement === firstElement) {
@@ -330,18 +313,21 @@ const trapFocus = (e) => {
 }
 
 // Watchers
-watch(() => props.visible, (newVal) => {
-  if (newVal) {
-    show()
-  } else {
-    hide()
+watch(
+  () => props.visible,
+  newVal => {
+    if (newVal) {
+      show()
+    } else {
+      hide()
+    }
   }
-})
+)
 
 // Lifecycle
 onMounted(() => {
   document.addEventListener('keydown', trapFocus)
-  
+
   if (props.visible) {
     show()
   }
@@ -349,7 +335,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener('keydown', trapFocus)
-  
+
   // Cleanup on unmount
   if (props.visible) {
     document.body.classList.remove('modal-open')
@@ -453,7 +439,7 @@ defineExpose({
     margin: 0.5rem;
     max-width: calc(100% - 1rem);
   }
-  
+
   .modal-sm {
     max-width: calc(100% - 1rem);
   }

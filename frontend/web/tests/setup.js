@@ -26,7 +26,7 @@ global.ResizeObserver = class ResizeObserver {
 // Mock matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: (query) => ({
+  value: query => ({
     matches: false,
     media: query,
     onchange: null,
@@ -34,8 +34,8 @@ Object.defineProperty(window, 'matchMedia', {
     removeListener: () => {},
     addEventListener: () => {},
     removeEventListener: () => {},
-    dispatchEvent: () => {},
-  }),
+    dispatchEvent: () => {}
+  })
 })
 
 // Mock URL.createObjectURL
@@ -51,11 +51,11 @@ Object.defineProperty(window.URL, 'revokeObjectURL', {
 
 // Mock localStorage
 const localStorageMock = {
-  getItem: (key) => localStorageMock.store[key] || null,
+  getItem: key => localStorageMock.store[key] || null,
   setItem: (key, value) => {
     localStorageMock.store[key] = value.toString()
   },
-  removeItem: (key) => {
+  removeItem: key => {
     delete localStorageMock.store[key]
   },
   clear: () => {

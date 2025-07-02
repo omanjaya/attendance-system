@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi, computed, defineAsyncComponent } from 'vitest'
+import { beforeEach, computed, defineAsyncComponent, describe, expect, it, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { mount } from '@vue/test-utils'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -13,8 +13,18 @@ import UserDropdown from '@/layouts/UserDropdown.vue'
 // Mock router routes
 const routes = [
   { path: '/', redirect: '/dashboard' },
-  { path: '/dashboard', name: 'dashboard', component: { template: '<div>Dashboard</div>' }, meta: { requiresAuth: true } },
-  { path: '/employees', name: 'employees', component: { template: '<div>Employees</div>' }, meta: { requiresAuth: true } },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: { template: '<div>Dashboard</div>' },
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/employees',
+    name: 'employees',
+    component: { template: '<div>Employees</div>' },
+    meta: { requiresAuth: true }
+  },
   { path: '/auth/login', name: 'login', component: { template: '<div>Login</div>' } }
 ]
 
@@ -45,7 +55,7 @@ describe('Application Integration Tests', () => {
     authStore = useAuthStore()
     employeeStore = useEmployeeStore()
     router = createTestRouter()
-    
+
     vi.clearAllMocks()
     mockShowNotification.mockClear()
   })
@@ -79,7 +89,7 @@ describe('Application Integration Tests', () => {
       expect(wrapper.find('.sidebar').exists()).toBe(true)
       expect(wrapper.find('.header').exists()).toBe(true)
       expect(wrapper.find('.main-content').exists()).toBe(true)
-      
+
       // Verify user information is displayed
       expect(wrapper.text()).toContain('Test User')
     })
@@ -149,7 +159,7 @@ describe('Application Integration Tests', () => {
       // Should show navigation items based on permissions
       expect(wrapper.text()).toContain('Dashboard')
       expect(wrapper.text()).toContain('Employees')
-      
+
       // Test navigation
       const employeesLink = wrapper.find('a[href="/employees"]')
       expect(employeesLink.exists()).toBe(true)
@@ -161,7 +171,7 @@ describe('Application Integration Tests', () => {
 
       // Navigate to employees page
       await router.push('/employees')
-      
+
       const wrapper = mount(Header, {
         global: {
           plugins: [pinia, router],
@@ -205,12 +215,12 @@ describe('Application Integration Tests', () => {
         setup() {
           const { user: authUser } = useAuth()
           const { employees } = useEmployeeStore()
-          
+
           const employeeCount = computed(() => employees.length)
-          const activeEmployees = computed(() => 
-            employees.filter(emp => emp.status === 'active').length
+          const activeEmployees = computed(
+            () => employees.filter(emp => emp.status === 'active').length
           )
-          
+
           return {
             authUser,
             employeeCount,
@@ -245,22 +255,25 @@ describe('Application Integration Tests', () => {
       }
 
       // Create wrapper with error handling
-      const wrapper = mount({
-        template: '<Suspense><ErrorComponent /></Suspense>',
-        components: { ErrorComponent },
-        errorCaptured(err) {
-          mockShowNotification({
-            type: 'error',
-            title: 'Application Error',
-            message: 'An unexpected error occurred'
-          })
-          return false
+      const wrapper = mount(
+        {
+          template: '<Suspense><ErrorComponent /></Suspense>',
+          components: { ErrorComponent },
+          errorCaptured(err) {
+            mockShowNotification({
+              type: 'error',
+              title: 'Application Error',
+              message: 'An unexpected error occurred'
+            })
+            return false
+          }
+        },
+        {
+          global: {
+            plugins: [pinia, router]
+          }
         }
-      }, {
-        global: {
-          plugins: [pinia, router]
-        }
-      })
+      )
 
       await wrapper.vm.$nextTick()
 
@@ -290,7 +303,7 @@ describe('Application Integration Tests', () => {
             beforeEnter: (to, from, next) => {
               routeGuardCalled = true
               const { isAuthenticated } = useAuth()
-              
+
               if (!isAuthenticated.value) {
                 redirectedTo = '/auth/login'
                 next({ path: '/auth/login', query: { redirect: to.fullPath } })
@@ -337,7 +350,7 @@ describe('Application Integration Tests', () => {
             meta: { requiresAuth: true },
             beforeEnter: (to, from, next) => {
               const { isAuthenticated } = useAuth()
-              
+
               if (isAuthenticated.value) {
                 accessGranted = true
                 next()
@@ -380,7 +393,7 @@ describe('Application Integration Tests', () => {
         `,
         setup() {
           const employeeStore = useEmployeeStore()
-          
+
           const addEmployee = () => {
             employeeStore.employees.push({
               id: Date.now(),
@@ -388,7 +401,7 @@ describe('Application Integration Tests', () => {
               status: 'active'
             })
           }
-          
+
           return { employeeStore, addEmployee }
         }
       }
@@ -431,17 +444,20 @@ describe('Application Integration Tests', () => {
         })
       })
 
-      const wrapper = mount({
-        template: '<Suspense><LazyComponent v-if="showLazy" /></Suspense>',
-        components: { LazyComponent },
-        data() {
-          return { showLazy: false }
+      const wrapper = mount(
+        {
+          template: '<Suspense><LazyComponent v-if="showLazy" /></Suspense>',
+          components: { LazyComponent },
+          data() {
+            return { showLazy: false }
+          }
+        },
+        {
+          global: {
+            plugins: [pinia, router]
+          }
         }
-      }, {
-        global: {
-          plugins: [pinia, router]
-        }
-      })
+      )
 
       expect(componentLoaded).toBe(false)
 

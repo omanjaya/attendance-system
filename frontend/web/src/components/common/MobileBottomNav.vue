@@ -1,9 +1,5 @@
 <template>
-  <nav 
-    v-if="isMobile"
-    class="mobile-bottom-nav"
-    :class="{ 'nav-hidden': isHidden }"
-  >
+  <nav v-if="isMobile" class="mobile-bottom-nav" :class="{ 'nav-hidden': isHidden }">
     <div class="nav-items">
       <router-link
         v-for="item in navItems"
@@ -21,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMobileOptimization } from '@/composables/useMobileOptimization'
 import TablerIcon from './TablerIcon.vue'
@@ -44,27 +40,29 @@ const navItems = [
 ]
 
 // Methods
-const isActive = (path) => {
+const isActive = path => {
   if (path === '/') {
     return route.path === '/'
   }
   return route.path.startsWith(path)
 }
 
-const handleNavClick = (item) => {
+const handleNavClick = item => {
   // Haptic feedback
   vibrate(10)
-  
+
   // Emit navigation event
-  document.dispatchEvent(new CustomEvent('mobile:nav-click', {
-    detail: { path: item.to }
-  }))
+  document.dispatchEvent(
+    new CustomEvent('mobile:nav-click', {
+      detail: { path: item.to }
+    })
+  )
 }
 
 // Auto-hide on scroll
 const handleScroll = () => {
   const currentScrollY = window.scrollY
-  
+
   if (currentScrollY > lastScrollY && currentScrollY > 50) {
     // Scrolling down
     isHidden.value = true
@@ -72,7 +70,7 @@ const handleScroll = () => {
     // Scrolling up
     isHidden.value = false
   }
-  
+
   lastScrollY = currentScrollY
 }
 
@@ -168,7 +166,7 @@ onUnmounted(() => {
   .mobile-bottom-nav {
     padding-bottom: env(safe-area-inset-bottom);
   }
-  
+
   .nav-items {
     padding-bottom: env(safe-area-inset-bottom);
   }
@@ -179,11 +177,11 @@ onUnmounted(() => {
   .mobile-bottom-nav {
     height: 48px;
   }
-  
+
   .nav-items {
     height: 48px;
   }
-  
+
   .nav-label {
     display: none;
   }

@@ -12,14 +12,21 @@
     <span v-if="loading" class="btn-loading">
       <span class="spinner-border spinner-border-sm" role="status"></span>
     </span>
-    
-    <span v-if="icon && !loading" class="btn-icon" :class="{ 'btn-icon-start': iconPosition === 'start', 'btn-icon-end': iconPosition === 'end' }">
+
+    <span
+      v-if="icon && !loading"
+      class="btn-icon"
+      :class="{
+        'btn-icon-start': iconPosition === 'start',
+        'btn-icon-end': iconPosition === 'end'
+      }"
+    >
       <svg v-if="typeof icon === 'string'" class="icon" :class="`icon-${icon}`">
         <use :href="`#tabler-${icon}`"></use>
       </svg>
-      <component v-else :is="icon" class="icon" />
+      <component :is="icon" v-else class="icon" />
     </span>
-    
+
     <span v-if="$slots.default" class="btn-text">
       <slot />
     </span>
@@ -34,79 +41,94 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'primary',
-    validator: (value) => [
-      'primary', 'secondary', 'success', 'warning', 'danger', 'info',
-      'light', 'dark', 'outline-primary', 'outline-secondary', 'outline-success',
-      'outline-warning', 'outline-danger', 'outline-info', 'outline-light', 'outline-dark',
-      'ghost', 'link'
-    ].includes(value)
+    validator: value =>
+      [
+        'primary',
+        'secondary',
+        'success',
+        'warning',
+        'danger',
+        'info',
+        'light',
+        'dark',
+        'outline-primary',
+        'outline-secondary',
+        'outline-success',
+        'outline-warning',
+        'outline-danger',
+        'outline-info',
+        'outline-light',
+        'outline-dark',
+        'ghost',
+        'link'
+      ].includes(value)
   },
-  
+
   // Button sizes
   size: {
     type: String,
     default: 'md',
-    validator: (value) => ['xs', 'sm', 'md', 'lg', 'xl'].includes(value)
+    validator: value => ['xs', 'sm', 'md', 'lg', 'xl'].includes(value)
   },
-  
+
   // Button states
   loading: {
     type: Boolean,
     default: false
   },
-  
+
   disabled: {
     type: Boolean,
     default: false
   },
-  
+
   // Button type (when used as button element)
   type: {
     type: String,
     default: 'button',
-    validator: (value) => ['button', 'submit', 'reset'].includes(value)
+    validator: value => ['button', 'submit', 'reset'].includes(value)
   },
-  
+
   // Router link props
   to: {
     type: [String, Object],
     default: null
   },
-  
+
   // External link props
   href: {
     type: String,
     default: null
   },
-  
+
   // Icon props
   icon: {
     type: [String, Object, Function],
     default: null
   },
-  
+
   iconPosition: {
     type: String,
     default: 'start',
-    validator: (value) => ['start', 'end'].includes(value)
+    validator: value => ['start', 'end'].includes(value)
   },
-  
+
   // Button styles
   block: {
     type: Boolean,
     default: false
   },
-  
+
   pill: {
     type: Boolean,
     default: false
   },
-  
+
   square: {
     type: Boolean,
     default: false
   },
-  
+
   // Only icon button
   iconOnly: {
     type: Boolean,
@@ -126,7 +148,7 @@ const tag = computed(() => {
 // Button classes
 const buttonClasses = computed(() => {
   const classes = ['btn']
-  
+
   // Variant classes
   if (props.variant.startsWith('outline-')) {
     classes.push(`btn-outline-${props.variant.replace('outline-', '')}`)
@@ -137,43 +159,43 @@ const buttonClasses = computed(() => {
   } else {
     classes.push(`btn-${props.variant}`)
   }
-  
+
   // Size classes
   if (props.size !== 'md') {
     classes.push(`btn-${props.size}`)
   }
-  
+
   // State classes
   if (props.loading) {
     classes.push('btn-loading')
   }
-  
+
   if (props.disabled) {
     classes.push('disabled')
   }
-  
+
   // Style classes
   if (props.block) {
     classes.push('btn-block')
   }
-  
+
   if (props.pill) {
     classes.push('btn-pill')
   }
-  
+
   if (props.square) {
     classes.push('btn-square')
   }
-  
+
   if (props.iconOnly) {
     classes.push('btn-icon-only')
   }
-  
+
   return classes
 })
 
 // Handle click event
-const handleClick = (event) => {
+const handleClick = event => {
   if (props.loading || props.disabled) {
     event.preventDefault()
     return
@@ -412,7 +434,7 @@ const handleClick = (event) => {
     font-size: var(--font-size-sm);
     padding: var(--space-2) var(--space-3);
   }
-  
+
   .btn-lg {
     font-size: var(--font-size-base);
     padding: var(--space-3) var(--space-4);

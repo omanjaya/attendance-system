@@ -6,7 +6,7 @@
       <span v-if="required" class="text-danger ms-1">*</span>
       <span v-if="optional" class="text-muted ms-1">(optional)</span>
     </label>
-    
+
     <!-- Input wrapper -->
     <div class="input-wrapper" :class="wrapperClasses">
       <!-- Prefix icon/content -->
@@ -17,7 +17,7 @@
           </svg>
         </slot>
       </div>
-      
+
       <!-- Input element -->
       <component
         :is="inputComponent"
@@ -39,24 +39,31 @@
         :minlength="minlength"
         :class="inputClasses"
         :value="modelValue"
+        v-bind="$attrs"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
         @blur="handleBlur"
         @keydown="handleKeydown"
-        v-bind="$attrs"
       >
         <!-- Select options -->
         <template v-if="type === 'select'">
           <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
-          <option v-for="option in options" :key="getOptionValue(option)" :value="getOptionValue(option)">
+          <option
+            v-for="option in options"
+            :key="getOptionValue(option)"
+            :value="getOptionValue(option)"
+          >
             {{ getOptionLabel(option) }}
           </option>
         </template>
       </component>
-      
+
       <!-- Suffix icon/content -->
-      <div v-if="$slots.suffix || suffixIcon || clearable || type === 'password'" class="input-suffix">
+      <div
+        v-if="$slots.suffix || suffixIcon || clearable || type === 'password'"
+        class="input-suffix"
+      >
         <!-- Clear button -->
         <button
           v-if="clearable && modelValue && !disabled && !readonly"
@@ -68,7 +75,7 @@
             <use href="#tabler-x"></use>
           </svg>
         </button>
-        
+
         <!-- Password toggle -->
         <button
           v-if="type === 'password'"
@@ -80,7 +87,7 @@
             <use :href="showPassword ? '#tabler-eye-off' : '#tabler-eye'"></use>
           </svg>
         </button>
-        
+
         <!-- Custom suffix -->
         <slot name="suffix">
           <svg v-if="suffixIcon" class="icon input-icon">
@@ -89,26 +96,30 @@
         </slot>
       </div>
     </div>
-    
+
     <!-- Help text -->
     <div v-if="helpText && !error" class="form-help">
       {{ helpText }}
     </div>
-    
+
     <!-- Error message -->
     <div v-if="error" class="form-error">
       {{ error }}
     </div>
-    
+
     <!-- Character count -->
-    <div v-if="showCharCount && maxlength" class="form-char-count" :class="{ 'text-danger': isCharLimitExceeded }">
+    <div
+      v-if="showCharCount && maxlength"
+      class="form-char-count"
+      :class="{ 'text-danger': isCharLimitExceeded }"
+    >
       {{ characterCount }}/{{ maxlength }}
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 
 const props = defineProps({
   // v-model
@@ -116,47 +127,58 @@ const props = defineProps({
     type: [String, Number, Boolean, Array],
     default: ''
   },
-  
+
   // Input attributes
   type: {
     type: String,
     default: 'text',
-    validator: (value) => [
-      'text', 'email', 'password', 'number', 'tel', 'url', 'search',
-      'textarea', 'select', 'date', 'datetime-local', 'time'
-    ].includes(value)
+    validator: value =>
+      [
+        'text',
+        'email',
+        'password',
+        'number',
+        'tel',
+        'url',
+        'search',
+        'textarea',
+        'select',
+        'date',
+        'datetime-local',
+        'time'
+      ].includes(value)
   },
-  
+
   name: String,
   placeholder: String,
   autocomplete: String,
-  
+
   // Validation
   required: {
     type: Boolean,
     default: false
   },
-  
+
   optional: {
     type: Boolean,
     default: false
   },
-  
+
   disabled: {
     type: Boolean,
     default: false
   },
-  
+
   readonly: {
     type: Boolean,
     default: false
   },
-  
+
   // Labels and help
   label: String,
   helpText: String,
   error: String,
-  
+
   // Input constraints
   min: [String, Number],
   max: [String, Number],
@@ -164,58 +186,58 @@ const props = defineProps({
   pattern: String,
   maxlength: [String, Number],
   minlength: [String, Number],
-  
+
   // Textarea specific
   rows: {
     type: [String, Number],
     default: 3
   },
   cols: [String, Number],
-  
+
   // Select specific
   options: {
     type: Array,
     default: () => []
   },
-  
+
   optionLabel: {
     type: String,
     default: 'label'
   },
-  
+
   optionValue: {
     type: String,
     default: 'value'
   },
-  
+
   // Input styling
   size: {
     type: String,
     default: 'md',
-    validator: (value) => ['sm', 'md', 'lg'].includes(value)
+    validator: value => ['sm', 'md', 'lg'].includes(value)
   },
-  
+
   variant: {
     type: String,
     default: 'default',
-    validator: (value) => ['default', 'filled', 'underlined'].includes(value)
+    validator: value => ['default', 'filled', 'underlined'].includes(value)
   },
-  
+
   // Icons
   prefixIcon: String,
   suffixIcon: String,
-  
+
   // Features
   clearable: {
     type: Boolean,
     default: false
   },
-  
+
   showCharCount: {
     type: Boolean,
     default: false
   },
-  
+
   // Auto-resize for textarea
   autoResize: {
     type: Boolean,
@@ -257,73 +279,73 @@ const isCharLimitExceeded = computed(() => {
 // Classes
 const groupClasses = computed(() => {
   const classes = []
-  
+
   if (props.error) {
     classes.push('has-error')
   }
-  
+
   if (isFocused.value) {
     classes.push('is-focused')
   }
-  
+
   if (props.disabled) {
     classes.push('is-disabled')
   }
-  
+
   return classes
 })
 
 const labelClasses = computed(() => {
   const classes = []
-  
+
   if (props.required) {
     classes.push('required')
   }
-  
+
   return classes
 })
 
 const wrapperClasses = computed(() => {
   const classes = ['input-group']
-  
+
   if (props.variant !== 'default') {
     classes.push(`input-group-${props.variant}`)
   }
-  
+
   if (props.size !== 'md') {
     classes.push(`input-group-${props.size}`)
   }
-  
+
   if (props.error) {
     classes.push('is-invalid')
   }
-  
+
   if (isFocused.value) {
     classes.push('is-focused')
   }
-  
+
   return classes
 })
 
 const inputClasses = computed(() => {
   const classes = ['form-control']
-  
+
   if (props.size !== 'md') {
     classes.push(`form-control-${props.size}`)
   }
-  
+
   if (props.error) {
     classes.push('is-invalid')
   }
-  
+
   return classes
 })
 
 // Event handlers
-const handleInput = (event) => {
+const handleInput = event => {
   const value = event.target.value
   emit('update:modelValue', value)
-  
+
   if (props.autoResize && props.type === 'textarea') {
     nextTick(() => {
       autoResize(event.target)
@@ -331,21 +353,21 @@ const handleInput = (event) => {
   }
 }
 
-const handleChange = (event) => {
+const handleChange = event => {
   emit('change', event)
 }
 
-const handleFocus = (event) => {
+const handleFocus = event => {
   isFocused.value = true
   emit('focus', event)
 }
 
-const handleBlur = (event) => {
+const handleBlur = event => {
   isFocused.value = false
   emit('blur', event)
 }
 
-const handleKeydown = (event) => {
+const handleKeydown = event => {
   emit('keydown', event)
 }
 
@@ -359,22 +381,22 @@ const togglePassword = () => {
 }
 
 // Auto-resize textarea
-const autoResize = (textarea) => {
+const autoResize = textarea => {
   textarea.style.height = 'auto'
   // Cap textarea height at 500px to prevent excessive growth
   const newHeight = Math.min(textarea.scrollHeight, 500)
-  textarea.style.height = newHeight + 'px'
+  textarea.style.height = `${newHeight}px`
 }
 
 // Option helpers for select
-const getOptionValue = (option) => {
+const getOptionValue = option => {
   if (typeof option === 'object') {
     return option[props.optionValue]
   }
   return option
 }
 
-const getOptionLabel = (option) => {
+const getOptionLabel = option => {
   if (typeof option === 'object') {
     return option[props.optionLabel]
   }
@@ -382,16 +404,19 @@ const getOptionLabel = (option) => {
 }
 
 // Watch for auto-resize
-watch(() => props.modelValue, () => {
-  if (props.autoResize && props.type === 'textarea') {
-    nextTick(() => {
-      const textarea = document.getElementById(inputId.value)
-      if (textarea) {
-        autoResize(textarea)
-      }
-    })
+watch(
+  () => props.modelValue,
+  () => {
+    if (props.autoResize && props.type === 'textarea') {
+      nextTick(() => {
+        const textarea = document.getElementById(inputId.value)
+        if (textarea) {
+          autoResize(textarea)
+        }
+      })
+    }
   }
-})
+)
 </script>
 
 <style scoped>
@@ -591,12 +616,12 @@ select.form-control {
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .input-group-filled {
+[data-theme='dark'] .input-group-filled {
   background-color: var(--color-gray-800);
 }
 
-[data-theme="dark"] .input-clear:hover,
-[data-theme="dark"] .input-password-toggle:hover {
+[data-theme='dark'] .input-clear:hover,
+[data-theme='dark'] .input-password-toggle:hover {
   background-color: var(--color-gray-700);
 }
 </style>

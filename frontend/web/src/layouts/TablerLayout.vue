@@ -2,29 +2,26 @@
   <!-- Exact Tabler.io Page Structure -->
   <div class="page">
     <!-- Tabler Header -->
-    <TablerHeader 
-      :user="currentUser"
-      @logout="logout"
-    />
-    
+    <TablerHeader :user="currentUser" @logout="logout" />
+
     <!-- Page Wrapper - Exact Tabler Structure -->
     <div class="page-wrapper">
       <!-- Page Header -->
-      <div class="page-header d-print-none" v-if="showPageHeader">
+      <div v-if="showPageHeader" class="page-header d-print-none">
         <div class="container-xl">
           <div class="row g-2 align-items-center">
             <div class="col">
               <!-- Breadcrumbs -->
-              <nav aria-label="breadcrumb" v-if="breadcrumbs && breadcrumbs.length > 0">
+              <nav v-if="breadcrumbs && breadcrumbs.length > 0" aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-arrows">
                   <li class="breadcrumb-item">
                     <router-link to="/">Home</router-link>
                   </li>
-                  <li 
-                    v-for="(crumb, index) in breadcrumbs" 
+                  <li
+                    v-for="(crumb, index) in breadcrumbs"
                     :key="index"
                     class="breadcrumb-item"
-                    :class="{ 'active': index === breadcrumbs.length - 1 }"
+                    :class="{ active: index === breadcrumbs.length - 1 }"
                   >
                     <router-link v-if="crumb.to && index !== breadcrumbs.length - 1" :to="crumb.to">
                       {{ crumb.label }}
@@ -34,11 +31,11 @@
                 </ol>
               </nav>
               <!-- Page pretitle and title exactly like Tabler -->
-              <div class="page-pretitle" v-if="pageSubtitle">{{ pageSubtitle }}</div>
+              <div v-if="pageSubtitle" class="page-pretitle">{{ pageSubtitle }}</div>
               <h2 class="page-title">{{ pageTitle }}</h2>
             </div>
             <!-- Page actions -->
-            <div class="col-12 col-md-auto ms-auto d-print-none" v-if="$slots.actions">
+            <div v-if="$slots.actions" class="col-12 col-md-auto ms-auto d-print-none">
               <div class="btn-list">
                 <slot name="actions"></slot>
               </div>
@@ -46,18 +43,17 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Page Body -->
       <div class="page-body">
         <div class="container-xl">
-          
           <!-- Main content with enhanced error handling -->
-          <main id="main-content" tabindex="-1" ref="mainContent">
+          <main id="main-content" ref="mainContent" tabindex="-1">
             <ErrorBoundary>
               <template #default>
                 <router-view v-slot="{ Component, route }">
-                  <transition 
-                    name="page" 
+                  <transition
+                    name="page"
                     mode="out-in"
                     @before-leave="onBeforeLeave"
                     @enter="onEnter"
@@ -71,8 +67,8 @@
                     >
                       <template #default>
                         <KeepAlive :include="keepAliveComponents">
-                          <component 
-                            :is="Component" 
+                          <component
+                            :is="Component"
                             :key="route.fullPath"
                             class="page-component"
                             @vue:mounted="onComponentMounted"
@@ -80,9 +76,9 @@
                           />
                         </KeepAlive>
                       </template>
-                      
+
                       <template #fallback>
-                        <LoadingSpinner 
+                        <LoadingSpinner
                           :title="loadingTitle"
                           :subtitle="loadingSubtitle"
                           size="large"
@@ -94,16 +90,29 @@
                   </transition>
                 </router-view>
               </template>
-              
+
               <template #fallback="{ error, retry }">
                 <div class="card">
                   <div class="card-body text-center">
                     <div class="empty">
                       <div class="empty-img">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-lg text-danger" width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                          <path d="M12 9v2m0 4v.01"/>
-                          <path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75"/>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="icon icon-lg text-danger"
+                          width="48"
+                          height="48"
+                          viewBox="0 0 24 24"
+                          stroke-width="2"
+                          stroke="currentColor"
+                          fill="none"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M12 9v2m0 4v.01" />
+                          <path
+                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75"
+                          />
                         </svg>
                       </div>
                       <p class="empty-title">Component Error</p>
@@ -112,16 +121,25 @@
                       </p>
                       <div class="empty-action">
                         <button class="btn btn-primary" @click="retry">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"/>
-                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="icon me-2"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
                           </svg>
                           Try Again
                         </button>
-                        <router-link to="/" class="btn btn-link">
-                          Go to Dashboard
-                        </router-link>
+                        <router-link to="/" class="btn btn-link"> Go to Dashboard </router-link>
                       </div>
                     </div>
                   </div>
@@ -131,18 +149,18 @@
           </main>
         </div>
       </div>
-      
+
       <!-- Footer -->
       <TablerFooter />
     </div>
-    
+
     <!-- Toast Notification Container -->
     <ToastNotification />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import TablerHeader from '@/components/layout/TablerHeader.vue'
@@ -171,7 +189,12 @@ const keepAliveComponents = ['Dashboard', 'EmployeeList', 'AttendanceList', 'Rep
 const currentUser = computed(() => ({
   name: authStore.userName || 'Administrator',
   email: authStore.userEmail || 'admin@school.edu',
-  initials: (authStore.userName || 'Administrator').split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2),
+  initials: (authStore.userName || 'Administrator')
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2),
   avatar: authStore.userAvatar,
   role: 'Administrator'
 }))
@@ -180,7 +203,7 @@ const currentUser = computed(() => ({
 const pageTitle = computed(() => {
   const routeTitle = route.meta?.title
   if (routeTitle) return routeTitle
-  
+
   // Default titles based on path
   const path = route.path
   if (path === '/') return 'Dashboard'
@@ -190,14 +213,14 @@ const pageTitle = computed(() => {
   if (path.startsWith('/payroll')) return 'Payroll'
   if (path.startsWith('/reports')) return 'Reports'
   if (path.startsWith('/settings')) return 'Settings'
-  
+
   return 'Dashboard'
 })
 
 const pageSubtitle = computed(() => {
   const routeSubtitle = route.meta?.subtitle
   if (routeSubtitle) return routeSubtitle
-  
+
   // Default subtitles based on path
   const path = route.path
   if (path === '/') return 'Overview'
@@ -207,7 +230,7 @@ const pageSubtitle = computed(() => {
   if (path.startsWith('/payroll')) return 'Finance'
   if (path.startsWith('/reports')) return 'Analytics'
   if (path.startsWith('/settings')) return 'Configuration'
-  
+
   return null
 })
 
@@ -220,28 +243,28 @@ const showPageHeader = computed(() => route.meta?.showHeader !== false)
 // Dynamic loading messages based on route
 const loadingTitle = computed(() => {
   const routeMessages = {
-    'EmployeeList': 'Loading Employee Data',
-    'EmployeeCreate': 'Preparing Employee Form',
-    'AttendanceList': 'Loading Attendance Records',
-    'AttendanceManage': 'Loading Attendance Management',
-    'PayrollList': 'Loading Payroll Information',
-    'ReportsDashboard': 'Loading Reports Dashboard',
-    'SettingsGeneral': 'Loading Settings',
-    'default': 'Loading Page'
+    EmployeeList: 'Loading Employee Data',
+    EmployeeCreate: 'Preparing Employee Form',
+    AttendanceList: 'Loading Attendance Records',
+    AttendanceManage: 'Loading Attendance Management',
+    PayrollList: 'Loading Payroll Information',
+    ReportsDashboard: 'Loading Reports Dashboard',
+    SettingsGeneral: 'Loading Settings',
+    default: 'Loading Page'
   }
-  
+
   return routeMessages[route.name] || routeMessages.default
 })
 
 const loadingSubtitle = computed(() => {
   const subtitles = {
-    'EmployeeList': 'Fetching employee database and profiles...',
-    'AttendanceList': 'Retrieving attendance records and statistics...',
-    'PayrollList': 'Loading salary calculations and payroll data...',
-    'ReportsDashboard': 'Preparing analytics and report data...',
-    'default': 'Please wait while we prepare the content...'
+    EmployeeList: 'Fetching employee database and profiles...',
+    AttendanceList: 'Retrieving attendance records and statistics...',
+    PayrollList: 'Loading salary calculations and payroll data...',
+    ReportsDashboard: 'Preparing analytics and report data...',
+    default: 'Please wait while we prepare the content...'
   }
-  
+
   return subtitles[route.name] || subtitles.default
 })
 
@@ -278,18 +301,18 @@ const onEnter = () => {
 
 const onAfterEnter = async () => {
   console.log('🎯 Transition: Page transition completed')
-  
+
   // Ensure DOM is updated
   await nextTick()
-  
+
   // Focus management for accessibility - but without visible outline
   if (mainContent.value) {
     // Remove any existing focus
     document.activeElement?.blur()
-    
+
     // Set focus without visible outline
     mainContent.value.focus({ preventScroll: true })
-    
+
     // Remove focus immediately to prevent blue border but maintain accessibility
     setTimeout(() => {
       if (document.activeElement === mainContent.value) {
@@ -297,7 +320,7 @@ const onAfterEnter = async () => {
       }
     }, 100)
   }
-  
+
   // Log successful navigation
   const loadTime = Date.now() - (loadingStartTime.value || 0)
   console.log(`📊 Total navigation time: ${loadTime}ms`)
@@ -306,7 +329,7 @@ const onAfterEnter = async () => {
 // Component lifecycle handlers
 const onComponentMounted = () => {
   console.log(`🎉 Component mounted: ${route.name}`)
-  
+
   // Track component mount time
   const mountTime = Date.now() - (loadingStartTime.value || 0)
   if (mountTime > 0) {
@@ -325,15 +348,18 @@ const logout = async () => {
 }
 
 // Route change handling
-watch(() => route.path, async (newPath, oldPath) => {
-  if (newPath !== oldPath) {
-    // Focus main content on route change for accessibility
-    await nextTick()
-    if (mainContent.value) {
-      mainContent.value.focus()
+watch(
+  () => route.path,
+  async (newPath, oldPath) => {
+    if (newPath !== oldPath) {
+      // Focus main content on route change for accessibility
+      await nextTick()
+      if (mainContent.value) {
+        mainContent.value.focus()
+      }
     }
   }
-})
+)
 
 // Lifecycle
 onMounted(() => {
@@ -394,7 +420,7 @@ onMounted(() => {
   align-items: center;
 }
 
-[data-bs-theme="dark"] .loading-overlay {
+[data-bs-theme='dark'] .loading-overlay {
   background-color: rgba(26, 32, 44, 0.9);
 }
 

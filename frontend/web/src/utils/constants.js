@@ -14,7 +14,7 @@ export const EMPLOYEE_TYPES = {
 export const EMPLOYEE_TYPE_LABELS = {
   [EMPLOYEE_TYPES.TENAGA_KEPENDIDIKAN]: 'Tenaga Kependidikan',
   [EMPLOYEE_TYPES.GURU_TETAP]: 'Guru Tetap',
-  [EMPLOYEE_TYPES.GURU_HONORER]: 'Guru Honorer', 
+  [EMPLOYEE_TYPES.GURU_HONORER]: 'Guru Honorer',
   [EMPLOYEE_TYPES.TENAGA_HONORER]: 'Tenaga Honorer'
 }
 
@@ -91,7 +91,10 @@ export const FILE_UPLOAD = {
   ALLOWED_TYPES: {
     IMAGES: ['image/jpeg', 'image/png', 'image/gif'],
     DOCUMENTS: ['application/pdf', 'application/vnd.ms-excel'],
-    EXCEL: ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+    EXCEL: [
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ]
   }
 }
 

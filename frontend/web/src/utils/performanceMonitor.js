@@ -15,19 +15,19 @@ class PerformanceMonitor {
       enableRenderTracking: true,
       enableNetworkTracking: true
     }
-    
+
     this.init()
   }
 
   init() {
     if (typeof window === 'undefined') return
-    
+
     this.setupPerformanceObserver()
     this.setupMemoryTracking()
     this.setupNetworkTracking()
     this.setupRenderTracking()
     this.setupErrorTracking()
-    
+
     // Start periodic reporting
     this.startPeriodicReporting()
   }
@@ -37,7 +37,7 @@ class PerformanceMonitor {
     if (!('PerformanceObserver' in window)) return
 
     // Core Web Vitals tracking
-    const vitalsObserver = new PerformanceObserver((list) => {
+    const vitalsObserver = new PerformanceObserver(list => {
       for (const entry of list.getEntries()) {
         this.recordMetric('webVitals', {
           name: entry.name,
@@ -56,10 +56,10 @@ class PerformanceMonitor {
 
     // Track Largest Contentful Paint (LCP)
     this.trackLCP()
-    
+
     // Track First Input Delay (FID)
     this.trackFID()
-    
+
     // Track Cumulative Layout Shift (CLS)
     this.trackCLS()
   }
@@ -67,10 +67,10 @@ class PerformanceMonitor {
   trackLCP() {
     if (!('PerformanceObserver' in window)) return
 
-    const lcpObserver = new PerformanceObserver((list) => {
+    const lcpObserver = new PerformanceObserver(list => {
       const entries = list.getEntries()
       const lastEntry = entries[entries.length - 1]
-      
+
       this.recordMetric('lcp', {
         value: lastEntry.startTime,
         timestamp: Date.now(),
@@ -88,7 +88,7 @@ class PerformanceMonitor {
   trackFID() {
     if (!('PerformanceObserver' in window)) return
 
-    const fidObserver = new PerformanceObserver((list) => {
+    const fidObserver = new PerformanceObserver(list => {
       for (const entry of list.getEntries()) {
         this.recordMetric('fid', {
           value: entry.processingStart - entry.startTime,
@@ -109,7 +109,7 @@ class PerformanceMonitor {
     if (!('PerformanceObserver' in window)) return
 
     let clsValue = 0
-    const clsObserver = new PerformanceObserver((list) => {
+    const clsObserver = new PerformanceObserver(list => {
       for (const entry of list.getEntries()) {
         if (!entry.hadRecentInput) {
           clsValue += entry.value
@@ -153,7 +153,7 @@ class PerformanceMonitor {
   setupNetworkTracking() {
     if (!this.config.enableNetworkTracking) return
 
-    const networkObserver = new PerformanceObserver((list) => {
+    const networkObserver = new PerformanceObserver(list => {
       for (const entry of list.getEntries()) {
         if (entry.entryType === 'resource') {
           this.recordMetric('network', {
@@ -194,18 +194,18 @@ class PerformanceMonitor {
     // For now, we'll track basic mount/update cycles
     const originalMount = window.Vue?.config?.globalProperties?.$mount
     if (originalMount) {
-      window.Vue.config.globalProperties.$mount = function(...args) {
+      window.Vue.config.globalProperties.$mount = function (...args) {
         const start = performance.now()
         const result = originalMount.apply(this, args)
         const end = performance.now()
-        
+
         performanceMonitor.recordMetric('componentRender', {
           component: this.$options.name || 'Anonymous',
           duration: end - start,
           timestamp: Date.now(),
           type: 'mount'
         })
-        
+
         return result
       }
     }
@@ -234,7 +234,7 @@ class PerformanceMonitor {
 
   // Error tracking
   setupErrorTracking() {
-    window.addEventListener('error', (event) => {
+    window.addEventListener('error', event => {
       this.recordMetric('jsError', {
         message: event.message,
         filename: event.filename,
@@ -245,7 +245,7 @@ class PerformanceMonitor {
       })
     })
 
-    window.addEventListener('unhandledrejection', (event) => {
+    window.addEventListener('unhandledrejection', event => {
       this.recordMetric('promiseRejection', {
         reason: event.reason?.toString(),
         timestamp: Date.now(),
@@ -259,10 +259,10 @@ class PerformanceMonitor {
     try {
       const response = await fetch('/dist/manifest.json')
       const manifest = await response.json()
-      
+
       let totalSize = 0
       const assets = {}
-      
+
       for (const [key, value] of Object.entries(manifest)) {
         if (value.file) {
           const assetResponse = await fetch(`/dist/${value.file}`, { method: 'HEAD' })
@@ -298,9 +298,10 @@ class PerformanceMonitor {
 
     window.addEventListener('load', () => {
       const navigation = performance.getEntriesByType('navigation')[0]
-      
+
       this.recordMetric('pageLoad', {
-        domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
+        domContentLoaded:
+          navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
         loadComplete: navigation.loadEventEnd - navigation.loadEventStart,
         totalTime: navigation.loadEventEnd - navigation.fetchStart,
         dnsLookup: navigation.domainLookupEnd - navigation.domainLookupStart,
@@ -371,9 +372,28 @@ class PerformanceMonitor {
   }
 
   calculateWebVitalsRating(lcp, fid, cls) {
-    const lcpScore = lcp.length > 0 ? (lcp[lcp.length - 1].value <= 2500 ? 'good' : lcp[lcp.length - 1].value <= 4000 ? 'needs-improvement' : 'poor') : 'unknown'
-    const fidScore = fid.length > 0 ? (fid.reduce((sum, entry) => sum + entry.value, 0) / fid.length <= 100 ? 'good' : 'poor') : 'unknown'
-    const clsScore = cls.length > 0 ? (cls[cls.length - 1].value <= 0.1 ? 'good' : cls[cls.length - 1].value <= 0.25 ? 'needs-improvement' : 'poor') : 'unknown'
+    const lcpScore =
+      lcp.length > 0
+        ? lcp[lcp.length - 1].value <= 2500
+          ? 'good'
+          : lcp[lcp.length - 1].value <= 4000
+            ? 'needs-improvement'
+            : 'poor'
+        : 'unknown'
+    const fidScore =
+      fid.length > 0
+        ? fid.reduce((sum, entry) => sum + entry.value, 0) / fid.length <= 100
+          ? 'good'
+          : 'poor'
+        : 'unknown'
+    const clsScore =
+      cls.length > 0
+        ? cls[cls.length - 1].value <= 0.1
+          ? 'good'
+          : cls[cls.length - 1].value <= 0.25
+            ? 'needs-improvement'
+            : 'poor'
+        : 'unknown'
 
     return { lcp: lcpScore, fid: fidScore, cls: clsScore }
   }
@@ -396,8 +416,12 @@ class PerformanceMonitor {
     const networkMetrics = this.getMetrics('network')
     if (networkMetrics.length === 0) return null
 
-    const totalTransferSize = networkMetrics.reduce((sum, metric) => sum + (metric.transferSize || 0), 0)
-    const avgLoadTime = networkMetrics.reduce((sum, metric) => sum + metric.duration, 0) / networkMetrics.length
+    const totalTransferSize = networkMetrics.reduce(
+      (sum, metric) => sum + (metric.transferSize || 0),
+      0
+    )
+    const avgLoadTime =
+      networkMetrics.reduce((sum, metric) => sum + metric.duration, 0) / networkMetrics.length
 
     return {
       requests: networkMetrics.length,
@@ -415,7 +439,9 @@ class PerformanceMonitor {
     return {
       jsErrors: jsErrors.length,
       promiseRejections: promiseRejections.length,
-      errorRate: (jsErrors.length + promiseRejections.length) / (this.getMetrics('userInteraction').length || 1),
+      errorRate:
+        (jsErrors.length + promiseRejections.length) /
+        (this.getMetrics('userInteraction').length || 1),
       commonErrors: this.groupBy(jsErrors, 'message')
     }
   }
@@ -426,7 +452,10 @@ class PerformanceMonitor {
 
     return {
       interactions: interactions.length,
-      avgPageLoadTime: pageLoads.length > 0 ? pageLoads.reduce((sum, load) => sum + load.totalTime, 0) / pageLoads.length : null,
+      avgPageLoadTime:
+        pageLoads.length > 0
+          ? pageLoads.reduce((sum, load) => sum + load.totalTime, 0) / pageLoads.length
+          : null,
       bounceRate: this.calculateBounceRate(interactions),
       engagementScore: this.calculateEngagementScore(interactions)
     }
@@ -448,11 +477,13 @@ class PerformanceMonitor {
 
   calculateEngagementScore(interactions) {
     if (interactions.length === 0) return 0
-    
-    const timeSpent = interactions.length > 1 ? 
-      interactions[interactions.length - 1].timestamp - interactions[0].timestamp : 0
-    
-    return Math.min(100, (interactions.length * 10) + (timeSpent / 1000))
+
+    const timeSpent =
+      interactions.length > 1
+        ? interactions[interactions.length - 1].timestamp - interactions[0].timestamp
+        : 0
+
+    return Math.min(100, interactions.length * 10 + timeSpent / 1000)
   }
 
   groupBy(array, key) {
@@ -516,7 +547,7 @@ class PerformanceMonitor {
 
   async reportMetrics() {
     const summary = this.getPerformanceSummary()
-    
+
     // Send to analytics service
     try {
       await this.sendToAnalytics(summary)
@@ -540,12 +571,12 @@ class PerformanceMonitor {
     try {
       const stored = JSON.parse(localStorage.getItem('performance_metrics') || '[]')
       stored.push(data)
-      
+
       // Keep only last 10 reports
       if (stored.length > 10) {
         stored.shift()
       }
-      
+
       localStorage.setItem('performance_metrics', JSON.stringify(stored))
     } catch (e) {
       console.warn('Failed to store performance metrics locally:', e)

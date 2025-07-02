@@ -21,13 +21,13 @@ export const useEmployeeStore = defineStore('employees', {
   }),
 
   getters: {
-    activeEmployees: (state) => state.employees.filter(emp => emp.status === 'active'),
-    employeeById: (state) => (id) => state.employees.find(emp => emp.id === id),
-    departmentOptions: (state) => {
+    activeEmployees: state => state.employees.filter(emp => emp.status === 'active'),
+    employeeById: state => id => state.employees.find(emp => emp.id === id),
+    departmentOptions: state => {
       const departments = [...new Set(state.employees.map(emp => emp.department))]
       return departments.filter(Boolean).sort()
     },
-    positionOptions: (state) => {
+    positionOptions: state => {
       const positions = [...new Set(state.employees.map(emp => emp.position))]
       return positions.filter(Boolean).sort()
     }
@@ -42,10 +42,10 @@ export const useEmployeeStore = defineStore('employees', {
           ...this.pagination,
           ...params
         })
-        
+
         this.employees = response.data || response
         this.total = response.meta?.total || (response.data || response).length
-        
+
         return response
       } catch (error) {
         console.error('Failed to fetch employees:', error)

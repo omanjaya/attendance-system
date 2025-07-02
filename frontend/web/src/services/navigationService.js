@@ -21,9 +21,9 @@ class NavigationService {
    */
   async navigateTo(route, options = {}) {
     const { force = false, preload = true, retry = true } = options
-    
+
     console.log(`🧭 NavigationService: Navigating to ${route}`)
-    
+
     if (this.isNavigating && !force) {
       console.log('⏳ Navigation in progress, queueing...')
       return this._queueNavigation(route, options)
@@ -35,7 +35,7 @@ class NavigationService {
     try {
       // Get route record for preloading
       const routeRecord = this._getRouteRecord(route)
-      
+
       // Preload component if it's lazy loaded
       if (preload && routeRecord && typeof routeRecord.component === 'function') {
         await this._preloadComponent(routeRecord, route)
@@ -43,26 +43,25 @@ class NavigationService {
 
       // Perform navigation
       await router.push(route)
-      
+
       // Wait for DOM update
       await nextTick()
-      
+
       // Track successful navigation
       const navigationTime = Date.now() - startTime
       this._trackNavigation(route, navigationTime, 'success')
-      
+
       console.log(`✅ Navigation completed successfully in ${navigationTime}ms`)
-      
+
       // Clear retry attempts on success
       this.retryAttempts.delete(route)
-      
     } catch (error) {
       console.error('❌ Navigation failed:', error)
-      
+
       if (retry && this._shouldRetry(route, error)) {
         return this._retryNavigation(route, options)
       }
-      
+
       throw error
     } finally {
       this.isNavigating = false
@@ -76,7 +75,7 @@ class NavigationService {
    */
   async preloadRoute(route) {
     const routeRecord = this._getRouteRecord(route)
-    
+
     if (routeRecord && typeof routeRecord.component === 'function') {
       await this._preloadComponent(routeRecord, route)
     }
@@ -88,13 +87,13 @@ class NavigationService {
    */
   async preloadRoutes(routes) {
     console.log(`🚀 Preloading ${routes.length} routes...`)
-    
-    const preloadPromises = routes.map(route => 
+
+    const preloadPromises = routes.map(route =>
       this.preloadRoute(route).catch(error => {
         console.warn(`⚠️ Failed to preload ${route}:`, error)
       })
     )
-    
+
     await Promise.allSettled(preloadPromises)
     console.log('✅ Route preloading completed')
   }
@@ -105,7 +104,7 @@ class NavigationService {
   async refresh() {
     console.log('🔄 Refreshing current route...')
     const currentRoute = router.currentRoute.value
-    
+
     try {
       // Navigate to a temporary route then back
       await router.replace('/loading')
@@ -124,13 +123,17 @@ class NavigationService {
    */
   getStatistics() {
     const totalNavigations = this.navigationHistory.length
-    const averageTime = totalNavigations > 0 
-      ? this.navigationHistory.reduce((sum, nav) => sum + nav.time, 0) / totalNavigations 
-      : 0
-    
-    const successRate = totalNavigations > 0
-      ? (this.navigationHistory.filter(nav => nav.status === 'success').length / totalNavigations) * 100
-      : 100
+    const averageTime =
+      totalNavigations > 0
+        ? this.navigationHistory.reduce((sum, nav) => sum + nav.time, 0) / totalNavigations
+        : 0
+
+    const successRate =
+      totalNavigations > 0
+        ? (this.navigationHistory.filter(nav => nav.status === 'success').length /
+            totalNavigations) *
+          100
+        : 100
 
     return {
       totalNavigations,
@@ -158,7 +161,7 @@ class NavigationService {
 
   async _preloadComponent(routeRecord, route) {
     const routeKey = routeRecord.path || route
-    
+
     if (this.preloadedComponents.has(routeKey)) {
       console.log(`✅ Component already preloaded: ${routeKey}`)
       return
@@ -176,7 +179,7 @@ class NavigationService {
   }
 
   _queueNavigation(route, options) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.navigationQueue.push({ route, options, resolve })
     })
   }
@@ -191,28 +194,28 @@ class NavigationService {
   _shouldRetry(route, error) {
     const routeKey = typeof route === 'string' ? route : route.path
     const attempts = this.retryAttempts.get(routeKey) || 0
-    
+
     // Retry for chunk loading errors or network issues
-    const isRetryableError = 
+    const isRetryableError =
       error.message.includes('Loading chunk') ||
       error.message.includes('Loading CSS chunk') ||
       error.message.includes('fetch') ||
       error.message.includes('network')
-    
+
     return isRetryableError && attempts < 2
   }
 
   async _retryNavigation(route, options) {
     const routeKey = typeof route === 'string' ? route : route.path
     const attempts = this.retryAttempts.get(routeKey) || 0
-    
+
     this.retryAttempts.set(routeKey, attempts + 1)
-    
+
     console.log(`🔄 Retrying navigation to ${route} (attempt ${attempts + 1})`)
-    
+
     // Wait a bit before retrying
     await new Promise(resolve => setTimeout(resolve, 1000 * (attempts + 1)))
-    
+
     return this.navigateTo(route, { ...options, retry: false })
   }
 
@@ -223,7 +226,7 @@ class NavigationService {
       status,
       timestamp: Date.now()
     })
-    
+
     // Keep only last 50 navigation records
     if (this.navigationHistory.length > 50) {
       this.navigationHistory = this.navigationHistory.slice(-50)
@@ -235,11 +238,7 @@ class NavigationService {
 export const navigationService = new NavigationService()
 
 // Auto-preload common routes when service is imported
-navigationService.preloadRoutes([
-  '/employees',
-  '/attendance', 
-  '/reports'
-]).catch(() => {
+navigationService.preloadRoutes(['/employees', '/attendance', '/reports']).catch(() => {
   // Silent fail for initial preloading
 })
 

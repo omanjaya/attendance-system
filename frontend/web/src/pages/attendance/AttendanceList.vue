@@ -10,11 +10,26 @@
               <div class="row align-items-center">
                 <div class="col-auto">
                   <span class="bg-success text-white avatar">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                      <path d="M9 12l2 2l4 -4"/>
-                      <path d="M21 12c-.1 0 -.1 0 -.1 0a1 1 0 0 1 -.9 -.9c0 0 0 -.1 0 -.1c.1 -2.2 .1 -4.4 0 -6.5c0 0 0 -.1 0 -.1a1 1 0 0 1 .9 -.9c0 0 .1 0 .1 0c2.2 .1 4.4 .1 6.5 0c0 0 .1 0 .1 0a1 1 0 0 1 .9 .9c0 0 0 .1 0 .1c-.1 2.2 -.1 4.4 0 6.5"/>
-                      <path d="M3 12c.1 0 .1 0 .1 0a1 1 0 0 1 .9 .9c0 0 0 .1 0 .1c-.1 2.2 -.1 4.4 0 6.5c0 0 0 .1 0 .1a1 1 0 0 1 -.9 .9c0 0 -.1 0 -.1 0c-2.2 -.1 -4.4 -.1 -6.5 0"/>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="icon"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M9 12l2 2l4 -4" />
+                      <path
+                        d="M21 12c-.1 0 -.1 0 -.1 0a1 1 0 0 1 -.9 -.9c0 0 0 -.1 0 -.1c.1 -2.2 .1 -4.4 0 -6.5c0 0 0 -.1 0 -.1a1 1 0 0 1 .9 -.9c0 0 .1 0 .1 0c2.2 .1 4.4 .1 6.5 0c0 0 .1 0 .1 0a1 1 0 0 1 .9 .9c0 0 0 .1 0 .1c-.1 2.2 -.1 4.4 0 6.5"
+                      />
+                      <path
+                        d="M3 12c.1 0 .1 0 .1 0a1 1 0 0 1 .9 .9c0 0 0 .1 0 .1c-.1 2.2 -.1 4.4 0 6.5c0 0 0 .1 0 .1a1 1 0 0 1 -.9 .9c0 0 -.1 0 -.1 0c-2.2 -.1 -4.4 -.1 -6.5 0"
+                      />
                     </svg>
                   </span>
                 </div>
@@ -32,10 +47,21 @@
               <div class="row align-items-center">
                 <div class="col-auto">
                   <span class="bg-danger text-white avatar">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                      <line x1="18" y1="6" x2="6" y2="18"/>
-                      <line x1="6" y1="6" x2="18" y2="18"/>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="icon"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
                     </svg>
                   </span>
                 </div>
@@ -53,10 +79,21 @@
               <div class="row align-items-center">
                 <div class="col-auto">
                   <span class="bg-warning text-white avatar">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                      <circle cx="12" cy="12" r="9"/>
-                      <polyline points="12,7 12,12 15,15"/>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="icon"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <circle cx="12" cy="12" r="9" />
+                      <polyline points="12,7 12,12 15,15" />
                     </svg>
                   </span>
                 </div>
@@ -74,11 +111,24 @@
               <div class="row align-items-center">
                 <div class="col-auto">
                   <span class="bg-info text-white avatar">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                      <path d="M8 3v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-1"/>
-                      <path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"/>
-                      <path d="M10 14l2 2l4 -4"/>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="icon"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M8 3v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-1" />
+                      <path
+                        d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"
+                      />
+                      <path d="M10 14l2 2l4 -4" />
                     </svg>
                   </span>
                 </div>
@@ -100,22 +150,42 @@
           <h3 class="card-title">Daily Attendance</h3>
           <div class="card-actions">
             <div class="d-flex">
-              <input type="date" class="form-control d-inline-block w-auto me-3" v-model="selectedDate">
-              <input type="search" class="form-control d-inline-block w-9 me-3" placeholder="Search attendance..." v-model="searchQuery">
+              <input
+                v-model="selectedDate"
+                type="date"
+                class="form-control d-inline-block w-auto me-3"
+              />
+              <input
+                v-model="searchQuery"
+                type="search"
+                class="form-control d-inline-block w-9 me-3"
+                placeholder="Search attendance..."
+              />
               <router-link to="/attendance/manage" class="btn btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                  <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/>
-                  <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                  <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                  <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
                 </svg>
                 Manage Attendance
               </router-link>
             </div>
           </div>
         </div>
-        
+
         <!-- Loading State -->
         <div v-if="loading" class="card-body">
           <div class="text-center py-4">
@@ -125,15 +195,28 @@
             <div class="mt-2">Loading attendance data...</div>
           </div>
         </div>
-        
+
         <!-- Empty State -->
         <div v-else-if="filteredAttendance.length === 0" class="card-body">
           <div class="empty">
             <div class="empty-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M8 3v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-1"/>
-                <path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M8 3v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-1" />
+                <path
+                  d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"
+                />
               </svg>
             </div>
             <p class="empty-title">No attendance records found</p>
@@ -142,17 +225,28 @@
             </p>
           </div>
         </div>
-        
+
         <!-- Attendance Table -->
         <div v-else class="table-responsive">
           <table class="table table-vcenter card-table">
             <thead>
               <tr>
                 <th class="w-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm text-dark" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <circle cx="12" cy="7" r="4"/>
-                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-sm text-dark"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <circle cx="12" cy="7" r="4" />
+                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                   </svg>
                 </th>
                 <th>Employee</th>
@@ -167,7 +261,15 @@
             <tbody>
               <tr v-for="record in filteredAttendance" :key="record.id">
                 <td>
-                  <span class="avatar avatar-sm" :style="record.employee.avatar ? `background-image: url(${record.employee.avatar})` : ''" :class="!record.employee.avatar ? 'bg-primary-lt' : ''">
+                  <span
+                    class="avatar avatar-sm"
+                    :style="
+                      record.employee.avatar
+                        ? `background-image: url(${record.employee.avatar})`
+                        : ''
+                    "
+                    :class="!record.employee.avatar ? 'bg-primary-lt' : ''"
+                  >
                     {{ record.employee.avatar ? '' : getInitials(record.employee.name) }}
                   </span>
                 </td>
@@ -181,18 +283,24 @@
                 </td>
                 <td>
                   <div class="text-nowrap">
-                    <div class="text-green" v-if="record.check_in">{{ formatTime(record.check_in) }}</div>
-                    <div class="text-muted" v-else>Not checked in</div>
+                    <div v-if="record.check_in" class="text-green">
+                      {{ formatTime(record.check_in) }}
+                    </div>
+                    <div v-else class="text-muted">Not checked in</div>
                   </div>
                 </td>
                 <td>
                   <div class="text-nowrap">
-                    <div class="text-red" v-if="record.check_out">{{ formatTime(record.check_out) }}</div>
-                    <div class="text-muted" v-else>Not checked out</div>
+                    <div v-if="record.check_out" class="text-red">
+                      {{ formatTime(record.check_out) }}
+                    </div>
+                    <div v-else class="text-muted">Not checked out</div>
                   </div>
                 </td>
                 <td>
-                  <span class="text-muted">{{ calculateWorkingHours(record.check_in, record.check_out) }}</span>
+                  <span class="text-muted">{{
+                    calculateWorkingHours(record.check_in, record.check_out)
+                  }}</span>
                 </td>
                 <td>
                   <span class="badge" :class="getStatusBadgeClass(record.status)">
@@ -205,34 +313,78 @@
                 <td>
                   <div class="btn-list flex-nowrap">
                     <div class="dropdown">
-                      <button class="btn btn-white btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">
+                      <button
+                        class="btn btn-white btn-sm dropdown-toggle align-text-top"
+                        data-bs-toggle="dropdown"
+                      >
                         Actions
                       </button>
                       <div class="dropdown-menu dropdown-menu-end">
                         <a class="dropdown-item" href="#" @click.prevent="editAttendance(record)">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon dropdown-item-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/>
-                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/>
-                            <path d="M16 5l3 3"/>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="icon dropdown-item-icon"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                            <path
+                              d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
+                            />
+                            <path d="M16 5l3 3" />
                           </svg>
                           Edit
                         </a>
                         <a class="dropdown-item" href="#" @click.prevent="viewDetails(record)">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon dropdown-item-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>
-                            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="icon dropdown-item-icon"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                            <path
+                              d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"
+                            />
                           </svg>
                           View Details
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item text-danger" @click.prevent="deleteRecord(record)">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon dropdown-item-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <line x1="4" y1="7" x2="20" y2="7"/>
-                            <line x1="10" y1="11" x2="10" y2="17"/>
-                            <line x1="14" y1="11" x2="14" y2="17"/>
-                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
-                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
+                        <a
+                          href="#"
+                          class="dropdown-item text-danger"
+                          @click.prevent="deleteRecord(record)"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="icon dropdown-item-icon"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <line x1="4" y1="7" x2="20" y2="7" />
+                            <line x1="10" y1="11" x2="10" y2="17" />
+                            <line x1="14" y1="11" x2="14" y2="17" />
+                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
                           </svg>
                           Delete
                         </a>
@@ -244,27 +396,66 @@
             </tbody>
           </table>
         </div>
-        
+
         <!-- Table Footer with Pagination -->
-        <div class="card-footer d-flex align-items-center" v-if="filteredAttendance.length > 0">
-          <p class="m-0 text-muted">Showing <span>{{ (currentPage - 1) * perPage + 1 }}</span> to <span>{{ Math.min(currentPage * perPage, filteredAttendance.length) }}</span> of <span>{{ filteredAttendance.length }}</span> entries</p>
+        <div v-if="filteredAttendance.length > 0" class="card-footer d-flex align-items-center">
+          <p class="m-0 text-muted">
+            Showing <span>{{ (currentPage - 1) * perPage + 1 }}</span> to
+            <span>{{ Math.min(currentPage * perPage, filteredAttendance.length) }}</span> of
+            <span>{{ filteredAttendance.length }}</span> entries
+          </p>
           <ul class="pagination m-0 ms-auto">
             <li class="page-item" :class="{ disabled: currentPage === 1 }">
-              <a class="page-link" href="#" @click.prevent="currentPage = Math.max(1, currentPage - 1)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="15 18 9 12 15 6"/>
+              <a
+                class="page-link"
+                href="#"
+                @click.prevent="currentPage = Math.max(1, currentPage - 1)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="15 18 9 12 15 6" />
                 </svg>
                 prev
               </a>
             </li>
-            <li class="page-item" v-for="page in visiblePages" :key="page" :class="{ active: page === currentPage }">
+            <li
+              v-for="page in visiblePages"
+              :key="page"
+              class="page-item"
+              :class="{ active: page === currentPage }"
+            >
               <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
             </li>
             <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-              <a class="page-link" href="#" @click.prevent="currentPage = Math.min(totalPages, currentPage + 1)">
+              <a
+                class="page-link"
+                href="#"
+                @click.prevent="currentPage = Math.min(totalPages, currentPage + 1)"
+              >
                 next
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="9 18 15 12 9 6"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="9 18 15 12 9 6" />
                 </svg>
               </a>
             </li>
@@ -276,7 +467,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -354,10 +545,11 @@ const filteredAttendance = computed(() => {
 
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase().trim()
-    filtered = filtered.filter(record =>
-      record.employee.name.toLowerCase().includes(query) ||
-      record.employee.employee_id.toLowerCase().includes(query) ||
-      record.status.toLowerCase().includes(query)
+    filtered = filtered.filter(
+      record =>
+        record.employee.name.toLowerCase().includes(query) ||
+        record.employee.employee_id.toLowerCase().includes(query) ||
+        record.status.toLowerCase().includes(query)
     )
   }
 
@@ -370,16 +562,18 @@ const visiblePages = computed(() => {
   const pages = []
   const start = Math.max(1, currentPage.value - 2)
   const end = Math.min(totalPages.value, currentPage.value + 2)
-  
+
   for (let i = start; i <= end; i++) {
     pages.push(i)
   }
-  
+
   return pages
 })
 
 const presentToday = computed(() => {
-  return filteredAttendance.value.filter(record => record.status === 'Present' || record.status === 'Late').length
+  return filteredAttendance.value.filter(
+    record => record.status === 'Present' || record.status === 'Late'
+  ).length
 })
 
 const absentToday = computed(() => {
@@ -395,11 +589,16 @@ const totalEmployees = computed(() => {
 })
 
 // Methods
-const getInitials = (name) => {
-  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+const getInitials = name => {
+  return name
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
 }
 
-const formatTime = (time) => {
+const formatTime = time => {
   if (!time) return '-'
   return new Date(`2000-01-01T${time}`).toLocaleTimeString('en-US', {
     hour: '2-digit',
@@ -408,7 +607,7 @@ const formatTime = (time) => {
   })
 }
 
-const formatDate = (date) => {
+const formatDate = date => {
   return new Date(date).toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -419,17 +618,17 @@ const formatDate = (date) => {
 
 const calculateWorkingHours = (checkIn, checkOut) => {
   if (!checkIn || !checkOut) return '-'
-  
+
   const start = new Date(`2000-01-01T${checkIn}`)
   const end = new Date(`2000-01-01T${checkOut}`)
   const diff = end - start
   const hours = Math.floor(diff / (1000 * 60 * 60))
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-  
+
   return `${hours}h ${minutes}m`
 }
 
-const getStatusBadgeClass = (status) => {
+const getStatusBadgeClass = status => {
   switch (status.toLowerCase()) {
     case 'present':
       return 'bg-success'
@@ -444,17 +643,17 @@ const getStatusBadgeClass = (status) => {
   }
 }
 
-const editAttendance = (record) => {
+const editAttendance = record => {
   // TODO: Implement edit attendance modal
   console.log('Edit attendance:', record)
 }
 
-const viewDetails = (record) => {
+const viewDetails = record => {
   // TODO: Implement view details modal
   console.log('View details:', record)
 }
 
-const deleteRecord = (record) => {
+const deleteRecord = record => {
   if (confirm(`Are you sure you want to delete attendance record for ${record.employee.name}?`)) {
     const index = attendanceRecords.value.findIndex(r => r.id === record.id)
     if (index > -1) {
@@ -532,9 +731,9 @@ onMounted(() => {
   color: var(--tblr-danger) !important;
 }
 
-.bg-primary-lt { 
-  background-color: rgba(var(--tblr-primary-rgb), 0.1) !important; 
-  color: var(--tblr-primary) !important; 
+.bg-primary-lt {
+  background-color: rgba(var(--tblr-primary-rgb), 0.1) !important;
+  color: var(--tblr-primary) !important;
 }
 
 /* Responsive adjustments */
@@ -542,7 +741,7 @@ onMounted(() => {
   .table-responsive table {
     font-size: 0.875rem;
   }
-  
+
   .btn-list .btn {
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;

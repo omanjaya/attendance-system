@@ -6,13 +6,30 @@ window.__CONSOLE_CLEAN_TIMESTAMP = Date.now()
 
 // More aggressive console filtering
 const NOISE_KEYWORDS = [
-  'notifications', 'WebSocket', 'DEBUG', 'CSRF Token',
-  '🔔', '✅', '🔌', '❌', '🔄', '📨', '📍', '🚨', '🔍',
-  'Failed to load notifications', 'WebSocket error',
-  'Scheduling reconnect', 'Connecting to WebSocket',
-  'Performance Metrics', 'Registering', 'Using fallback',
-  'Axios Request Interceptor', 'Axios Response',
-  'Status: 500', 'Internal Server Error'
+  'notifications',
+  'WebSocket',
+  'DEBUG',
+  'CSRF Token',
+  '🔔',
+  '✅',
+  '🔌',
+  '❌',
+  '🔄',
+  '📨',
+  '📍',
+  '🚨',
+  '🔍',
+  'Failed to load notifications',
+  'WebSocket error',
+  'Scheduling reconnect',
+  'Connecting to WebSocket',
+  'Performance Metrics',
+  'Registering',
+  'Using fallback',
+  'Axios Request Interceptor',
+  'Axios Response',
+  'Status: 500',
+  'Internal Server Error'
 ]
 
 function containsNoise(message) {

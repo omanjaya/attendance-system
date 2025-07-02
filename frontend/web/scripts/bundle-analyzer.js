@@ -21,11 +21,11 @@ class BundleAnalyzer {
       thresholds: {
         totalSize: 2 * 1024 * 1024, // 2MB
         chunkSize: 500 * 1024, // 500KB
-        assetSize: 100 * 1024, // 100KB
+        assetSize: 100 * 1024 // 100KB
       },
       ...options
     }
-    
+
     this.analysis = {
       timestamp: Date.now(),
       totalSize: 0,
@@ -39,7 +39,7 @@ class BundleAnalyzer {
 
   async analyze() {
     console.log('🔍 Analyzing bundle size...')
-    
+
     try {
       await this.analyzeBundleFiles()
       await this.analyzeChunks()
@@ -47,7 +47,7 @@ class BundleAnalyzer {
       await this.generateRecommendations()
       await this.compareWithPrevious()
       await this.saveAnalysis()
-      
+
       this.printReport()
       return this.analysis
     } catch (error) {
@@ -62,23 +62,23 @@ class BundleAnalyzer {
     }
 
     const files = this.getAllFiles(this.options.distPath)
-    
+
     for (const file of files) {
       const stats = fs.statSync(file)
       const relativePath = path.relative(this.options.distPath, file)
       const ext = path.extname(file)
-      
+
       const fileInfo = {
         path: relativePath,
         size: stats.size,
         type: this.getFileType(ext),
-        ext: ext,
+        ext,
         gzippedSize: await this.estimateGzippedSize(file)
       }
-      
+
       this.analysis.totalSize += stats.size
       this.analysis.gzippedSize += fileInfo.gzippedSize
-      
+
       if (this.isChunk(file)) {
         this.analysis.chunks.push(fileInfo)
       } else {
@@ -89,18 +89,18 @@ class BundleAnalyzer {
 
   getAllFiles(dir, files = []) {
     const entries = fs.readdirSync(dir)
-    
+
     for (const entry of entries) {
       const fullPath = path.join(dir, entry)
       const stats = fs.statSync(fullPath)
-      
+
       if (stats.isDirectory()) {
         this.getAllFiles(fullPath, files)
       } else {
         files.push(fullPath)
       }
     }
-    
+
     return files
   }
 
@@ -122,14 +122,17 @@ class BundleAnalyzer {
       '.ttf': 'font',
       '.eot': 'font'
     }
-    
+
     return typeMap[ext] || 'other'
   }
 
   isChunk(filePath) {
     const fileName = path.basename(filePath)
-    return fileName.includes('chunk') || fileName.includes('vendor') || 
-           (fileName.endsWith('.js') && !fileName.includes('worker'))
+    return (
+      fileName.includes('chunk') ||
+      fileName.includes('vendor') ||
+      (fileName.endsWith('.js') && !fileName.includes('worker'))
+    )
   }
 
   async estimateGzippedSize(filePath) {
@@ -137,26 +140,26 @@ class BundleAnalyzer {
     // This is an approximation based on typical compression ratios
     const stats = fs.statSync(filePath)
     const ext = path.extname(filePath)
-    
+
     const compressionRatios = {
-      '.js': 0.35,   // JavaScript compresses well
-      '.css': 0.25,  // CSS compresses very well
-      '.html': 0.30, // HTML compresses well
-      '.json': 0.20, // JSON compresses very well
-      '.svg': 0.35,  // SVG compresses well
-      '.png': 0.95,  // PNG already compressed
-      '.jpg': 0.98,  // JPEG already compressed
+      '.js': 0.35, // JavaScript compresses well
+      '.css': 0.25, // CSS compresses very well
+      '.html': 0.3, // HTML compresses well
+      '.json': 0.2, // JSON compresses very well
+      '.svg': 0.35, // SVG compresses well
+      '.png': 0.95, // PNG already compressed
+      '.jpg': 0.98, // JPEG already compressed
       '.woff2': 0.95 // Fonts already compressed
     }
-    
-    const ratio = compressionRatios[ext] || 0.70
+
+    const ratio = compressionRatios[ext] || 0.7
     return Math.round(stats.size * ratio)
   }
 
   async analyzeChunks() {
     // Sort chunks by size
     this.analysis.chunks.sort((a, b) => b.size - a.size)
-    
+
     // Analyze chunk composition
     for (const chunk of this.analysis.chunks) {
       chunk.category = this.categorizeChunk(chunk.path)
@@ -175,19 +178,19 @@ class BundleAnalyzer {
 
   getChunkOptimization(chunk) {
     const suggestions = []
-    
+
     if (chunk.size > this.options.thresholds.chunkSize) {
       suggestions.push('Consider code splitting')
     }
-    
+
     if (chunk.category === 'vendor' && chunk.size > 1024 * 1024) {
       suggestions.push('Large vendor bundle - consider splitting vendors')
     }
-    
+
     if (chunk.gzippedSize / chunk.size > 0.8) {
       suggestions.push('Poor compression ratio - check for binary data')
     }
-    
+
     return suggestions
   }
 
@@ -203,7 +206,7 @@ class BundleAnalyzer {
     Object.entries(assetsByType).forEach(([type, assets]) => {
       const totalSize = assets.reduce((sum, asset) => sum + asset.size, 0)
       const largeAssets = assets.filter(asset => asset.size > this.options.thresholds.assetSize)
-      
+
       this.analysis[`${type}Assets`] = {
         count: assets.length,
         totalSize,
@@ -215,27 +218,27 @@ class BundleAnalyzer {
 
   getAssetOptimization(type, assets) {
     const suggestions = []
-    
+
     if (type === 'image') {
       const largeImages = assets.filter(asset => asset.size > 100 * 1024)
       if (largeImages.length > 0) {
         suggestions.push(`${largeImages.length} large images found - consider optimization`)
       }
     }
-    
+
     if (type === 'font') {
       if (assets.length > 4) {
         suggestions.push('Many font files - consider font subsetting')
       }
     }
-    
+
     if (type === 'javascript') {
       const unminified = assets.filter(asset => !asset.path.includes('.min.'))
       if (unminified.length > 0) {
         suggestions.push('Unminified JavaScript files detected')
       }
     }
-    
+
     return suggestions
   }
 
@@ -308,10 +311,10 @@ class BundleAnalyzer {
     // Simplified unused export detection
     // In a real implementation, this would use AST analysis
     const jsChunks = this.analysis.chunks.filter(chunk => chunk.type === 'javascript')
-    const suspiciousChunks = jsChunks.filter(chunk => 
-      chunk.path.includes('node_modules') && chunk.size > 200 * 1024
+    const suspiciousChunks = jsChunks.filter(
+      chunk => chunk.path.includes('node_modules') && chunk.size > 200 * 1024
     )
-    
+
     return suspiciousChunks.map(chunk => ({
       chunk: chunk.path,
       reason: 'Large dependency - check for unused exports'
@@ -320,11 +323,11 @@ class BundleAnalyzer {
 
   async compareWithPrevious() {
     const previousAnalysisPath = this.options.outputPath
-    
+
     if (fs.existsSync(previousAnalysisPath)) {
       try {
         const previousData = JSON.parse(fs.readFileSync(previousAnalysisPath, 'utf8'))
-        
+
         this.analysis.comparison = {
           totalSizeDiff: this.analysis.totalSize - previousData.totalSize,
           gzippedSizeDiff: this.analysis.gzippedSize - previousData.gzippedSize,
@@ -350,12 +353,14 @@ class BundleAnalyzer {
   printReport() {
     console.log('\n📊 Bundle Analysis Report')
     console.log('=' * 50)
-    
+
     // Summary
     console.log('\n📈 Summary:')
     console.log(`  Total Size: ${this.formatSize(this.analysis.totalSize)}`)
     console.log(`  Gzipped Size: ${this.formatSize(this.analysis.gzippedSize)}`)
-    console.log(`  Compression Ratio: ${((this.analysis.gzippedSize / this.analysis.totalSize) * 100).toFixed(1)}%`)
+    console.log(
+      `  Compression Ratio: ${((this.analysis.gzippedSize / this.analysis.totalSize) * 100).toFixed(1)}%`
+    )
     console.log(`  Total Chunks: ${this.analysis.chunks.length}`)
     console.log(`  Total Assets: ${this.analysis.assets.length}`)
 
@@ -363,23 +368,21 @@ class BundleAnalyzer {
     if (this.analysis.comparison) {
       console.log('\n📊 Comparison with Previous Build:')
       const sizeDiff = this.analysis.comparison.totalSizeDiff
-      const sizeChange = sizeDiff >= 0 ? '+' + this.formatSize(sizeDiff) : this.formatSize(sizeDiff)
+      const sizeChange = sizeDiff >= 0 ? `+${this.formatSize(sizeDiff)}` : this.formatSize(sizeDiff)
       const changeIcon = sizeDiff > 0 ? '📈' : sizeDiff < 0 ? '📉' : '➖'
       console.log(`  Size Change: ${changeIcon} ${sizeChange}`)
-      
+
       const gzipDiff = this.analysis.comparison.gzippedSizeDiff
-      const gzipChange = gzipDiff >= 0 ? '+' + this.formatSize(gzipDiff) : this.formatSize(gzipDiff)
+      const gzipChange = gzipDiff >= 0 ? `+${this.formatSize(gzipDiff)}` : this.formatSize(gzipDiff)
       console.log(`  Gzipped Change: ${gzipChange}`)
     }
 
     // Top chunks
     console.log('\n📦 Largest Chunks:')
-    this.analysis.chunks
-      .slice(0, 5)
-      .forEach(chunk => {
-        const sizeIndicator = chunk.isLarge ? '⚠️' : '✅'
-        console.log(`  ${sizeIndicator} ${chunk.path}: ${this.formatSize(chunk.size)}`)
-      })
+    this.analysis.chunks.slice(0, 5).forEach(chunk => {
+      const sizeIndicator = chunk.isLarge ? '⚠️' : '✅'
+      console.log(`  ${sizeIndicator} ${chunk.path}: ${this.formatSize(chunk.size)}`)
+    })
 
     // Assets by type
     console.log('\n📁 Assets by Type:')
@@ -395,24 +398,25 @@ class BundleAnalyzer {
     if (this.analysis.recommendations.length > 0) {
       console.log('\n💡 Recommendations:')
       this.analysis.recommendations.forEach(rec => {
-        const priorityIcon = rec.priority === 'high' ? '🔴' : rec.priority === 'medium' ? '🟡' : '🔵'
+        const priorityIcon =
+          rec.priority === 'high' ? '🔴' : rec.priority === 'medium' ? '🟡' : '🔵'
         console.log(`  ${priorityIcon} ${rec.message}`)
       })
     } else {
       console.log('\n✅ No optimization recommendations - bundle looks good!')
     }
 
-    console.log('\n' + '=' * 50)
+    console.log('\n' + `${'=' * 50}`)
   }
 
   formatSize(bytes) {
     if (bytes === 0) return '0 B'
-    
+
     const k = 1024
     const sizes = ['B', 'KB', 'MB', 'GB']
     const i = Math.floor(Math.log(bytes) / Math.log(k))
-    
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`
   }
 
   // Static methods for CLI usage
@@ -427,7 +431,7 @@ class BundleAnalyzer {
     }
 
     const analysis = JSON.parse(fs.readFileSync(analysisPath, 'utf8'))
-    
+
     const report = {
       timestamp: Date.now(),
       analysis: analysisPath,
@@ -437,45 +441,45 @@ class BundleAnalyzer {
     // Generate detailed optimization suggestions
     analysis.recommendations.forEach(rec => {
       switch (rec.type) {
-        case 'size':
-          report.optimizations.push({
-            type: 'Bundle Splitting',
-            description: 'Implement code splitting to reduce initial bundle size',
-            implementation: [
-              'Use dynamic imports for route-based splitting',
-              'Implement lazy loading for heavy components',
-              'Split vendor libraries into separate chunks'
-            ],
-            expectedImpact: 'Reduce initial load time by 20-40%'
-          })
-          break
-          
-        case 'vendor':
-          report.optimizations.push({
-            type: 'Vendor Optimization',
-            description: 'Optimize vendor bundle size',
-            implementation: [
-              'Use tree shaking to eliminate unused exports',
-              'Replace large libraries with lighter alternatives',
-              'Implement vendor chunk splitting'
-            ],
-            expectedImpact: 'Reduce vendor bundle size by 15-30%'
-          })
-          break
-          
-        case 'assets':
-          report.optimizations.push({
-            type: 'Asset Optimization',
-            description: 'Optimize static assets',
-            implementation: [
-              'Compress images using WebP format',
-              'Implement responsive images',
-              'Use font subsetting for custom fonts',
-              'Enable gzip/brotli compression'
-            ],
-            expectedImpact: 'Reduce asset sizes by 30-60%'
-          })
-          break
+      case 'size':
+        report.optimizations.push({
+          type: 'Bundle Splitting',
+          description: 'Implement code splitting to reduce initial bundle size',
+          implementation: [
+            'Use dynamic imports for route-based splitting',
+            'Implement lazy loading for heavy components',
+            'Split vendor libraries into separate chunks'
+          ],
+          expectedImpact: 'Reduce initial load time by 20-40%'
+        })
+        break
+
+      case 'vendor':
+        report.optimizations.push({
+          type: 'Vendor Optimization',
+          description: 'Optimize vendor bundle size',
+          implementation: [
+            'Use tree shaking to eliminate unused exports',
+            'Replace large libraries with lighter alternatives',
+            'Implement vendor chunk splitting'
+          ],
+          expectedImpact: 'Reduce vendor bundle size by 15-30%'
+        })
+        break
+
+      case 'assets':
+        report.optimizations.push({
+          type: 'Asset Optimization',
+          description: 'Optimize static assets',
+          implementation: [
+            'Compress images using WebP format',
+            'Implement responsive images',
+            'Use font subsetting for custom fonts',
+            'Enable gzip/brotli compression'
+          ],
+          expectedImpact: 'Reduce asset sizes by 30-60%'
+        })
+        break
       }
     })
 
@@ -486,18 +490,19 @@ class BundleAnalyzer {
 // CLI support
 if (import.meta.url === `file://${process.argv[1]}`) {
   const options = {}
-  
+
   // Parse command line arguments
   const args = process.argv.slice(2)
   for (let i = 0; i < args.length; i += 2) {
     const key = args[i].replace(/^--/, '')
     const value = args[i + 1]
-    
+
     if (key === 'dist-path') options.distPath = value
     if (key === 'output') options.outputPath = value
-    if (key === 'threshold-total') options.thresholds = { ...options.thresholds, totalSize: parseInt(value) }
+    if (key === 'threshold-total') {
+    {options.thresholds = { ...options.thresholds, totalSize: parseInt(value) }}
   }
-  
+
   BundleAnalyzer.analyzeProject(options)
     .then(() => {
       console.log('✅ Bundle analysis complete!')

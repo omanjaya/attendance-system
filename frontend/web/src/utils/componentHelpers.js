@@ -62,11 +62,7 @@ export function createSafeMessage(props, defaultMessage = 'No message provided')
  * @returns {Object} Component definition
  */
 export function createFragmentWrapper(options = {}) {
-  const {
-    name = 'FragmentWrapper',
-    inheritAttrs = false,
-    renderRoot = true
-  } = options
+  const { name = 'FragmentWrapper', inheritAttrs = false, renderRoot = true } = options
 
   return {
     name,
@@ -76,12 +72,16 @@ export function createFragmentWrapper(options = {}) {
       return () => {
         if (renderRoot) {
           // Render dengan root element untuk menerima attrs
-          return h('div', {
-            ...attrs,
-            class: [props.class, attrs.class],
-            style: [props.style, attrs.style],
-            id: props.id || attrs.id
-          }, slots.default?.())
+          return h(
+            'div',
+            {
+              ...attrs,
+              class: [props.class, attrs.class],
+              style: [props.style, attrs.style],
+              id: props.id || attrs.id
+            },
+            slots.default?.()
+          )
         } else {
           // Render fragment tanpa root element
           return slots.default?.()
@@ -179,26 +179,26 @@ export function createNotificationProps(baseProps = {}) {
       type: String,
       default: ''
     },
-    
+
     // Notification object (alternative way to pass data)
     notification: {
       type: Object,
       default: () => ({})
     },
-    
+
     // Notification type/variant
     variant: {
       type: String,
       default: 'info',
-      validator: (value) => ['success', 'error', 'warning', 'info'].includes(value)
+      validator: value => ['success', 'error', 'warning', 'info'].includes(value)
     },
-    
+
     // Icon
     icon: {
       type: String,
       default: ''
     },
-    
+
     // Behavior
     duration: {
       type: Number,
@@ -208,7 +208,7 @@ export function createNotificationProps(baseProps = {}) {
       type: Boolean,
       default: true
     },
-    
+
     ...baseProps
   })
 }
@@ -225,24 +225,24 @@ export function createNotificationComputed(props) {
       if (props.notification && props.notification.message) return props.notification.message
       return 'No message provided'
     },
-    
+
     computedTitle: () => {
       if (props.title) return props.title
       if (props.notification && props.notification.title) return props.notification.title
       return ''
     },
-    
+
     computedVariant: () => {
       if (props.variant && props.variant !== 'info') return props.variant
       if (props.type) return props.type
       if (props.notification && props.notification.type) return props.notification.type
       return 'info'
     },
-    
+
     computedIcon: () => {
       if (props.icon) return props.icon
       if (props.notification && props.notification.icon) return props.notification.icon
-      
+
       // Default icons based on variant
       const iconMap = {
         success: 'check',

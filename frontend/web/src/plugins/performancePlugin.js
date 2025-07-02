@@ -51,17 +51,17 @@ export default {
 
 function setupComponentTracking(app) {
   const originalMount = app.mount
-  app.mount = function(rootContainer) {
+  app.mount = function (rootContainer) {
     performanceMonitor.mark('app-mount-start')
     const result = originalMount.call(this, rootContainer)
     performanceMonitor.mark('app-mount-end')
     performanceMonitor.measure('app-mount-duration', 'app-mount-start', 'app-mount-end')
-    
+
     performanceMonitor.recordMetric('appLifecycle', {
       event: 'mount',
       timestamp: Date.now()
     })
-    
+
     return result
   }
 
@@ -82,14 +82,14 @@ function setupComponentTracking(app) {
       if (renderData) {
         const endTime = performance.now()
         const renderTime = endTime - renderData.startTime
-        
+
         performanceMonitor.recordMetric('componentRender', {
           component: renderData.componentName,
           renderTime,
           phase: 'mount',
           timestamp: Date.now()
         })
-        
+
         componentRenderTimes.delete(this)
       }
     },
@@ -107,14 +107,14 @@ function setupComponentTracking(app) {
       if (renderData && renderData.isUpdate) {
         const endTime = performance.now()
         const renderTime = endTime - renderData.startTime
-        
+
         performanceMonitor.recordMetric('componentRender', {
           component: renderData.componentName,
           renderTime,
           phase: 'update',
           timestamp: Date.now()
         })
-        
+
         componentRenderTimes.delete(this)
       }
     },
@@ -131,7 +131,7 @@ function setupComponentTracking(app) {
         stack: err.stack,
         timestamp: Date.now()
       })
-      
+
       return false // Let error propagate
     }
   })
@@ -145,7 +145,7 @@ function setupRouteTracking(app) {
   const trackRouteChange = (to, from) => {
     if (routeStartTime && currentRoute) {
       const navigationTime = performance.now() - routeStartTime
-      
+
       performanceMonitor.recordMetric('routeNavigation', {
         from: from ? from.path : null,
         to: to.path,
@@ -153,23 +153,23 @@ function setupRouteTracking(app) {
         timestamp: Date.now()
       })
     }
-    
+
     routeStartTime = performance.now()
     currentRoute = to
   }
 
   // Track route load performance
-  const trackRouteLoad = (to) => {
+  const trackRouteLoad = to => {
     nextTick(() => {
       if (routeStartTime) {
         const loadTime = performance.now() - routeStartTime
-        
+
         performanceMonitor.recordMetric('routeLoad', {
           route: to.path,
           loadTime,
           timestamp: Date.now()
         })
-        
+
         routeStartTime = null
       }
     })
@@ -190,7 +190,7 @@ function setupErrorTracking(app) {
       stack: err.stack,
       timestamp: Date.now()
     })
-    
+
     // Log to console in development
     if (process.env.NODE_ENV === 'development') {
       console.error('Vue Error:', err, vm, info)
@@ -205,7 +205,7 @@ function setupErrorTracking(app) {
       trace,
       timestamp: Date.now()
     })
-    
+
     if (process.env.NODE_ENV === 'development') {
       console.warn('Vue Warning:', msg, vm, trace)
     }
@@ -230,7 +230,7 @@ function setupUserInteractionTracking(app) {
   // Auto-track common interactions
   if (typeof window !== 'undefined') {
     // Track clicks
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
       if (Math.random() <= performanceMonitor.config.sampleRate) {
         const target = event.target
         const targetInfo = {
@@ -239,7 +239,7 @@ function setupUserInteractionTracking(app) {
           id: target.id,
           textContent: target.textContent?.substring(0, 50) || ''
         }
-        
+
         trackInteraction('click', targetInfo, {
           x: event.clientX,
           y: event.clientY
@@ -248,7 +248,7 @@ function setupUserInteractionTracking(app) {
     })
 
     // Track form submissions
-    document.addEventListener('submit', (event) => {
+    document.addEventListener('submit', event => {
       const form = event.target
       trackInteraction('form-submit', {
         formId: form.id,
@@ -258,14 +258,18 @@ function setupUserInteractionTracking(app) {
     })
 
     // Track input focus (for engagement metrics)
-    document.addEventListener('focus', (event) => {
-      if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
-        trackInteraction('input-focus', {
-          inputType: event.target.type,
-          inputName: event.target.name
-        })
-      }
-    }, true)
+    document.addEventListener(
+      'focus',
+      event => {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+          trackInteraction('input-focus', {
+            inputType: event.target.type,
+            inputName: event.target.name
+          })
+        }
+      },
+      true
+    )
   }
 }
 
@@ -307,19 +311,19 @@ function setupVueMetrics(app) {
 
 // Performance composable for use in components
 export function usePerformance() {
-  const startTimer = (label) => {
+  const startTimer = label => {
     const startTime = performance.now()
     return {
       end: () => {
         const endTime = performance.now()
         const duration = endTime - startTime
-        
+
         performanceMonitor.recordMetric('customTimer', {
           label,
           duration,
           timestamp: Date.now()
         })
-        
+
         return duration
       }
     }
@@ -331,27 +335,31 @@ export function usePerformance() {
 
   const measureComponent = (componentName, startAction, endAction) => {
     const measureName = `${componentName}-duration`
-    performanceMonitor.measure(measureName, `${componentName}-${startAction}`, `${componentName}-${endAction}`)
+    performanceMonitor.measure(
+      measureName,
+      `${componentName}-${startAction}`,
+      `${componentName}-${endAction}`
+    )
   }
 
   const trackAsyncOperation = async (operationName, asyncFunction) => {
     const startTime = performance.now()
-    
+
     try {
       const result = await asyncFunction()
       const endTime = performance.now()
-      
+
       performanceMonitor.recordMetric('asyncOperation', {
         operation: operationName,
         duration: endTime - startTime,
         success: true,
         timestamp: Date.now()
       })
-      
+
       return result
     } catch (error) {
       const endTime = performance.now()
-      
+
       performanceMonitor.recordMetric('asyncOperation', {
         operation: operationName,
         duration: endTime - startTime,
@@ -359,12 +367,12 @@ export function usePerformance() {
         error: error.message,
         timestamp: Date.now()
       })
-      
+
       throw error
     }
   }
 
-  const getMetrics = (category) => {
+  const getMetrics = category => {
     return performanceMonitor.getMetrics(category)
   }
 
@@ -387,7 +395,7 @@ export function usePerformance() {
 export const performanceDirective = {
   mounted(el, binding) {
     const { value, modifiers } = binding
-    
+
     if (modifiers.click) {
       el.addEventListener('click', () => {
         performanceMonitor.trackUserInteraction('directive-click', {
@@ -396,9 +404,9 @@ export const performanceDirective = {
         })
       })
     }
-    
+
     if (modifiers.visible) {
-      const observer = new IntersectionObserver((entries) => {
+      const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             performanceMonitor.recordMetric('elementVisible', {
@@ -409,12 +417,12 @@ export const performanceDirective = {
           }
         })
       })
-      
+
       observer.observe(el)
       el._performanceObserver = observer
     }
   },
-  
+
   beforeUnmount(el) {
     if (el._performanceObserver) {
       el._performanceObserver.disconnect()

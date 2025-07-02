@@ -12,14 +12,14 @@ class Logger {
       DEBUG: 3,
       TRACE: 4
     }
-    
+
     // Get log level from environment or localStorage
     this.currentLevel = this.getLogLevel()
-    
+
     // Store logs for later inspection
     this.logs = []
     this.maxLogs = 1000
-    
+
     // Console styling
     this.styles = {
       ERROR: 'color: #ff4444; font-weight: bold;',
@@ -42,7 +42,10 @@ class Logger {
       level = this.levels[level.toUpperCase()]
     }
     this.currentLevel = level
-    localStorage.setItem('log_level', Object.keys(this.levels).find(k => this.levels[k] === level))
+    localStorage.setItem(
+      'log_level',
+      Object.keys(this.levels).find(k => this.levels[k] === level)
+    )
   }
 
   shouldLog(level) {
@@ -52,7 +55,7 @@ class Logger {
   formatMessage(level, message, context = {}) {
     const timestamp = new Date().toISOString()
     const levelName = Object.keys(this.levels).find(k => this.levels[k] === level)
-    
+
     return {
       timestamp,
       level: levelName,
@@ -66,7 +69,7 @@ class Logger {
     if (!this.shouldLog(level)) return
 
     const logEntry = this.formatMessage(level, message, context)
-    
+
     // Store log
     this.logs.push(logEntry)
     if (this.logs.length > this.maxLogs) {
@@ -78,19 +81,16 @@ class Logger {
     const style = this.styles[levelName]
 
     // Console output with styling
-    console.groupCollapsed(
-      `%c[${levelName}] ${logEntry.timestamp} - ${message}`,
-      style
-    )
-    
+    console.groupCollapsed(`%c[${levelName}] ${logEntry.timestamp} - ${message}`, style)
+
     if (Object.keys(context).length > 0) {
       console.log('Context:', context)
     }
-    
+
     if (level === this.levels.ERROR && context.error) {
       console.error(context.error)
     }
-    
+
     console.groupEnd()
 
     // Send critical errors to backend
@@ -203,7 +203,7 @@ class Logger {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+          Authorization: `Bearer ${localStorage.getItem('auth_token')}`
         },
         body: JSON.stringify(logEntry)
       })

@@ -10,9 +10,9 @@
     @mouseup="handleMouseEnd"
   >
     <slot />
-    
+
     <!-- Swipe indicator -->
-    <div 
+    <div
       v-if="showIndicator && isActive"
       class="swipe-indicator"
       :class="`swipe-${direction}`"
@@ -24,14 +24,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import TablerIcon from './TablerIcon.vue'
 
 const props = defineProps({
   direction: {
     type: String,
     default: 'horizontal',
-    validator: (value) => ['horizontal', 'vertical', 'both'].includes(value)
+    validator: value => ['horizontal', 'vertical', 'both'].includes(value)
   },
   threshold: {
     type: Number,
@@ -49,7 +49,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'swipe-left',
-  'swipe-right', 
+  'swipe-right',
   'swipe-up',
   'swipe-down',
   'swipe-start',
@@ -71,7 +71,7 @@ const isMouseDown = ref(false)
 // Computed
 const swipeProgress = computed(() => {
   if (!isActive.value) return 0
-  
+
   const maxDelta = Math.max(Math.abs(deltaX.value), Math.abs(deltaY.value))
   return Math.min(maxDelta / (props.threshold * 2), 1)
 })
@@ -95,45 +95,45 @@ const indicatorIcon = computed(() => {
 })
 
 // Touch handlers
-const handleTouchStart = (e) => {
+const handleTouchStart = e => {
   if (props.disabled) return
-  
+
   const touch = e.touches[0]
   startSwipe(touch.clientX, touch.clientY)
 }
 
-const handleTouchMove = (e) => {
+const handleTouchMove = e => {
   if (props.disabled || !isActive.value) return
-  
+
   e.preventDefault()
   const touch = e.touches[0]
   updateSwipe(touch.clientX, touch.clientY)
 }
 
-const handleTouchEnd = (e) => {
+const handleTouchEnd = e => {
   if (props.disabled || !isActive.value) return
-  
+
   endSwipe()
 }
 
 // Mouse handlers (for desktop testing)
-const handleMouseDown = (e) => {
+const handleMouseDown = e => {
   if (props.disabled) return
-  
+
   isMouseDown.value = true
   startSwipe(e.clientX, e.clientY)
 }
 
-const handleMouseMove = (e) => {
+const handleMouseMove = e => {
   if (props.disabled || !isActive.value || !isMouseDown.value) return
-  
+
   e.preventDefault()
   updateSwipe(e.clientX, e.clientY)
 }
 
-const handleMouseEnd = (e) => {
+const handleMouseEnd = e => {
   if (props.disabled || !isActive.value) return
-  
+
   isMouseDown.value = false
   endSwipe()
 }
@@ -147,7 +147,7 @@ const startSwipe = (x, y) => {
   currentY.value = y
   deltaX.value = 0
   deltaY.value = 0
-  
+
   emit('swipe-start', { x, y })
 }
 
@@ -156,7 +156,7 @@ const updateSwipe = (x, y) => {
   currentY.value = y
   deltaX.value = x - startX.value
   deltaY.value = y - startY.value
-  
+
   emit('swipe-move', {
     deltaX: deltaX.value,
     deltaY: deltaY.value,
@@ -168,7 +168,7 @@ const updateSwipe = (x, y) => {
 const endSwipe = () => {
   const absX = Math.abs(deltaX.value)
   const absY = Math.abs(deltaY.value)
-  
+
   // Check if swipe meets threshold
   if (absX > props.threshold || absY > props.threshold) {
     // Determine swipe direction and emit appropriate event
@@ -181,7 +181,7 @@ const endSwipe = () => {
         }
       }
     }
-    
+
     if (props.direction === 'vertical' || props.direction === 'both') {
       if (absY > absX) {
         if (deltaY.value > 0) {
@@ -192,13 +192,13 @@ const endSwipe = () => {
       }
     }
   }
-  
+
   emit('swipe-end', {
     deltaX: deltaX.value,
     deltaY: deltaY.value,
     direction: direction.value
   })
-  
+
   // Reset state
   isActive.value = false
   deltaX.value = 0

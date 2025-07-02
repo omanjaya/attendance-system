@@ -7,7 +7,7 @@ export function useAuth() {
   const authStore = useAuthStore()
   const router = useRouter()
   const { showNotification } = useNotifications()
-  
+
   // Reactive refs for local state
   const isLoggingIn = ref(false)
   const isLoggingOut = ref(false)
@@ -27,31 +27,31 @@ export function useAuth() {
   const canLoginAgain = computed(() => authStore.canLoginAgain)
 
   // Authentication methods
-  const login = async (credentials) => {
+  const login = async credentials => {
     isLoggingIn.value = true
     loginError.value = ''
-    
+
     try {
       const result = await authStore.login({
         ...credentials,
         remember: rememberMe.value
       })
-      
+
       if (result.success) {
         showNotification({
           type: 'success',
           title: 'Login Successful',
           message: `Welcome back, ${result.user.name}!`
         })
-        
+
         // Redirect to intended route or dashboard
         const redirect = router.currentRoute.value.query.redirect || '/dashboard'
         router.push(redirect)
-        
+
         return result
       } else {
         loginError.value = result.message
-        
+
         if (result.rateLimited) {
           showNotification({
             type: 'warning',
@@ -65,19 +65,19 @@ export function useAuth() {
             message: result.message
           })
         }
-        
+
         return result
       }
     } catch (error) {
       const message = 'An unexpected error occurred during login'
       loginError.value = message
-      
+
       showNotification({
         type: 'error',
         title: 'Login Error',
         message
       })
-      
+
       return { success: false, message }
     } finally {
       isLoggingIn.value = false
@@ -86,10 +86,10 @@ export function useAuth() {
 
   const logout = async () => {
     isLoggingOut.value = true
-    
+
     try {
       await authStore.logout()
-      
+
       showNotification({
         type: 'info',
         title: 'Logged Out',
@@ -97,7 +97,7 @@ export function useAuth() {
       })
     } catch (error) {
       console.error('Logout error:', error)
-      
+
       showNotification({
         type: 'error',
         title: 'Logout Error',
@@ -126,10 +126,10 @@ export function useAuth() {
     }
   }
 
-  const updateProfile = async (profileData) => {
+  const updateProfile = async profileData => {
     try {
       const result = await authStore.updateProfile(profileData)
-      
+
       if (result.success) {
         showNotification({
           type: 'success',
@@ -143,25 +143,25 @@ export function useAuth() {
           message: result.message
         })
       }
-      
+
       return result
     } catch (error) {
       const message = 'An error occurred while updating your profile'
-      
+
       showNotification({
         type: 'error',
         title: 'Update Error',
         message
       })
-      
+
       return { success: false, message }
     }
   }
 
-  const changePassword = async (passwordData) => {
+  const changePassword = async passwordData => {
     try {
       const result = await authStore.changePassword(passwordData)
-      
+
       if (result.success) {
         showNotification({
           type: 'success',
@@ -175,35 +175,35 @@ export function useAuth() {
           message: result.message
         })
       }
-      
+
       return result
     } catch (error) {
       const message = 'An error occurred while changing your password'
-      
+
       showNotification({
         type: 'error',
         title: 'Password Change Error',
         message
       })
-      
+
       return { success: false, message }
     }
   }
 
   // Permission checking utilities
-  const hasRole = (role) => {
+  const hasRole = role => {
     return authStore.hasRole(role)
   }
 
-  const hasPermission = (permission) => {
+  const hasPermission = permission => {
     return authStore.hasPermission(permission)
   }
 
-  const hasAnyRole = (roles) => {
+  const hasAnyRole = roles => {
     return authStore.hasAnyRole(roles)
   }
 
-  const hasAnyPermission = (permissions) => {
+  const hasAnyPermission = permissions => {
     return authStore.hasAnyPermission(permissions)
   }
 
@@ -218,9 +218,9 @@ export function useAuth() {
     return true
   }
 
-  const requireRole = (role) => {
+  const requireRole = role => {
     if (!requireAuth()) return false
-    
+
     if (!hasRole(role)) {
       showNotification({
         type: 'error',
@@ -230,13 +230,13 @@ export function useAuth() {
       router.push('/dashboard')
       return false
     }
-    
+
     return true
   }
 
-  const requirePermission = (permission) => {
+  const requirePermission = permission => {
     if (!requireAuth()) return false
-    
+
     if (!hasPermission(permission)) {
       showNotification({
         type: 'error',
@@ -245,12 +245,12 @@ export function useAuth() {
       })
       return false
     }
-    
+
     return true
   }
 
   // Reactive watchers
-  watch(isAuthenticated, (newValue) => {
+  watch(isAuthenticated, newValue => {
     if (!newValue && router.currentRoute.value.meta?.requiresAuth) {
       router.push('/auth/login')
     }
@@ -279,16 +279,16 @@ export function useAuth() {
     return userAvatar.value || null
   }
 
-  const canPerformAction = (action) => {
+  const canPerformAction = action => {
     // You can define action-based permissions here
     const actionPermissions = {
-      'create_employee': 'employees.create',
-      'edit_employee': 'employees.edit',
-      'delete_employee': 'employees.delete',
-      'view_reports': 'reports.view',
-      'manage_settings': 'settings.manage'
+      create_employee: 'employees.create',
+      edit_employee: 'employees.edit',
+      delete_employee: 'employees.delete',
+      view_reports: 'reports.view',
+      manage_settings: 'settings.manage'
     }
-    
+
     const permission = actionPermissions[action]
     return permission ? hasPermission(permission) : false
   }
@@ -307,7 +307,7 @@ export function useAuth() {
     loginError,
     rememberMe,
     canLoginAgain,
-    
+
     // User data
     userName,
     userEmail,
@@ -315,12 +315,12 @@ export function useAuth() {
     userPermissions,
     userAvatar,
     userInitials,
-    
+
     // Role helpers
     isAdmin,
     isManager,
     isEmployee,
-    
+
     // Methods
     login,
     logout,
@@ -330,7 +330,7 @@ export function useAuth() {
     changePassword,
     refreshToken,
     resetRateLimit,
-    
+
     // Permission methods
     hasRole,
     hasPermission,
@@ -340,7 +340,7 @@ export function useAuth() {
     requireRole,
     requirePermission,
     canPerformAction,
-    
+
     // Utility methods
     getUserDisplayName,
     getUserAvatarUrl
@@ -351,12 +351,12 @@ export function useAuth() {
 export const createAuthGuard = (requiredRole = null, requiredPermission = null) => {
   return async (to, from, next) => {
     const authStore = useAuthStore()
-    
+
     // Initialize auth if not already done
     if (!authStore.initialized) {
       await authStore.initAuth()
     }
-    
+
     // Check authentication
     if (!authStore.isAuthenticated) {
       next({
@@ -365,31 +365,31 @@ export const createAuthGuard = (requiredRole = null, requiredPermission = null) 
       })
       return
     }
-    
+
     // Check role
     if (requiredRole && !authStore.hasRole(requiredRole)) {
       next('/dashboard') // Redirect to dashboard if no permission
       return
     }
-    
+
     // Check permission
     if (requiredPermission && !authStore.hasPermission(requiredPermission)) {
       next('/dashboard') // Redirect to dashboard if no permission
       return
     }
-    
+
     next()
   }
 }
 
-export const createRoleChecker = (roles) => {
+export const createRoleChecker = roles => {
   return () => {
     const authStore = useAuthStore()
     return authStore.hasAnyRole(roles)
   }
 }
 
-export const createPermissionChecker = (permissions) => {
+export const createPermissionChecker = permissions => {
   return () => {
     const authStore = useAuthStore()
     return authStore.hasAnyPermission(permissions)

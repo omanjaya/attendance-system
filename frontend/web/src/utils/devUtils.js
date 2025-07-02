@@ -46,10 +46,10 @@ export const devUtils = {
   async quickLogin() {
     const authStore = useAuthStore()
     const { login } = useAuth()
-    
+
     const credentials = this.getTestCredentials()
     console.log('🚀 Attempting quick login with test credentials...')
-    
+
     try {
       const result = await login(credentials)
       if (result.success) {
