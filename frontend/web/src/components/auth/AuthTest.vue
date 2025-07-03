@@ -4,9 +4,7 @@
       <div class="row align-items-center">
         <div class="col">
           <h2 class="page-title">Authentication & Authorization Test</h2>
-          <div class="text-muted mt-1">
-            Testing role-based rendering and authentication features
-          </div>
+          <div class="text-muted mt-1">Testing role-based rendering and authentication features</div>
         </div>
       </div>
     </div>
@@ -20,10 +18,7 @@
           </div>
           <div class="card-body">
             <div v-if="isAuthenticated" class="d-flex align-items-center mb-3">
-              <span
-                class="avatar avatar-md me-3"
-                :style="userAvatar ? `background-image: url(${userAvatar})` : ''"
-              >
+              <span class="avatar avatar-md me-3" :style="userAvatar ? `background-image: url(${userAvatar})` : ''">
                 {{ userInitials }}
               </span>
               <div>
@@ -43,11 +38,7 @@
                 <div class="mb-2">
                   <strong>Roles:</strong>
                   <div v-if="userRoles.length">
-                    <span
-                      v-for="role in userRoles"
-                      :key="role.name || role"
-                      class="badge bg-primary me-1"
-                    >
+                    <span v-for="role in userRoles" :key="role.name || role" class="badge bg-primary me-1">
                       {{ role.name || role }}
                     </span>
                   </div>
@@ -155,9 +146,7 @@
                   <strong>Access Denied:</strong> You need super-admin role for this.
                 </div>
               </template>
-              <div class="alert alert-success">
-                <strong>Super Admin Only:</strong> Secret content!
-              </div>
+              <div class="alert alert-success"><strong>Super Admin Only:</strong> Secret content!</div>
             </RoleGuard>
           </div>
         </div>
@@ -215,11 +204,7 @@
 
               <div class="col-md-3 mb-3">
                 <div class="d-grid">
-                  <button
-                    class="btn btn-danger"
-                    :disabled="!hasRole('admin')"
-                    @click="testAction('admin_action')"
-                  >
+                  <button class="btn btn-danger" :disabled="!hasRole('admin')" @click="testAction('admin_action')">
                     <TablerIcon name="shield" class="me-2" />
                     Admin Action
                   </button>
@@ -264,12 +249,8 @@
               <div class="col-md-6">
                 <h4>State Information</h4>
                 <div class="list-group list-group-flush">
-                  <div class="list-group-item">
-                    <strong>Loading:</strong> {{ loading ? 'Yes' : 'No' }}
-                  </div>
-                  <div class="list-group-item">
-                    <strong>Login Error:</strong> {{ loginError || 'None' }}
-                  </div>
+                  <div class="list-group-item"><strong>Loading:</strong> {{ loading ? 'Yes' : 'No' }}</div>
+                  <div class="list-group-item"><strong>Login Error:</strong> {{ loginError || 'None' }}</div>
                   <div class="list-group-item">
                     <strong>Can Login Again:</strong> {{ canLoginAgain ? 'Yes' : 'No' }}
                   </div>
@@ -298,18 +279,8 @@
       show-default-actions
       @confirm="testProfileUpdate"
     >
-      <FormField
-        v-model="testProfileData.name"
-        label="Name"
-        type="text"
-        placeholder="Enter test name"
-      />
-      <FormField
-        v-model="testProfileData.email"
-        label="Email"
-        type="email"
-        placeholder="Enter test email"
-      />
+      <FormField v-model="testProfileData.name" label="Name" type="text" placeholder="Enter test name" />
+      <FormField v-model="testProfileData.email" label="Email" type="email" placeholder="Enter test email" />
     </Modal>
   </div>
 </template>

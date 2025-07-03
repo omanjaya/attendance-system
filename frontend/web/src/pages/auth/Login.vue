@@ -5,13 +5,7 @@
       <!-- Enhanced Brand Section -->
       <div class="text-center mb-4">
         <a href="." class="navbar-brand navbar-brand-autodark">
-          <img
-            src="/logo.svg"
-            width="110"
-            height="32"
-            alt="Presensiari Attendance System"
-            class="navbar-brand-image"
-          />
+          <img src="/logo.svg" width="110" height="32" alt="Presensiari Attendance System" class="navbar-brand-image" />
         </a>
         <div class="text-muted mt-2">Presensiari Attendance Management</div>
       </div>
@@ -35,9 +29,7 @@
                 stroke-linejoin="round"
               >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"
-                />
+                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
                 <path d="M7 12h14l-3 -3m0 6l3 -3" />
               </svg>
             </div>
@@ -70,12 +62,7 @@
                 <div class="text-muted">{{ successMessage }}</div>
               </div>
             </div>
-            <button
-              type="button"
-              class="btn-close"
-              aria-label="Close"
-              @click="successMessage = ''"
-            ></button>
+            <button type="button" class="btn-close" aria-label="Close" @click="successMessage = ''"></button>
           </div>
 
           <!-- Enhanced Error Message with Animation -->
@@ -107,12 +94,7 @@
                 <div class="text-muted">{{ errorMessage }}</div>
               </div>
             </div>
-            <button
-              type="button"
-              class="btn-close"
-              aria-label="Close"
-              @click="errorMessage = ''"
-            ></button>
+            <button type="button" class="btn-close" aria-label="Close" @click="errorMessage = ''"></button>
           </div>
 
           <!-- Enhanced Login Form with Progressive Enhancement -->
@@ -253,9 +235,7 @@
                       stroke-linejoin="round"
                     >
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path
-                        d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
-                      />
+                      <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
                       <path d="M3 7l9 6l9 -6" />
                     </svg>
                     Forgot password?
@@ -343,12 +323,7 @@
             <!-- Enhanced Remember Me with Better Styling -->
             <div class="mb-3">
               <label class="form-check form-switch">
-                <input
-                  v-model="form.remember"
-                  type="checkbox"
-                  class="form-check-input"
-                  :disabled="isLoading"
-                />
+                <input v-model="form.remember" type="checkbox" class="form-check-input" :disabled="isLoading" />
                 <span class="form-check-label">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -374,11 +349,7 @@
             </div>
 
             <!-- Enhanced Rate Limit Warning with Countdown -->
-            <div
-              v-if="rateLimitMessage"
-              class="alert alert-warning alert-dismissible mb-3"
-              role="alert"
-            >
+            <div v-if="rateLimitMessage" class="alert alert-warning alert-dismissible mb-3" role="alert">
               <div class="d-flex">
                 <div>
                   <svg
@@ -402,10 +373,7 @@
                   <h4 class="alert-title">Rate Limit Exceeded</h4>
                   <div class="text-muted">{{ rateLimitMessage }}</div>
                   <div v-if="remainingTime > 0" class="progress progress-sm mt-2">
-                    <div
-                      class="progress-bar bg-warning"
-                      :style="{ width: progressPercent + '%' }"
-                    ></div>
+                    <div class="progress-bar bg-warning" :style="{ width: progressPercent + '%' }"></div>
                   </div>
                 </div>
               </div>
@@ -455,9 +423,7 @@
                   stroke-linejoin="round"
                 >
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"
-                  />
+                  <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
                   <path d="M7 12h14l-3 -3m0 6l3 -3" />
                 </svg>
                 <span v-if="remainingTime > 0"> Wait {{ remainingTime }}s </span>
@@ -469,11 +435,7 @@
               <div class="text-center mt-3">
                 <div class="row">
                   <div class="col">
-                    <a
-                      href="#"
-                      class="btn btn-ghost-secondary btn-sm"
-                      @click.prevent="showForgotPassword = true"
-                    >
+                    <a href="#" class="btn btn-ghost-secondary btn-sm" @click.prevent="showForgotPassword = true">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="icon icon-sm me-1"
@@ -494,11 +456,7 @@
                     </a>
                   </div>
                   <div class="col">
-                    <a
-                      href="#"
-                      class="btn btn-ghost-secondary btn-sm"
-                      @click.prevent="showLoginDemo = true"
-                    >
+                    <a href="#" class="btn btn-ghost-secondary btn-sm" @click.prevent="showLoginDemo = true">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="icon icon-sm me-1"
@@ -557,12 +515,7 @@
               </button>
             </div>
             <div class="col-12 col-md-6">
-              <button
-                type="button"
-                class="btn btn-outline-primary w-100"
-                disabled
-                title="Coming Soon"
-              >
+              <button type="button" class="btn btn-outline-primary w-100" disabled title="Coming Soon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="icon me-2"
@@ -576,9 +529,7 @@
                   stroke-linejoin="round"
                 >
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"
-                  />
+                  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
                 </svg>
                 Google
                 <span class="badge bg-secondary ms-auto">Soon</span>
@@ -588,11 +539,7 @@
 
           <!-- QR Code Option -->
           <div class="text-center mt-3">
-            <button
-              type="button"
-              class="btn btn-ghost-secondary btn-sm"
-              @click="showQRLogin = true"
-            >
+            <button type="button" class="btn btn-ghost-secondary btn-sm" @click="showQRLogin = true">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="icon icon-sm me-1"
@@ -630,12 +577,7 @@
       </div>
 
       <!-- Enhanced Forgot Password Modal -->
-      <div
-        v-if="showForgotPassword"
-        class="modal modal-blur fade show"
-        style="display: block"
-        tabindex="-1"
-      >
+      <div v-if="showForgotPassword" class="modal modal-blur fade show" style="display: block" tabindex="-1">
         <div class="modal-dialog modal-sm modal-dialog-centered">
           <div class="modal-content">
             <button type="button" class="btn-close" @click="showForgotPassword = false"></button>
@@ -654,9 +596,7 @@
                 stroke-linejoin="round"
               >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
-                />
+                <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
                 <path d="M3 7l9 6l9 -6" />
               </svg>
               <h3>Reset Your Password</h3>
@@ -718,10 +658,7 @@
                       :disabled="isResetLoading || !resetEmail"
                       @click="handlePasswordReset"
                     >
-                      <span
-                        v-if="isResetLoading"
-                        class="spinner-border spinner-border-sm me-2"
-                      ></span>
+                      <span v-if="isResetLoading" class="spinner-border spinner-border-sm me-2"></span>
                       <svg
                         v-else
                         xmlns="http://www.w3.org/2000/svg"
@@ -737,9 +674,7 @@
                       >
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <line x1="10" y1="14" x2="21" y2="3" />
-                        <path
-                          d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"
-                        />
+                        <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
                       </svg>
                       Send Reset Link
                     </button>
@@ -752,12 +687,7 @@
       </div>
 
       <!-- Demo Login Modal -->
-      <div
-        v-if="showLoginDemo"
-        class="modal modal-blur fade show"
-        style="display: block"
-        tabindex="-1"
-      >
+      <div v-if="showLoginDemo" class="modal modal-blur fade show" style="display: block" tabindex="-1">
         <div class="modal-dialog modal-sm modal-dialog-centered">
           <div class="modal-content">
             <button type="button" class="btn-close" @click="showLoginDemo = false"></button>
@@ -790,12 +720,8 @@
               <div class="card">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-12 mb-2">
-                      <strong>Email:</strong> <code>superadmin@school.edu</code>
-                    </div>
-                    <div class="col-12 mb-2">
-                      <strong>Password:</strong> <code>password123</code>
-                    </div>
+                    <div class="col-12 mb-2"><strong>Email:</strong> <code>superadmin@school.edu</code></div>
+                    <div class="col-12 mb-2"><strong>Password:</strong> <code>password123</code></div>
                     <div class="col-12">
                       <strong>Role:</strong>
                       <span class="badge bg-primary">Super Administrator</span>
@@ -808,16 +734,10 @@
               <div class="w-100">
                 <div class="row">
                   <div class="col">
-                    <button type="button" class="btn w-100" @click="showLoginDemo = false">
-                      Cancel
-                    </button>
+                    <button type="button" class="btn w-100" @click="showLoginDemo = false">Cancel</button>
                   </div>
                   <div class="col">
-                    <button
-                      type="button"
-                      class="btn btn-success w-100"
-                      @click="fillDemoCredentials"
-                    >
+                    <button type="button" class="btn btn-success w-100" @click="fillDemoCredentials">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="icon me-2"
@@ -844,12 +764,7 @@
       </div>
 
       <!-- QR Code Login Modal -->
-      <div
-        v-if="showQRLogin"
-        class="modal modal-blur fade show"
-        style="display: block"
-        tabindex="-1"
-      >
+      <div v-if="showQRLogin" class="modal modal-blur fade show" style="display: block" tabindex="-1">
         <div class="modal-dialog modal-sm modal-dialog-centered">
           <div class="modal-content">
             <button type="button" class="btn-close" @click="showQRLogin = false"></button>
@@ -889,13 +804,7 @@
                   <div class="d-flex justify-content-center mb-3">
                     <div
                       class="bg-light p-3 rounded"
-                      style="
-                        width: 150px;
-                        height: 150px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
+                      style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -957,8 +866,7 @@
                   </div>
                   <div>
                     <small
-                      >QR code login is coming soon! For now, please use the standard email and
-                      password login.</small
+                      >QR code login is coming soon! For now, please use the standard email and password login.</small
                     >
                   </div>
                 </div>
@@ -966,9 +874,7 @@
             </div>
             <div class="modal-footer">
               <div class="w-100">
-                <button type="button" class="btn btn-secondary w-100" @click="showQRLogin = false">
-                  Close
-                </button>
+                <button type="button" class="btn btn-secondary w-100" @click="showQRLogin = false">Close</button>
               </div>
             </div>
           </div>
@@ -976,16 +882,8 @@
       </div>
 
       <!-- Enhanced Modal Backdrops -->
-      <div
-        v-if="showForgotPassword"
-        class="modal-backdrop fade show"
-        @click="showForgotPassword = false"
-      ></div>
-      <div
-        v-if="showLoginDemo"
-        class="modal-backdrop fade show"
-        @click="showLoginDemo = false"
-      ></div>
+      <div v-if="showForgotPassword" class="modal-backdrop fade show" @click="showForgotPassword = false"></div>
+      <div v-if="showLoginDemo" class="modal-backdrop fade show" @click="showLoginDemo = false"></div>
       <div v-if="showQRLogin" class="modal-backdrop fade show" @click="showQRLogin = false"></div>
     </div>
   </div>
@@ -1178,8 +1076,7 @@ const handleLogin = async () => {
         router.push(redirect)
       }, 1000)
     } else {
-      errorMessage.value =
-        result.message || 'Authentication failed. Please check your credentials and try again.'
+      errorMessage.value = result.message || 'Authentication failed. Please check your credentials and try again.'
 
       // Handle rate limiting
       if (result.rateLimited && result.remainingTime) {

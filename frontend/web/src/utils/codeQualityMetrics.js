@@ -190,9 +190,7 @@ class CodeQualityMetrics {
       totalFiles: files.length,
       duplicateBlocks: duplicates.length,
       duplicatePercentage:
-        duplicates.length > 0
-          ? (duplicates.reduce((sum, dup) => sum + dup.duplicateCount, 0) / files.length) * 100
-          : 0,
+        duplicates.length > 0 ? (duplicates.reduce((sum, dup) => sum + dup.duplicateCount, 0) / files.length) * 100 : 0,
       duplicates,
       timestamp: Date.now()
     }
@@ -207,11 +205,7 @@ class CodeQualityMetrics {
     let currentBlock = []
 
     lines.forEach((line, index) => {
-      if (
-        line.trim().length > 0 &&
-        !line.trim().startsWith('//') &&
-        !line.trim().startsWith('/*')
-      ) {
+      if (line.trim().length > 0 && !line.trim().startsWith('//') && !line.trim().startsWith('/*')) {
         currentBlock.push(line)
       } else {
         if (currentBlock.length >= 5) {
@@ -283,9 +277,7 @@ class CodeQualityMetrics {
       .map(([filePath, fileData]) => ({
         path: filePath,
         statements:
-          (fileData.s
-            ? Object.values(fileData.s).filter(v => v > 0).length / Object.keys(fileData.s).length
-            : 0) * 100,
+          (fileData.s ? Object.values(fileData.s).filter(v => v > 0).length / Object.keys(fileData.s).length : 0) * 100,
         branches:
           (fileData.b
             ? Object.values(fileData.b)
@@ -293,13 +285,9 @@ class CodeQualityMetrics {
                 .filter(v => v > 0).length / Object.values(fileData.b).flat().length
             : 0) * 100,
         functions:
-          (fileData.f
-            ? Object.values(fileData.f).filter(v => v > 0).length / Object.keys(fileData.f).length
-            : 0) * 100,
+          (fileData.f ? Object.values(fileData.f).filter(v => v > 0).length / Object.keys(fileData.f).length : 0) * 100,
         lines:
-          (fileData.l
-            ? Object.values(fileData.l).filter(v => v > 0).length / Object.keys(fileData.l).length
-            : 0) * 100
+          (fileData.l ? Object.values(fileData.l).filter(v => v > 0).length / Object.keys(fileData.l).length : 0) * 100
       }))
       .sort((a, b) => a.statements - b.statements)
   }
@@ -329,10 +317,7 @@ class CodeQualityMetrics {
     // Simplified maintainability index calculation
     const maintainabilityIndex = Math.max(
       0,
-      ((171 -
-        5.2 * Math.log(halsteadMetrics.volume) -
-        0.23 * cyclomaticComplexity -
-        16.2 * Math.log(linesOfCode)) *
+      ((171 - 5.2 * Math.log(halsteadMetrics.volume) - 0.23 * cyclomaticComplexity - 16.2 * Math.log(linesOfCode)) *
         100) /
         171
     )
@@ -396,10 +381,7 @@ class CodeQualityMetrics {
 
     const n1 = uniqueOperators.size // Number of distinct operators
     const n2 = uniqueOperands.size // Number of distinct operands
-    const N1 = operators.reduce(
-      (count, op) => count + (code.match(new RegExp(`\\${op}`, 'g')) || []).length,
-      0
-    ) // Total operators
+    const N1 = operators.reduce((count, op) => count + (code.match(new RegExp(`\\${op}`, 'g')) || []).length, 0) // Total operators
     const N2 = operands.length // Total operands
 
     const vocabulary = n1 + n2
@@ -723,8 +705,7 @@ class CodeQualityMetrics {
     })
 
     return {
-      overallScore:
-        Object.values(scores).reduce((sum, score) => sum + score, 0) / Object.keys(scores).length,
+      overallScore: Object.values(scores).reduce((sum, score) => sum + score, 0) / Object.keys(scores).length,
       categoryScores: scores,
       lastUpdated: Date.now()
     }
@@ -752,11 +733,8 @@ class CodeQualityMetrics {
     if (complexityMetrics.length === 0) return null
 
     return {
-      avgComplexity:
-        complexityMetrics.reduce((sum, m) => sum + m.avgComplexity, 0) / complexityMetrics.length,
-      highComplexityFiles: complexityMetrics.filter(
-        m => m.rating === 'high' || m.rating === 'very-high'
-      ).length,
+      avgComplexity: complexityMetrics.reduce((sum, m) => sum + m.avgComplexity, 0) / complexityMetrics.length,
+      highComplexityFiles: complexityMetrics.filter(m => m.rating === 'high' || m.rating === 'very-high').length,
       totalFiles: complexityMetrics.length
     }
   }

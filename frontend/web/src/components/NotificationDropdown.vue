@@ -119,15 +119,15 @@ const markAllAsRead = async () => {
 const getStatusClass = type => {
   switch (type) {
     case 'success':
-    return 'status-green'
+      return 'status-green'
     case 'warning':
-    return 'status-yellow'
+      return 'status-yellow'
     case 'error':
-    return 'status-red'
+      return 'status-red'
     case 'info':
-    return 'status-blue'
+      return 'status-blue'
     default:
-    return 'status-blue'
+      return 'status-blue'
   }
 }
 

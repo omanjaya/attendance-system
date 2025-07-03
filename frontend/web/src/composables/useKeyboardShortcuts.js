@@ -74,10 +74,7 @@ export const useKeyboardShortcuts = () => {
     if (scope === 'global') return Array.from(globalShortcuts.value.values())
     if (scope === 'local') return Array.from(localShortcuts.value.values())
 
-    return [
-      ...Array.from(globalShortcuts.value.values()),
-      ...Array.from(localShortcuts.value.values())
-    ]
+    return [...Array.from(globalShortcuts.value.values()), ...Array.from(localShortcuts.value.values())]
   }
 
   /**

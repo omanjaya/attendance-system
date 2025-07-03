@@ -77,12 +77,8 @@
               </div>
               <div>
                 <div class="text-muted">Error Rate</div>
-                <div class="h3 mb-0">
-                  {{ (performanceMetrics.errors?.errorRate * 100).toFixed(2) }}%
-                </div>
-                <div class="text-sm text-muted">
-                  {{ performanceMetrics.errors?.jsErrors || 0 }} errors
-                </div>
+                <div class="h3 mb-0">{{ (performanceMetrics.errors?.errorRate * 100).toFixed(2) }}%</div>
+                <div class="text-sm text-muted">{{ performanceMetrics.errors?.jsErrors || 0 }} errors</div>
               </div>
             </div>
           </div>
@@ -124,10 +120,7 @@
             <div class="row">
               <div class="col-md-4">
                 <div class="text-center">
-                  <div
-                    class="h2 mb-0"
-                    :class="getVitalsColor('lcp', performanceMetrics.webVitals?.lcp)"
-                  >
+                  <div class="h2 mb-0" :class="getVitalsColor('lcp', performanceMetrics.webVitals?.lcp)">
                     {{ formatTime(performanceMetrics.webVitals?.lcp) }}
                   </div>
                   <div class="text-muted">LCP (Largest Contentful Paint)</div>
@@ -144,10 +137,7 @@
               </div>
               <div class="col-md-4">
                 <div class="text-center">
-                  <div
-                    class="h2 mb-0"
-                    :class="getVitalsColor('fid', performanceMetrics.webVitals?.fid)"
-                  >
+                  <div class="h2 mb-0" :class="getVitalsColor('fid', performanceMetrics.webVitals?.fid)">
                     {{ formatTime(performanceMetrics.webVitals?.fid) }}
                   </div>
                   <div class="text-muted">FID (First Input Delay)</div>
@@ -164,10 +154,7 @@
               </div>
               <div class="col-md-4">
                 <div class="text-center">
-                  <div
-                    class="h2 mb-0"
-                    :class="getVitalsColor('cls', performanceMetrics.webVitals?.cls)"
-                  >
+                  <div class="h2 mb-0" :class="getVitalsColor('cls', performanceMetrics.webVitals?.cls)">
                     {{ (performanceMetrics.webVitals?.cls || 0).toFixed(3) }}
                   </div>
                   <div class="text-muted">CLS (Cumulative Layout Shift)</div>
@@ -281,9 +268,7 @@
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center">
                 <span>Current Rollout Phase</span>
-                <span class="badge bg-primary">{{
-                  rolloutMetrics.currentPhase?.name || 'None'
-                }}</span>
+                <span class="badge bg-primary">{{ rolloutMetrics.currentPhase?.name || 'None' }}</span>
               </div>
               <div class="progress mt-1" style="height: 6px">
                 <div
@@ -331,17 +316,10 @@
             </div>
 
             <div v-else class="list-group list-group-flush">
-              <div
-                v-for="(recommendation, index) in recommendations"
-                :key="index"
-                class="list-group-item"
-              >
+              <div v-for="(recommendation, index) in recommendations" :key="index" class="list-group-item">
                 <div class="d-flex align-items-start">
                   <div class="me-3">
-                    <div
-                      class="badge rounded-pill"
-                      :class="getPriorityClass(recommendation.priority)"
-                    >
+                    <div class="badge rounded-pill" :class="getPriorityClass(recommendation.priority)">
                       {{ recommendation.priority }}
                     </div>
                   </div>
@@ -360,10 +338,7 @@
                     </div>
                   </div>
                   <div class="ms-3">
-                    <button
-                      class="btn btn-sm btn-ghost-secondary"
-                      @click="dismissRecommendation(index)"
-                    >
+                    <button class="btn btn-sm btn-ghost-secondary" @click="dismissRecommendation(index)">
                       <TablerIcon name="x" />
                     </button>
                   </div>
@@ -584,11 +559,11 @@ export default {
     const getTrendClass = trend => {
       switch (trend) {
         case 'increasing':
-        return 'text-danger'
+          return 'text-danger'
         case 'decreasing':
-        return 'text-success'
+          return 'text-success'
         default:
-        return 'text-muted'
+          return 'text-muted'
       }
     }
 
@@ -638,13 +613,13 @@ export default {
     const getPriorityClass = priority => {
       switch (priority) {
         case 'high':
-        return 'bg-danger'
+          return 'bg-danger'
         case 'medium':
-        return 'bg-warning'
+          return 'bg-warning'
         case 'low':
-        return 'bg-info'
+          return 'bg-info'
         default:
-        return 'bg-secondary'
+          return 'bg-secondary'
       }
     }
 

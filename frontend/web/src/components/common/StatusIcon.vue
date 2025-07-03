@@ -1,11 +1,5 @@
 <template>
-  <TablerIcon
-    :name="iconName"
-    :size="size"
-    :class="iconClasses"
-    :aria-label="ariaLabel"
-    v-bind="$attrs"
-  />
+  <TablerIcon :name="iconName" :size="size" :class="iconClasses" :aria-label="ariaLabel" v-bind="$attrs" />
 </template>
 
 <script setup>

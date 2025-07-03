@@ -228,9 +228,7 @@ describe('Store Integration Tests', () => {
       await employeeStore.fetchEmployees()
 
       // Test filtering by user context
-      const managedEmployees = employeeStore.employees.filter(
-        emp => emp.manager_id === authStore.user.id
-      )
+      const managedEmployees = employeeStore.employees.filter(emp => emp.manager_id === authStore.user.id)
 
       expect(managedEmployees).toHaveLength(2)
       expect(managedEmployees.every(emp => emp.manager_id === 1)).toBe(true)

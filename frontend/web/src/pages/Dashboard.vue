@@ -153,10 +153,7 @@
           <div class="divide-y">
             <div v-for="activity in recentActivity" :key="activity.id" class="row">
               <div class="col-auto">
-                <span
-                  class="avatar"
-                  :style="{ backgroundImage: activity.avatar ? `url(${activity.avatar})` : '' }"
-                >
+                <span class="avatar" :style="{ backgroundImage: activity.avatar ? `url(${activity.avatar})` : '' }">
                   {{ activity.avatar ? '' : activity.initials }}
                 </span>
               </div>
@@ -339,9 +336,7 @@
             </div>
             <div class="flex-fill">
               <div class="h6 mb-1">On Time: {{ stats.onTime }}</div>
-              <div class="text-muted">
-                {{ Math.round((stats.onTime / stats.totalEmployees) * 100) }}% of staff
-              </div>
+              <div class="text-muted">{{ Math.round((stats.onTime / stats.totalEmployees) * 100) }}% of staff</div>
             </div>
           </div>
           <div class="d-flex align-items-center py-2">
@@ -350,9 +345,7 @@
             </div>
             <div class="flex-fill">
               <div class="h6 mb-1">Late: {{ stats.late }}</div>
-              <div class="text-muted">
-                {{ Math.round((stats.late / stats.totalEmployees) * 100) }}% of staff
-              </div>
+              <div class="text-muted">{{ Math.round((stats.late / stats.totalEmployees) * 100) }}% of staff</div>
             </div>
           </div>
           <div class="d-flex align-items-center py-2">
@@ -361,9 +354,7 @@
             </div>
             <div class="flex-fill">
               <div class="h6 mb-1">Absent: {{ stats.absent }}</div>
-              <div class="text-muted">
-                {{ Math.round((stats.absent / stats.totalEmployees) * 100) }}% of staff
-              </div>
+              <div class="text-muted">{{ Math.round((stats.absent / stats.totalEmployees) * 100) }}% of staff</div>
             </div>
           </div>
         </div>
@@ -414,10 +405,7 @@
               <div class="d-flex align-items-center">
                 <div class="subheader">Attendance Rate</div>
                 <div class="ms-auto">
-                  <div
-                    class="chart-sparkline chart-sparkline-square"
-                    style="height: 20px; width: 60px"
-                  >
+                  <div class="chart-sparkline chart-sparkline-square" style="height: 20px; width: 60px">
                     <canvas ref="sparklineChart" width="60" height="20"></canvas>
                   </div>
                 </div>
@@ -513,13 +501,7 @@
             <div class="text-muted">
               Show
               <div class="mx-2 d-inline-block">
-                <input
-                  type="text"
-                  class="form-control form-control-sm"
-                  value="7"
-                  size="3"
-                  aria-label="Days count"
-                />
+                <input type="text" class="form-control form-control-sm" value="7" size="3" aria-label="Days count" />
               </div>
               days
             </div>
@@ -536,11 +518,7 @@
             <thead>
               <tr>
                 <th class="w-1">
-                  <input
-                    class="form-check-input m-0 align-middle"
-                    type="checkbox"
-                    aria-label="Select all days"
-                  />
+                  <input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all days" />
                 </th>
                 <th class="w-1">
                   Day
@@ -572,11 +550,7 @@
             <tbody>
               <tr v-for="day in weeklyData" :key="day.id">
                 <td>
-                  <input
-                    class="form-check-input m-0 align-middle"
-                    type="checkbox"
-                    aria-label="Select day"
-                  />
+                  <input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select day" />
                 </td>
                 <td>
                   <span class="text-muted">{{ day.day }}</span>
@@ -597,11 +571,7 @@
                   <div class="d-flex align-items-center">
                     <span class="me-2">{{ day.rate }}%</span>
                     <div class="progress progress-sm flex-fill">
-                      <div
-                        class="progress-bar"
-                        :style="{ width: day.rate + '%' }"
-                        role="progressbar"
-                      ></div>
+                      <div class="progress-bar" :style="{ width: day.rate + '%' }" role="progressbar"></div>
                     </div>
                   </div>
                 </td>
@@ -629,9 +599,7 @@
           </table>
         </div>
         <div class="card-footer d-flex align-items-center">
-          <p class="m-0 text-muted">
-            Showing <span>1</span> to <span>7</span> of <span>7</span> days
-          </p>
+          <p class="m-0 text-muted">Showing <span>1</span> to <span>7</span> of <span>7</span> days</p>
           <ul class="pagination m-0 ms-auto">
             <li class="page-item disabled">
               <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
@@ -696,16 +664,7 @@ import {
   Tooltip
 } from 'chart.js'
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-)
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
 
 // Chart refs
 const attendanceChart = ref(null)
@@ -782,14 +741,14 @@ const computedStats = computed(() => ({
 // Methods
 const getBadgeClass = status => {
   switch (status) {
-  case 'On Time':
-    return 'bg-success'
-  case 'Late':
-    return 'bg-warning'
-  case 'Absent':
-    return 'bg-danger'
-  default:
-    return 'bg-secondary'
+    case 'On Time':
+      return 'bg-success'
+    case 'Late':
+      return 'bg-warning'
+    case 'Absent':
+      return 'bg-danger'
+    default:
+      return 'bg-secondary'
   }
 }
 

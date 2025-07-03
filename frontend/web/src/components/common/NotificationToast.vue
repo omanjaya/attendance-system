@@ -22,13 +22,7 @@
               <div class="toast-message">{{ computedMessage }}</div>
             </div>
 
-            <button
-              v-if="dismissible"
-              type="button"
-              class="toast-close"
-              aria-label="Close"
-              @click="dismiss"
-            >
+            <button v-if="dismissible" type="button" class="toast-close" aria-label="Close" @click="dismiss">
               <TablerIcon name="x" size="sm" />
             </button>
           </div>
@@ -115,15 +109,7 @@ const props = defineProps({
     type: String,
     default: 'top-right',
     validator: value =>
-      [
-        'top-left',
-        'top-center',
-        'top-right',
-        'bottom-left',
-        'bottom-center',
-        'bottom-right',
-        'center'
-      ].includes(value)
+      ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'].includes(value)
   },
 
   // Actions

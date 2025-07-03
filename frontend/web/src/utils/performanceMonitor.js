@@ -300,8 +300,7 @@ class PerformanceMonitor {
       const navigation = performance.getEntriesByType('navigation')[0]
 
       this.recordMetric('pageLoad', {
-        domContentLoaded:
-          navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
+        domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
         loadComplete: navigation.loadEventEnd - navigation.loadEventStart,
         totalTime: navigation.loadEventEnd - navigation.fetchStart,
         dnsLookup: navigation.domainLookupEnd - navigation.domainLookupStart,
@@ -416,12 +415,8 @@ class PerformanceMonitor {
     const networkMetrics = this.getMetrics('network')
     if (networkMetrics.length === 0) return null
 
-    const totalTransferSize = networkMetrics.reduce(
-      (sum, metric) => sum + (metric.transferSize || 0),
-      0
-    )
-    const avgLoadTime =
-      networkMetrics.reduce((sum, metric) => sum + metric.duration, 0) / networkMetrics.length
+    const totalTransferSize = networkMetrics.reduce((sum, metric) => sum + (metric.transferSize || 0), 0)
+    const avgLoadTime = networkMetrics.reduce((sum, metric) => sum + metric.duration, 0) / networkMetrics.length
 
     return {
       requests: networkMetrics.length,
@@ -439,9 +434,7 @@ class PerformanceMonitor {
     return {
       jsErrors: jsErrors.length,
       promiseRejections: promiseRejections.length,
-      errorRate:
-        (jsErrors.length + promiseRejections.length) /
-        (this.getMetrics('userInteraction').length || 1),
+      errorRate: (jsErrors.length + promiseRejections.length) / (this.getMetrics('userInteraction').length || 1),
       commonErrors: this.groupBy(jsErrors, 'message')
     }
   }
@@ -453,9 +446,7 @@ class PerformanceMonitor {
     return {
       interactions: interactions.length,
       avgPageLoadTime:
-        pageLoads.length > 0
-          ? pageLoads.reduce((sum, load) => sum + load.totalTime, 0) / pageLoads.length
-          : null,
+        pageLoads.length > 0 ? pageLoads.reduce((sum, load) => sum + load.totalTime, 0) / pageLoads.length : null,
       bounceRate: this.calculateBounceRate(interactions),
       engagementScore: this.calculateEngagementScore(interactions)
     }
@@ -479,9 +470,7 @@ class PerformanceMonitor {
     if (interactions.length === 0) return 0
 
     const timeSpent =
-      interactions.length > 1
-        ? interactions[interactions.length - 1].timestamp - interactions[0].timestamp
-        : 0
+      interactions.length > 1 ? interactions[interactions.length - 1].timestamp - interactions[0].timestamp : 0
 
     return Math.min(100, interactions.length * 10 + timeSpent / 1000)
   }

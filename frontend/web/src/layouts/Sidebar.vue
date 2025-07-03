@@ -9,12 +9,7 @@
   >
     <div class="container-fluid">
       <!-- Brand -->
-      <button
-        class="navbar-toggler"
-        type="button"
-        aria-label="Toggle navigation"
-        @click="$emit('toggle-mobile')"
-      >
+      <button class="navbar-toggler" type="button" aria-label="Toggle navigation" @click="$emit('toggle-mobile')">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -59,12 +54,7 @@
             }"
           >
             <!-- Single Link -->
-            <router-link
-              v-if="!item.children"
-              class="nav-link"
-              :to="item.to"
-              :class="{ active: isActiveGroup(item) }"
-            >
+            <router-link v-if="!item.children" class="nav-link" :to="item.to" :class="{ active: isActiveGroup(item) }">
               <span class="nav-link-icon d-md-none d-lg-inline-block">
                 <TablerIcon :name="item.icon" />
               </span>

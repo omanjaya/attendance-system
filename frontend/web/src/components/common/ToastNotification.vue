@@ -1,13 +1,7 @@
 <template>
   <teleport to="body">
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-      <div
-        v-for="toast in toasts"
-        :key="toast.id"
-        class="toast show"
-        role="alert"
-        :class="getToastClass(toast.type)"
-      >
+      <div v-for="toast in toasts" :key="toast.id" class="toast show" role="alert" :class="getToastClass(toast.type)">
         <div class="toast-header">
           <svg
             xmlns="http://www.w3.org/2000/svg"

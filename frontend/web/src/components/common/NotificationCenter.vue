@@ -1,10 +1,6 @@
 <template>
   <div class="dropdown">
-    <button
-      class="btn btn-ghost-secondary position-relative"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
+    <button class="btn btn-ghost-secondary position-relative" data-bs-toggle="dropdown" aria-expanded="false">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
@@ -67,12 +63,7 @@
                 </svg>
               </a>
               <div class="dropdown-menu dropdown-menu-end">
-                <a
-                  v-if="unreadCount > 0"
-                  class="dropdown-item"
-                  href="#"
-                  @click.prevent="markAllAsRead"
-                >
+                <a v-if="unreadCount > 0" class="dropdown-item" href="#" @click.prevent="markAllAsRead">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -224,13 +215,8 @@
                     </div>
                     <div class="ms-2 d-flex flex-column align-items-end">
                       <small class="text-muted">{{ formatTime(notification.created_at) }}</small>
-                      <div v-if="!notification.read_at" class="badge bg-primary badge-pill mt-1">
-                        New
-                      </div>
-                      <span
-                        v-if="notification.priority === 'high'"
-                        class="badge bg-danger badge-pill mt-1"
-                      >
+                      <div v-if="!notification.read_at" class="badge bg-primary badge-pill mt-1">New</div>
+                      <span v-if="notification.priority === 'high'" class="badge bg-danger badge-pill mt-1">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="12"
@@ -347,20 +333,13 @@
 
         <!-- Footer with view all link -->
         <div v-if="notifications.length > 0" class="card-footer text-center">
-          <router-link to="/notifications" class="btn btn-link">
-            View all notifications
-          </router-link>
+          <router-link to="/notifications" class="btn btn-link"> View all notifications </router-link>
         </div>
       </div>
     </div>
 
     <!-- Notification Settings Modal -->
-    <div
-      v-if="showSettings"
-      class="modal modal-blur fade show"
-      style="display: block"
-      tabindex="-1"
-    >
+    <div v-if="showSettings" class="modal modal-blur fade show" style="display: block" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">

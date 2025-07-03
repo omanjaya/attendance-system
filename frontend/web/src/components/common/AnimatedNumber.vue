@@ -87,38 +87,38 @@ const displayValue = computed(() => {
   let formatted = ''
 
   switch (props.format) {
-  case 'currency':
-    formatted = new Intl.NumberFormat(props.locale, {
-      style: 'currency',
-      currency: props.currency,
-      minimumFractionDigits: props.decimals,
-      maximumFractionDigits: props.decimals
-    }).format(value)
-    break
+    case 'currency':
+      formatted = new Intl.NumberFormat(props.locale, {
+        style: 'currency',
+        currency: props.currency,
+        minimumFractionDigits: props.decimals,
+        maximumFractionDigits: props.decimals
+      }).format(value)
+      break
 
-  case 'percent':
-    formatted = new Intl.NumberFormat(props.locale, {
-      style: 'percent',
-      minimumFractionDigits: props.decimals,
-      maximumFractionDigits: props.decimals
-    }).format(value / 100)
-    break
+    case 'percent':
+      formatted = new Intl.NumberFormat(props.locale, {
+        style: 'percent',
+        minimumFractionDigits: props.decimals,
+        maximumFractionDigits: props.decimals
+      }).format(value / 100)
+      break
 
-  case 'compact':
-    formatted = new Intl.NumberFormat(props.locale, {
-      notation: 'compact',
-      compactDisplay: 'short',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 1
-    }).format(value)
-    break
+    case 'compact':
+      formatted = new Intl.NumberFormat(props.locale, {
+        notation: 'compact',
+        compactDisplay: 'short',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 1
+      }).format(value)
+      break
 
-  default: // decimal
-    formatted = new Intl.NumberFormat(props.locale, {
-      minimumFractionDigits: props.decimals,
-      maximumFractionDigits: props.decimals
-    }).format(value)
-    break
+    default: // decimal
+      formatted = new Intl.NumberFormat(props.locale, {
+        minimumFractionDigits: props.decimals,
+        maximumFractionDigits: props.decimals
+      }).format(value)
+      break
   }
 
   return `${props.prefix}${formatted}${props.suffix}`

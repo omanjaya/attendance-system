@@ -225,8 +225,7 @@ function getIconPaths(iconName) {
         '<path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/>'
       ].join(''),
 
-    clock: () =>
-      ['<circle cx="12" cy="12" r="9"/>', '<polyline points="12 7 12 12 15 15"/>'].join(''),
+    clock: () => ['<circle cx="12" cy="12" r="9"/>', '<polyline points="12 7 12 12 15 15"/>'].join(''),
 
     calendar: () =>
       [
@@ -237,10 +236,9 @@ function getIconPaths(iconName) {
       ].join(''),
 
     'currency-dollar': () =>
-      [
-        '<line x1="12" y1="1" x2="12" y2="23"/>',
-        '<path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>'
-      ].join(''),
+      ['<line x1="12" y1="1" x2="12" y2="23"/>', '<path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>'].join(
+        ''
+      ),
 
     report: () =>
       [
@@ -270,8 +268,7 @@ function getIconPaths(iconName) {
     'clock-pause': () => '<circle cx="12" cy="12" r="9"/><path d="M10 10v4"/><path d="M14 10v4"/>',
 
     // Employee types
-    school: () =>
-      '<path d="M22 9L12 5 2 9l10 4 10-4v6"/><path d="M6 10.6V16a6 3 0 0 0 12 0v-5.4"/>',
+    school: () => '<path d="M22 9L12 5 2 9l10 4 10-4v6"/><path d="M6 10.6V16a6 3 0 0 0 12 0v-5.4"/>',
     'user-check': () =>
       '<circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/><path d="M16 11l2 2 4 -4"/>',
     briefcase: () =>

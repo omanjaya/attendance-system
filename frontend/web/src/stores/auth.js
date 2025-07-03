@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import api from '@/services/api'
-import logger from '@/utils/logger'
+// import logger from '@/utils/logger'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -169,7 +169,8 @@ export const useAuthStore = defineStore('auth', {
         if (this.token) {
           await api.post('/auth/logout')
         }
-      } catch (error) {
+      } catch (_error) {
+        // Silently handle logout errors
       } finally {
         this.clearAuth()
         this.loading = false

@@ -81,11 +81,11 @@
     outline: 3px solid;
     box-shadow: none;
   }
-  
+
   .card {
     border: 2px solid;
   }
-  
+
   .table th,
   .table td {
     border: 1px solid;
@@ -110,7 +110,7 @@
     background: #fff;
     color: #000;
   }
-  
+
   :focus {
     outline-color: #80bdff;
   }
@@ -131,18 +131,18 @@
   .form-control,
   .form-select,
   button,
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"] {
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'] {
     min-height: 44px;
     min-width: 44px;
   }
-  
+
   .btn-sm {
     min-height: 36px;
     min-width: 36px;
   }
-  
+
   .table td,
   .table th {
     min-height: 44px;
@@ -183,7 +183,7 @@
   z-index: 9998;
 }
 
-.loading-overlay[aria-hidden="true"] {
+.loading-overlay[aria-hidden='true'] {
   display: none;
 }
 
@@ -212,7 +212,7 @@
 
 /* Form accessibility improvements */
 .form-label.required::after {
-  content: " *";
+  content: ' *';
   color: #dc3545;
   font-weight: bold;
   margin-left: 2px;
@@ -284,7 +284,7 @@
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
-  content: "›";
+  content: '›';
   color: #6c757d;
 }
 
@@ -421,11 +421,11 @@
   .popover {
     display: none !important;
   }
-  
+
   .table {
     border-collapse: collapse !important;
   }
-  
+
   .table td,
   .table th {
     background-color: #fff !important;

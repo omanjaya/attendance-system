@@ -12,22 +12,12 @@
               <router-link to="/license" class="link-secondary"> License </router-link>
             </li>
             <li class="list-inline-item">
-              <a
-                href="https://github.com/tabler/tabler"
-                target="_blank"
-                rel="noopener"
-                class="link-secondary"
-              >
+              <a href="https://github.com/tabler/tabler" target="_blank" rel="noopener" class="link-secondary">
                 Source code
               </a>
             </li>
             <li class="list-inline-item">
-              <a
-                href="https://github.com/sponsors/codecalm"
-                target="_blank"
-                rel="noopener"
-                class="link-secondary"
-              >
+              <a href="https://github.com/sponsors/codecalm" target="_blank" rel="noopener" class="link-secondary">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="icon text-pink icon-filled icon-inline"
@@ -41,9 +31,7 @@
                   stroke-linejoin="round"
                 >
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M19.5 12.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"
-                  />
+                  <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
                 </svg>
                 Sponsor
               </a>
@@ -53,8 +41,7 @@
         <div class="col-12 col-lg-auto mt-3 mt-lg-0">
           <ul class="list-inline list-inline-dots mb-0">
             <li class="list-inline-item">
-              Copyright &copy; {{ currentYear }}
-              <router-link to="/" class="link-secondary">{{ appName }}</router-link
+              Copyright &copy; {{ currentYear }} <router-link to="/" class="link-secondary">{{ appName }}</router-link
               >. All rights reserved.
             </li>
             <li class="list-inline-item">

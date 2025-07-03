@@ -5,21 +5,13 @@
       <div class="card-body text-center">
         <!-- Employee Avatar -->
         <div class="avatar avatar-lg mb-3 mx-auto">
-          <img
-            v-if="employee.photo"
-            :src="employee.photo"
-            :alt="employee.name"
-            class="avatar-img"
-          />
+          <img v-if="employee.photo" :src="employee.photo" :alt="employee.name" class="avatar-img" />
           <span v-else class="avatar-placeholder">
             {{ getInitials(employee.name) }}
           </span>
 
           <!-- Status Badge -->
-          <span
-            class="badge badge-notification"
-            :class="employee.is_active ? 'bg-success' : 'bg-secondary'"
-          >
+          <span class="badge badge-notification" :class="employee.is_active ? 'bg-success' : 'bg-secondary'">
             {{ employee.is_active ? '●' : '●' }}
           </span>
         </div>
@@ -77,12 +69,7 @@
           <div class="row align-items-center">
             <div class="col-auto">
               <div class="avatar avatar-xl">
-                <img
-                  v-if="employee.photo"
-                  :src="employee.photo"
-                  :alt="employee.name"
-                  class="avatar-img"
-                />
+                <img v-if="employee.photo" :src="employee.photo" :alt="employee.name" class="avatar-img" />
                 <span v-else class="avatar-placeholder">
                   {{ getInitials(employee.name) }}
                 </span>
@@ -119,11 +106,7 @@
                 </RoleGuard>
 
                 <div class="dropdown">
-                  <button
-                    class="btn btn-outline-secondary dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                  >
+                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                     <TablerIcon name="dots" />
                   </button>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -148,21 +131,13 @@
                     </li>
                     <li>
                       <a class="dropdown-item" href="#" @click.prevent="toggleStatus">
-                        <TablerIcon
-                          :name="employee.is_active ? 'user-off' : 'user-check'"
-                          size="sm"
-                          class="me-2"
-                        />
+                        <TablerIcon :name="employee.is_active ? 'user-off' : 'user-check'" size="sm" class="me-2" />
                         {{ employee.is_active ? 'Deactivate' : 'Activate' }}
                       </a>
                     </li>
                     <RoleGuard permissions="employees.delete">
                       <li>
-                        <a
-                          class="dropdown-item text-danger"
-                          href="#"
-                          @click.prevent="$emit('delete', employee)"
-                        >
+                        <a class="dropdown-item text-danger" href="#" @click.prevent="$emit('delete', employee)">
                           <TablerIcon name="trash" size="sm" class="me-2" />
                           Delete Employee
                         </a>
@@ -193,37 +168,19 @@
               </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#employment"
-                type="button"
-                role="tab"
-              >
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#employment" type="button" role="tab">
                 <TablerIcon name="briefcase" size="sm" class="me-2" />
                 Employment
               </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#attendance"
-                type="button"
-                role="tab"
-              >
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#attendance" type="button" role="tab">
                 <TablerIcon name="clock" size="sm" class="me-2" />
                 Attendance
               </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#documents"
-                type="button"
-                role="tab"
-              >
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#documents" type="button" role="tab">
                 <TablerIcon name="file-text" size="sm" class="me-2" />
                 Documents
               </button>
@@ -275,9 +232,7 @@
                         <td>
                           <span v-if="employee.date_of_birth">
                             {{ formatDate(employee.date_of_birth) }}
-                            <span class="text-muted small"
-                              >({{ getAge(employee.date_of_birth) }} years old)</span
-                            >
+                            <span class="text-muted small">({{ getAge(employee.date_of_birth) }} years old)</span>
                           </span>
                           <span v-else class="text-muted">Not provided</span>
                         </td>
@@ -307,10 +262,7 @@
                       <tr>
                         <td class="text-muted">Phone:</td>
                         <td>
-                          <a
-                            v-if="employee.emergency_contact_phone"
-                            :href="`tel:${employee.emergency_contact_phone}`"
-                          >
+                          <a v-if="employee.emergency_contact_phone" :href="`tel:${employee.emergency_contact_phone}`">
                             {{ employee.emergency_contact_phone }}
                           </a>
                           <span v-else class="text-muted">Not provided</span>
@@ -348,10 +300,7 @@
                       <tr>
                         <td class="text-muted">Status:</td>
                         <td>
-                          <span
-                            class="badge"
-                            :class="employee.is_active ? 'bg-success' : 'bg-secondary'"
-                          >
+                          <span class="badge" :class="employee.is_active ? 'bg-success' : 'bg-secondary'">
                             {{ employee.is_active ? 'Active' : 'Inactive' }}
                           </span>
                         </td>
@@ -384,20 +333,12 @@
 
             <!-- Attendance Summary -->
             <div id="attendance" class="tab-pane fade">
-              <AttendanceSummary
-                v-if="detailed"
-                :employee-id="employee.id"
-                :period="'current_month'"
-              />
+              <AttendanceSummary v-if="detailed" :employee-id="employee.id" :period="'current_month'" />
             </div>
 
             <!-- Documents -->
             <div id="documents" class="tab-pane fade">
-              <EmployeeDocuments
-                v-if="detailed"
-                :employee-id="employee.id"
-                @upload="handleDocumentUpload"
-              />
+              <EmployeeDocuments v-if="detailed" :employee-id="employee.id" @upload="handleDocumentUpload" />
             </div>
           </div>
         </div>

@@ -1,15 +1,7 @@
 <template>
   <div class="nav-item dropdown">
-    <a
-      href="#"
-      class="nav-link d-flex lh-1 text-reset p-0"
-      data-bs-toggle="dropdown"
-      aria-label="Open user menu"
-    >
-      <span
-        class="avatar avatar-sm"
-        :style="displayUser.avatar ? `background-image: url(${displayUser.avatar})` : ''"
-      >
+    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+      <span class="avatar avatar-sm" :style="displayUser.avatar ? `background-image: url(${displayUser.avatar})` : ''">
         {{ !displayUser.avatar ? displayUser.initials : '' }}
       </span>
       <div v-if="!compact" class="d-none d-xl-block ps-2">
@@ -100,16 +92,8 @@ const props = defineProps({
 })
 
 const router = useRouter()
-const {
-  user,
-  logout,
-  isLoggingOut,
-  hasRole,
-  hasPermission,
-  getUserDisplayName,
-  getUserAvatarUrl,
-  userInitials
-} = useAuth()
+const { user, logout, isLoggingOut, hasRole, hasPermission, getUserDisplayName, getUserAvatarUrl, userInitials } =
+  useAuth()
 
 const showLogoutModal = ref(false)
 

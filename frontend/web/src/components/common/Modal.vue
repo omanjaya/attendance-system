@@ -18,13 +18,7 @@
           <div v-if="$slots.header || title" class="modal-header">
             <slot name="header">
               <h5 :id="titleId" class="modal-title">{{ title }}</h5>
-              <button
-                v-if="closable"
-                type="button"
-                class="btn-close"
-                :aria-label="closeLabel"
-                @click="close"
-              ></button>
+              <button v-if="closable" type="button" class="btn-close" :aria-label="closeLabel" @click="close"></button>
             </slot>
           </div>
 
@@ -38,13 +32,7 @@
           <!-- Modal Footer -->
           <div v-if="$slots.footer || showDefaultActions" class="modal-footer">
             <slot name="footer">
-              <button
-                v-if="showCancel"
-                type="button"
-                class="btn"
-                :class="cancelButtonClass"
-                @click="cancel"
-              >
+              <button v-if="showCancel" type="button" class="btn" :class="cancelButtonClass" @click="cancel">
                 {{ cancelText }}
               </button>
               <button

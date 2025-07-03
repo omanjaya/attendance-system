@@ -152,10 +152,8 @@ export const reportingService = {
     // Calculate rates
     const workingDays = analytics.presentDays + analytics.absentDays
     analytics.attendanceRate = workingDays > 0 ? (analytics.presentDays / workingDays) * 100 : 0
-    analytics.punctualityRate =
-      analytics.presentDays > 0 ? (punctualDays / analytics.presentDays) * 100 : 0
-    analytics.averageWorkHours =
-      analytics.presentDays > 0 ? totalWorkHours / analytics.presentDays : 0
+    analytics.punctualityRate = analytics.presentDays > 0 ? (punctualDays / analytics.presentDays) * 100 : 0
+    analytics.averageWorkHours = analytics.presentDays > 0 ? totalWorkHours / analytics.presentDays : 0
 
     return analytics
   },
@@ -190,10 +188,7 @@ export const reportingService = {
 
       // Calculate total deductions and allowances
       if (payroll.deductions) {
-        const empDeductions = Object.values(payroll.deductions).reduce(
-          (sum, amount) => sum + amount,
-          0
-        )
+        const empDeductions = Object.values(payroll.deductions).reduce((sum, amount) => sum + amount, 0)
         analytics.totalDeductions += empDeductions
 
         // Deduction breakdown
@@ -203,10 +198,7 @@ export const reportingService = {
       }
 
       if (payroll.allowances) {
-        const empAllowances = Object.values(payroll.allowances).reduce(
-          (sum, amount) => sum + amount,
-          0
-        )
+        const empAllowances = Object.values(payroll.allowances).reduce((sum, amount) => sum + amount, 0)
         analytics.totalAllowances += empAllowances
 
         // Allowance breakdown
@@ -260,8 +252,7 @@ export const reportingService = {
     })
 
     // Calculate averages
-    analytics.averageSalary =
-      analytics.totalEmployees > 0 ? analytics.totalNetPay / analytics.totalEmployees : 0
+    analytics.averageSalary = analytics.totalEmployees > 0 ? analytics.totalNetPay / analytics.totalEmployees : 0
 
     Object.keys(analytics.employeeTypeBreakdown).forEach(type => {
       const data = analytics.employeeTypeBreakdown[type]
@@ -322,10 +313,7 @@ export const reportingService = {
 
     // Work hours consistency (20% weight)
     const targetHours = 8
-    const hoursScore = Math.max(
-      0,
-      1 - Math.abs(attendanceAnalytics.averageWorkHours - targetHours) / targetHours
-    )
+    const hoursScore = Math.max(0, 1 - Math.abs(attendanceAnalytics.averageWorkHours - targetHours) / targetHours)
     score += hoursScore * 20
 
     // Overtime contribution (10% weight)
@@ -401,16 +389,7 @@ export const reportingService = {
 
   // Generate pie chart data
   generatePieChartData(data, colors = []) {
-    const defaultColors = [
-      '#3b82f6',
-      '#ef4444',
-      '#10b981',
-      '#f59e0b',
-      '#8b5cf6',
-      '#06b6d4',
-      '#84cc16',
-      '#f97316'
-    ]
+    const defaultColors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316']
 
     const labels = Object.keys(data)
     const values = Object.values(data)
@@ -420,8 +399,7 @@ export const reportingService = {
       datasets: [
         {
           data: values,
-          backgroundColor:
-            colors.length >= labels.length ? colors : defaultColors.slice(0, labels.length),
+          backgroundColor: colors.length >= labels.length ? colors : defaultColors.slice(0, labels.length),
           borderWidth: 2,
           borderColor: '#ffffff'
         }

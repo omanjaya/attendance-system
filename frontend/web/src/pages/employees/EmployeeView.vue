@@ -27,9 +27,7 @@
                   stroke-linejoin="round"
                 >
                   <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                  <path
-                    d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
-                  />
+                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
                   <path d="M16 5l3 3" />
                 </svg>
                 Edit
@@ -148,9 +146,7 @@
                     >
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                       <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                      <path
-                        d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
-                      />
+                      <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
                       <path d="M16 5l3 3" />
                     </svg>
                     Edit
@@ -182,9 +178,7 @@
                   <div class="col-auto">
                     <span
                       class="avatar avatar-xl"
-                      :style="
-                        employee.avatar_url ? `background-image: url(${employee.avatar_url})` : ''
-                      "
+                      :style="employee.avatar_url ? `background-image: url(${employee.avatar_url})` : ''"
                     >
                       {{ employee.avatar_url ? '' : getInitials(employee.name) }}
                     </span>
@@ -196,18 +190,12 @@
                     </div>
                     <div class="list-inline list-inline-dots mb-0 text-muted">
                       <div class="list-inline-item">
-                        <span
-                          class="badge"
-                          :class="`bg-${getEmployeeTypeColor(employee.employee_type)}`"
-                        >
+                        <span class="badge" :class="`bg-${getEmployeeTypeColor(employee.employee_type)}`">
                           {{ getEmployeeTypeLabel(employee.employee_type) }}
                         </span>
                       </div>
                       <div class="list-inline-item">
-                        <span
-                          class="badge"
-                          :class="employee.is_active ? 'bg-success' : 'bg-danger'"
-                        >
+                        <span class="badge" :class="employee.is_active ? 'bg-success' : 'bg-danger'">
                           {{ employee.is_active ? 'Active' : 'Inactive' }}
                         </span>
                       </div>
@@ -263,11 +251,7 @@
 
                   <dt class="col-5">Phone:</dt>
                   <dd class="col-7">
-                    <a
-                      v-if="employee.phone"
-                      :href="`tel:${employee.phone}`"
-                      class="text-decoration-none"
-                    >
+                    <a v-if="employee.phone" :href="`tel:${employee.phone}`" class="text-decoration-none">
                       {{ employee.phone }}
                     </a>
                     <span v-else class="text-muted">-</span>
@@ -303,10 +287,7 @@
                 <dl class="row">
                   <dt class="col-5">Employee Type:</dt>
                   <dd class="col-7">
-                    <span
-                      class="badge"
-                      :class="`bg-${getEmployeeTypeColor(employee.employee_type)}`"
-                    >
+                    <span class="badge" :class="`bg-${getEmployeeTypeColor(employee.employee_type)}`">
                       {{ getEmployeeTypeLabel(employee.employee_type) }}
                     </span>
                   </dd>
@@ -368,29 +349,21 @@
                   <template v-if="isSalaryBased">
                     <dt class="col-5">Monthly Salary:</dt>
                     <dd class="col-7">
-                      <span class="h4 text-primary">{{
-                        formatCurrency(employee.monthly_salary)
-                      }}</span>
+                      <span class="h4 text-primary">{{ formatCurrency(employee.monthly_salary) }}</span>
                     </dd>
                   </template>
 
                   <template v-if="isHourlyBased">
                     <dt class="col-5">Hourly Rate:</dt>
                     <dd class="col-7">
-                      <span class="h4 text-primary"
-                        >{{ formatCurrency(employee.hourly_rate) }}/hour</span
-                      >
+                      <span class="h4 text-primary">{{ formatCurrency(employee.hourly_rate) }}/hour</span>
                     </dd>
                   </template>
 
                   <dt class="col-5">Allowances:</dt>
                   <dd class="col-7">
                     <div class="d-flex flex-wrap gap-1">
-                      <span
-                        v-for="allowance in allowances"
-                        :key="allowance"
-                        class="badge bg-indigo-lt"
-                      >
+                      <span v-for="allowance in allowances" :key="allowance" class="badge bg-indigo-lt">
                         {{ formatAllowance(allowance) }}
                       </span>
                     </div>
@@ -407,9 +380,7 @@
                 <h3 class="card-title">Recent Activity</h3>
               </div>
               <div class="card-body">
-                <div v-if="recentActivity.length === 0" class="text-center text-muted py-3">
-                  No recent activity
-                </div>
+                <div v-if="recentActivity.length === 0" class="text-center text-muted py-3">No recent activity</div>
                 <div v-else class="divide-y">
                   <div v-for="activity in recentActivity" :key="activity.id" class="row py-2">
                     <div class="col-auto">
@@ -466,19 +437,13 @@
                     >
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                       <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                      <path
-                        d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
-                      />
+                      <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
                       <path d="M16 5l3 3" />
                     </svg>
                     Edit Employee
                   </router-link>
 
-                  <button
-                    class="btn"
-                    :class="employee.is_active ? 'btn-warning' : 'btn-success'"
-                    @click="toggleStatus"
-                  >
+                  <button class="btn" :class="employee.is_active ? 'btn-warning' : 'btn-success'" @click="toggleStatus">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="icon"
@@ -685,11 +650,7 @@ const toggleStatus = async () => {
 
 const deleteEmployee = async () => {
   try {
-    if (
-      confirm(
-        `Are you sure you want to delete ${employee.value.name}? This action cannot be undone.`
-      )
-    ) {
+    if (confirm(`Are you sure you want to delete ${employee.value.name}? This action cannot be undone.`)) {
       // TODO: Replace with actual API call
       console.log('Delete employee:', employee.value.id)
 

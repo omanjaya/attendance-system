@@ -9,10 +9,7 @@
     @scroll="handleScroll"
     @keydown="handleKeydown"
   >
-    <div
-      class="virtual-scroll-content"
-      :style="{ height: totalHeight + 'px', position: 'relative' }"
-    >
+    <div class="virtual-scroll-content" :style="{ height: totalHeight + 'px', position: 'relative' }">
       <div class="virtual-scroll-items" :style="{ transform: `translateY(${offsetY}px)` }">
         <div
           v-for="(item, index) in visibleItems"
@@ -139,42 +136,40 @@ const handleKeydown = event => {
   let newIndex = currentIndex
 
   switch (event.key) {
-  case 'ArrowDown':
-    event.preventDefault()
-    newIndex = Math.min(currentIndex + 1, items.length - 1)
-    break
-  case 'ArrowUp':
-    event.preventDefault()
-    newIndex = Math.max(currentIndex - 1, 0)
-    break
-  case 'Home':
-    event.preventDefault()
-    newIndex = 0
-    scrollToIndex(0)
-    break
-  case 'End':
-    event.preventDefault()
-    newIndex = items.length - 1
-    scrollToIndex(props.items.length - 1)
-    break
-  case 'PageDown':
-    event.preventDefault()
-    const pageSize = Math.floor(props.containerHeight / props.itemHeight)
-    newIndex = Math.min(currentIndex + pageSize, items.length - 1)
-    scrollToIndex(startIndex.value + pageSize)
-    break
-  case 'PageUp':
-    event.preventDefault()
-    const pageSizeUp = Math.floor(props.containerHeight / props.itemHeight)
-    newIndex = Math.max(currentIndex - pageSizeUp, 0)
-    scrollToIndex(Math.max(startIndex.value - pageSizeUp, 0))
-    break
+    case 'ArrowDown':
+      event.preventDefault()
+      newIndex = Math.min(currentIndex + 1, items.length - 1)
+      break
+    case 'ArrowUp':
+      event.preventDefault()
+      newIndex = Math.max(currentIndex - 1, 0)
+      break
+    case 'Home':
+      event.preventDefault()
+      newIndex = 0
+      scrollToIndex(0)
+      break
+    case 'End':
+      event.preventDefault()
+      newIndex = items.length - 1
+      scrollToIndex(props.items.length - 1)
+      break
+    case 'PageDown':
+      event.preventDefault()
+      const pageSize = Math.floor(props.containerHeight / props.itemHeight)
+      newIndex = Math.min(currentIndex + pageSize, items.length - 1)
+      scrollToIndex(startIndex.value + pageSize)
+      break
+    case 'PageUp':
+      event.preventDefault()
+      const pageSizeUp = Math.floor(props.containerHeight / props.itemHeight)
+      newIndex = Math.max(currentIndex - pageSizeUp, 0)
+      scrollToIndex(Math.max(startIndex.value - pageSizeUp, 0))
+      break
   }
 
   if (newIndex !== currentIndex && items[newIndex]) {
-    const focusableElement = items[newIndex].querySelector(
-      '[tabindex], button, input, select, textarea, a[href]'
-    )
+    const focusableElement = items[newIndex].querySelector('[tabindex], button, input, select, textarea, a[href]')
     if (focusableElement) {
       focusableElement.focus()
     } else {

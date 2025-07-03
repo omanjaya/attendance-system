@@ -38,10 +38,7 @@
     </div>
 
     <!-- Search Results Dropdown -->
-    <div
-      v-if="isExpanded && (isLoading || results.length > 0 || showNoResults)"
-      class="search-results"
-    >
+    <div v-if="isExpanded && (isLoading || results.length > 0 || showNoResults)" class="search-results">
       <!-- Loading State -->
       <div v-if="isLoading" class="search-loading">
         <div class="search-spinner">
@@ -52,11 +49,7 @@
 
       <!-- Results -->
       <div v-else-if="results.length > 0" class="search-results-list">
-        <div
-          v-for="(category, categoryName) in groupedResults"
-          :key="categoryName"
-          class="search-category"
-        >
+        <div v-for="(category, categoryName) in groupedResults" :key="categoryName" class="search-category">
           <div class="search-category-header">
             <svg class="search-category-icon">
               <use :href="`#tabler-${getCategoryIcon(categoryName)}`"></use>
@@ -117,9 +110,7 @@
         </div>
         <div class="search-no-results-text">
           <div class="search-no-results-title">No results found</div>
-          <div class="search-no-results-subtitle">
-            Try adjusting your search terms or browse our sections
-          </div>
+          <div class="search-no-results-subtitle">Try adjusting your search terms or browse our sections</div>
         </div>
       </div>
 

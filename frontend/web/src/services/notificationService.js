@@ -105,25 +105,25 @@ export const notificationService = {
   // Handle WebSocket messages
   handleWebSocketMessage(data) {
     switch (data.type) {
-    case 'notification':
-      this.addNotification(data.notification)
-      break
-    case 'attendance_update':
-      this.handleAttendanceUpdate(data)
-      break
-    case 'leave_request':
-      this.handleLeaveRequest(data)
-      break
-    case 'payroll_update':
-      this.handlePayrollUpdate(data)
-      break
-    case 'system_alert':
-      this.handleSystemAlert(data)
-      break
-    case 'heartbeat':
-      // Keep connection alive
-      break
-    default:
+      case 'notification':
+        this.addNotification(data.notification)
+        break
+      case 'attendance_update':
+        this.handleAttendanceUpdate(data)
+        break
+      case 'leave_request':
+        this.handleLeaveRequest(data)
+        break
+      case 'payroll_update':
+        this.handlePayrollUpdate(data)
+        break
+      case 'system_alert':
+        this.handleSystemAlert(data)
+        break
+      case 'heartbeat':
+        // Keep connection alive
+        break
+      default:
     }
   },
 
@@ -255,11 +255,11 @@ export const notificationService = {
   // Get toast type based on priority
   getToastType(priority) {
     switch (priority) {
-    case 'high':
+      case 'high':
         return 'warning'
-    case 'low':
+      case 'low':
         return 'info'
-    default:
+      default:
         return 'success'
     }
   },

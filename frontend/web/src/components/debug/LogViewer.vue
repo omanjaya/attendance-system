@@ -8,14 +8,7 @@
             {{ channel }}
           </option>
         </select>
-        <input
-          v-model="lines"
-          type="number"
-          min="10"
-          max="1000"
-          placeholder="Lines"
-          @change="fetchLogs"
-        />
+        <input v-model="lines" type="number" min="10" max="1000" placeholder="Lines" @change="fetchLogs" />
         <button :disabled="loading" @click="fetchLogs">
           {{ loading ? 'Loading...' : 'Refresh' }}
         </button>
@@ -35,11 +28,7 @@
       </div>
 
       <div ref="logContainer" class="log-container">
-        <div
-          v-for="(log, index) in filteredLogs"
-          :key="index"
-          :class="['log-entry', getLogClass(log)]"
-        >
+        <div v-for="(log, index) in filteredLogs" :key="index" :class="['log-entry', getLogClass(log)]">
           <span class="log-timestamp">{{ formatTimestamp(log.timestamp) }}</span>
           <span class="log-level">{{ log.level }}</span>
           <span class="log-message">{{ log.message }}</span>
@@ -100,9 +89,7 @@ export default {
       if (searchTerm.value) {
         const term = searchTerm.value.toLowerCase()
         filtered = filtered.filter(
-          log =>
-            log.message?.toLowerCase().includes(term) ||
-            JSON.stringify(log.context).toLowerCase().includes(term)
+          log => log.message?.toLowerCase().includes(term) || JSON.stringify(log.context).toLowerCase().includes(term)
         )
       }
 
@@ -186,9 +173,7 @@ export default {
             }
 
             // Parse Laravel log format
-            const match = line.match(
-              /\[(\d{4}-\d{2}-\d{2}[T\s]\d{2}:\d{2}:\d{2}[^\]]*)\]\s+(\w+)\.(\w+):\s+(.+)/
-            )
+            const match = line.match(/\[(\d{4}-\d{2}-\d{2}[T\s]\d{2}:\d{2}:\d{2}[^\]]*)\]\s+(\w+)\.(\w+):\s+(.+)/)
             if (match) {
               return {
                 timestamp: match[1],

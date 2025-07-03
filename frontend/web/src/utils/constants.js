@@ -91,10 +91,7 @@ export const FILE_UPLOAD = {
   ALLOWED_TYPES: {
     IMAGES: ['image/jpeg', 'image/png', 'image/gif'],
     DOCUMENTS: ['application/pdf', 'application/vnd.ms-excel'],
-    EXCEL: [
-      'application/vnd.ms-excel',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    ]
+    EXCEL: ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
   }
 }
 

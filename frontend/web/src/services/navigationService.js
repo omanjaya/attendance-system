@@ -124,15 +124,11 @@ class NavigationService {
   getStatistics() {
     const totalNavigations = this.navigationHistory.length
     const averageTime =
-      totalNavigations > 0
-        ? this.navigationHistory.reduce((sum, nav) => sum + nav.time, 0) / totalNavigations
-        : 0
+      totalNavigations > 0 ? this.navigationHistory.reduce((sum, nav) => sum + nav.time, 0) / totalNavigations : 0
 
     const successRate =
       totalNavigations > 0
-        ? (this.navigationHistory.filter(nav => nav.status === 'success').length /
-            totalNavigations) *
-          100
+        ? (this.navigationHistory.filter(nav => nav.status === 'success').length / totalNavigations) * 100
         : 100
 
     return {

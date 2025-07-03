@@ -1,11 +1,7 @@
 <template>
   <div class="page">
     <!-- Sidebar -->
-    <Sidebar
-      :navigation="navigation"
-      :is-active-group="isActiveGroup"
-      @toggle-mobile="toggleMobileSidebar"
-    />
+    <Sidebar :navigation="navigation" :is-active-group="isActiveGroup" @toggle-mobile="toggleMobileSidebar" />
 
     <!-- Header -->
     <Header
@@ -80,11 +76,7 @@
     </div>
 
     <!-- Quick Actions -->
-    <QuickActions
-      :show-stats="true"
-      :custom-actions="quickActionsData"
-      @action="handleQuickAction"
-    />
+    <QuickActions :show-stats="true" :custom-actions="quickActionsData" @action="handleQuickAction" />
 
     <!-- Keyboard Shortcuts Help -->
     <ShortcutHelp :visible="showShortcutHelp" @close="showShortcutHelp = false" />

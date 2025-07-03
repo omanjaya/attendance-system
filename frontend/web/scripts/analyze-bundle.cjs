@@ -7,7 +7,7 @@
 
 const fs = require('fs')
 const path = require('path')
-const { execSync } = require('child_process')
+const { execSync: _execSync } = require('child_process')
 
 class BundleAnalyzer {
   constructor() {
@@ -34,13 +34,7 @@ class BundleAnalyzer {
   analyzeComponents() {
     console.log('📦 Analyzing Components...')
 
-    const componentDirs = [
-      'components/base',
-      'components/ui',
-      'components/charts',
-      'components/layout',
-      'pages'
-    ]
+    const componentDirs = ['components/base', 'components/ui', 'components/charts', 'components/layout', 'pages']
 
     componentDirs.forEach(dir => {
       const fullPath = path.join(this.srcPath, dir)
@@ -216,9 +210,7 @@ class BundleAnalyzer {
         priority: 'medium',
         title: 'Heavy Dependencies in Composables',
         description: 'Composables with many dependencies may need splitting',
-        items: heavyComposables.map(
-          ([name, data]) => `${name} (${data.dependencies.length} dependencies)`
-        )
+        items: heavyComposables.map(([_name, data]) => `${_name} (${data.dependencies.length} dependencies)`)
       })
     }
 
@@ -260,10 +252,7 @@ class BundleAnalyzer {
     console.log('\n🔧 COMPOSABLES SUMMARY')
     console.log('-'.repeat(30))
 
-    const composablesTotal = Object.values(this.results.composables).reduce(
-      (sum, data) => sum + data.size,
-      0
-    )
+    const composablesTotal = Object.values(this.results.composables).reduce((sum, data) => sum + data.size, 0)
 
     console.log(
       `Total: ${Object.keys(this.results.composables).length} files, ${(composablesTotal / 1024).toFixed(1)}KB`

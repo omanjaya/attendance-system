@@ -147,22 +147,22 @@ export const useAccessibility = () => {
       let newIndex = currentIndex
 
       switch (event.key) {
-      case 'ArrowDown':
-      case 'ArrowRight':
-        newIndex = (currentIndex + 1) % elements.length
-        break
-      case 'ArrowUp':
-      case 'ArrowLeft':
-        newIndex = currentIndex === 0 ? elements.length - 1 : currentIndex - 1
-        break
-      case 'Home':
-        newIndex = 0
-        break
-      case 'End':
-        newIndex = elements.length - 1
-        break
-      default:
-        return currentIndex
+        case 'ArrowDown':
+        case 'ArrowRight':
+          newIndex = (currentIndex + 1) % elements.length
+          break
+        case 'ArrowUp':
+        case 'ArrowLeft':
+          newIndex = currentIndex === 0 ? elements.length - 1 : currentIndex - 1
+          break
+        case 'Home':
+          newIndex = 0
+          break
+        case 'End':
+          newIndex = elements.length - 1
+          break
+        default:
+          return currentIndex
       }
 
       if (elements[newIndex]) {
@@ -430,10 +430,7 @@ const getFocusableElements = (container = document) => {
 const isVisible = element => {
   const style = window.getComputedStyle(element)
   return (
-    style.display !== 'none' &&
-    style.visibility !== 'hidden' &&
-    style.opacity !== '0' &&
-    element.offsetParent !== null
+    style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0' && element.offsetParent !== null
   )
 }
 

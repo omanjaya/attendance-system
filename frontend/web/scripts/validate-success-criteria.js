@@ -100,9 +100,7 @@ class SuccessCriteriaValidator {
           }
         }
 
-        console.log(
-          `    ✅ Bundle size: ${this.formatSize(currentSize)} (${reduction.toFixed(1)}% reduction)`
-        )
+        console.log(`    ✅ Bundle size: ${this.formatSize(currentSize)} (${reduction.toFixed(1)}% reduction)`)
       } else {
         // Simulate bundle size check
         this.results.technical.bundleSize = {
@@ -391,14 +389,10 @@ class SuccessCriteriaValidator {
   async generateOverallAssessment() {
     console.log('\n🎯 Generating Overall Assessment...')
 
-    const technicalPassed = Object.values(this.results.technical).filter(
-      result => result.status === 'PASSED'
-    ).length
+    const technicalPassed = Object.values(this.results.technical).filter(result => result.status === 'PASSED').length
     const technicalTotal = Object.keys(this.results.technical).length
 
-    const uxPassed = Object.values(this.results.userExperience).filter(
-      result => result.status === 'PASSED'
-    ).length
+    const uxPassed = Object.values(this.results.userExperience).filter(result => result.status === 'PASSED').length
     const uxTotal = Object.keys(this.results.userExperience).length
 
     const maintenancePassed = Object.values(this.results.maintenance).filter(
@@ -440,9 +434,7 @@ class SuccessCriteriaValidator {
     console.log('\n📈 TECHNICAL GOALS:')
     Object.entries(this.results.technical).forEach(([key, result]) => {
       const status = result.status === 'PASSED' ? '✅' : result.status === 'FAILED' ? '❌' : '⚠️'
-      console.log(
-        `  ${status} ${this.toTitleCase(key)}: ${this.formatTechnicalResult(key, result)}`
-      )
+      console.log(`  ${status} ${this.toTitleCase(key)}: ${this.formatTechnicalResult(key, result)}`)
     })
 
     // User Experience Summary
@@ -470,21 +462,16 @@ class SuccessCriteriaValidator {
     console.log('\n🎯 OVERALL ASSESSMENT:')
     console.log(`  Success Score: ${this.results.overall.score.toFixed(1)}%`)
     console.log(`  Status: ${this.results.overall.status}`)
-    console.log(
-      `  Technical: ${this.results.overall.technical.passed}/${this.results.overall.technical.total}`
-    )
+    console.log(`  Technical: ${this.results.overall.technical.passed}/${this.results.overall.technical.total}`)
     console.log(
       `  User Experience: ${this.results.overall.userExperience.passed}/${this.results.overall.userExperience.total}`
     )
-    console.log(
-      `  Maintenance: ${this.results.overall.maintenance.passed}/${this.results.overall.maintenance.total}`
-    )
+    console.log(`  Maintenance: ${this.results.overall.maintenance.passed}/${this.results.overall.maintenance.total}`)
     console.log(
       `  Risk Mitigation: ${this.results.overall.riskMitigation.passed}/${this.results.overall.riskMitigation.total}`
     )
 
-    const finalStatus =
-      this.results.overall.score >= 95 ? '🎉 PROJECT SUCCESSFUL!' : '⚠️ NEEDS ATTENTION'
+    const finalStatus = this.results.overall.score >= 95 ? '🎉 PROJECT SUCCESSFUL!' : '⚠️ NEEDS ATTENTION'
     console.log(`\n${finalStatus}`)
     console.log('='.repeat(60))
   }

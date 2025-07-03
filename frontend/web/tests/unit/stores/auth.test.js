@@ -310,10 +310,7 @@ describe('Auth Store', () => {
       authStore.persistAuth()
 
       expect(global.localStorage.setItem).toHaveBeenCalledWith('auth_token', 'test-token')
-      expect(global.localStorage.setItem).toHaveBeenCalledWith(
-        'user_data',
-        JSON.stringify({ id: 1, name: 'John Doe' })
-      )
+      expect(global.localStorage.setItem).toHaveBeenCalledWith('user_data', JSON.stringify({ id: 1, name: 'John Doe' }))
     })
 
     it('restores auth from localStorage', () => {

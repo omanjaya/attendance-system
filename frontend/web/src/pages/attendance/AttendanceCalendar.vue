@@ -50,18 +50,14 @@
                 class="icon"
               >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M4 5h16a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-16a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"
-                />
+                <path d="M4 5h16a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-16a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
                 <path d="M16 3v4" />
                 <path d="M8 3v4" />
                 <path d="M4 11h16" />
               </svg>
             </div>
             <p class="empty-title">Attendance Calendar</p>
-            <p class="empty-subtitle text-muted">
-              Calendar view for attendance management will be available soon.
-            </p>
+            <p class="empty-subtitle text-muted">Calendar view for attendance management will be available soon.</p>
           </div>
         </div>
       </div>

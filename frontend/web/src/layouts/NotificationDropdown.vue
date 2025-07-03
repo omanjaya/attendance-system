@@ -17,12 +17,7 @@
         <div class="card-header">
           <h3 class="card-title">Notifications</h3>
           <div class="card-actions">
-            <a
-              v-if="unreadCount > 0"
-              href="#"
-              class="btn btn-sm btn-link"
-              @click.prevent="markAllAsRead"
-            >
+            <a v-if="unreadCount > 0" href="#" class="btn btn-sm btn-link" @click.prevent="markAllAsRead">
               Mark all as read
             </a>
           </div>
@@ -72,9 +67,7 @@
         </div>
 
         <div v-if="notifications.length > 5" class="card-footer text-center">
-          <router-link to="/notifications" class="text-primary">
-            View all notifications
-          </router-link>
+          <router-link to="/notifications" class="text-primary"> View all notifications </router-link>
         </div>
       </div>
     </div>

@@ -29,24 +29,12 @@
           </div>
 
           <div class="shortcut-help-body">
-            <div
-              v-for="category in filteredCategories"
-              :key="category.name"
-              class="shortcut-category"
-            >
+            <div v-for="category in filteredCategories" :key="category.name" class="shortcut-category">
               <h3 class="shortcut-category-title">{{ category.name }}</h3>
               <div class="shortcut-list">
-                <div
-                  v-for="shortcut in category.shortcuts"
-                  :key="shortcut.keys"
-                  class="shortcut-item"
-                >
+                <div v-for="shortcut in category.shortcuts" :key="shortcut.keys" class="shortcut-item">
                   <div class="shortcut-keys">
-                    <kbd
-                      v-for="(key, index) in parseKeys(shortcut.keys)"
-                      :key="index"
-                      class="shortcut-key"
-                    >
+                    <kbd v-for="(key, index) in parseKeys(shortcut.keys)" :key="index" class="shortcut-key">
                       {{ formatKey(key) }}
                     </kbd>
                   </div>
@@ -147,9 +135,7 @@ const filteredCategories = computed(() => {
     .map(category => ({
       ...category,
       shortcuts: category.shortcuts.filter(
-        shortcut =>
-          shortcut.description.toLowerCase().includes(query) ||
-          shortcut.keys.toLowerCase().includes(query)
+        shortcut => shortcut.description.toLowerCase().includes(query) || shortcut.keys.toLowerCase().includes(query)
       )
     }))
     .filter(category => category.shortcuts.length > 0)
@@ -168,30 +154,15 @@ const categorizeShortcut = shortcut => {
     return 'Navigation'
   }
 
-  if (
-    desc.includes('search') ||
-    desc.includes('quick actions') ||
-    keys.includes('ctrl+k') ||
-    keys === 'q'
-  ) {
+  if (desc.includes('search') || desc.includes('quick actions') || keys.includes('ctrl+k') || keys === 'q') {
     return 'Search & Actions'
   }
 
-  if (
-    desc.includes('save') ||
-    desc.includes('delete') ||
-    desc.includes('create') ||
-    desc.includes('edit')
-  ) {
+  if (desc.includes('save') || desc.includes('delete') || desc.includes('create') || desc.includes('edit')) {
     return 'Data Management'
   }
 
-  if (
-    desc.includes('close') ||
-    desc.includes('modal') ||
-    desc.includes('toggle') ||
-    desc.includes('sidebar')
-  ) {
+  if (desc.includes('close') || desc.includes('modal') || desc.includes('toggle') || desc.includes('sidebar')) {
     return 'UI Controls'
   }
 

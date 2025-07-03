@@ -126,12 +126,7 @@
       <!-- Radio Group -->
       <fieldset v-else-if="type === 'radio'" class="radio-group">
         <legend v-if="label" class="sr-only">{{ label }}</legend>
-        <div
-          v-for="option in normalizedOptions"
-          :key="option.value"
-          class="form-check"
-          :class="checkClass"
-        >
+        <div v-for="option in normalizedOptions" :key="option.value" class="form-check" :class="checkClass">
           <input
             :id="`${fieldId}-${option.value}`"
             ref="fieldRef"
@@ -476,9 +471,7 @@ const handleChange = event => {
 }
 
 const handleSelectChange = event => {
-  const value = props.multiple
-    ? Array.from(event.target.selectedOptions, option => option.value)
-    : event.target.value
+  const value = props.multiple ? Array.from(event.target.selectedOptions, option => option.value) : event.target.value
 
   emit('update:modelValue', value)
   emit('change', value)

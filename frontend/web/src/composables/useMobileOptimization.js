@@ -57,8 +57,7 @@ export function useMobileOptimization() {
 
     // Update device type
     isMobile.value = screenWidth.value < breakpoints.mobile
-    isTablet.value =
-      screenWidth.value >= breakpoints.mobile && screenWidth.value < breakpoints.tablet
+    isTablet.value = screenWidth.value >= breakpoints.mobile && screenWidth.value < breakpoints.tablet
     isDesktop.value = screenWidth.value >= breakpoints.tablet
 
     // Update UI store
@@ -66,8 +65,7 @@ export function useMobileOptimization() {
   }
 
   function detectTouchDevice() {
-    isTouchDevice.value =
-      'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
+    isTouchDevice.value = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
   }
 
   function detectStandaloneMode() {

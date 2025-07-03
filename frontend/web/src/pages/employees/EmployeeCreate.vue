@@ -6,9 +6,7 @@
         <div class="row g-2 align-items-center">
           <div class="col">
             <h2 class="page-title">Add New Employee</h2>
-            <div class="page-subtitle">
-              Create a new employee record with type-specific information
-            </div>
+            <div class="page-subtitle">Create a new employee record with type-specific information</div>
           </div>
           <div class="col-auto ms-auto d-print-none">
             <div class="btn-list">
@@ -60,11 +58,7 @@
                         @change="handleTypeChange"
                       >
                         <option value="">Select Employee Type</option>
-                        <option
-                          v-for="option in employeeTypeOptions"
-                          :key="option.value"
-                          :value="option.value"
-                        >
+                        <option v-for="option in employeeTypeOptions" :key="option.value" :value="option.value">
                           {{ option.label }}
                         </option>
                       </select>
@@ -95,12 +89,7 @@
                         required
                         :aria-describedby="errors.employee_id ? 'employee-id-error' : null"
                       />
-                      <div
-                        v-if="errors.employee_id"
-                        id="employee-id-error"
-                        class="invalid-feedback"
-                        role="alert"
-                      >
+                      <div v-if="errors.employee_id" id="employee-id-error" class="invalid-feedback" role="alert">
                         {{ errors.employee_id }}
                       </div>
                     </div>
@@ -119,12 +108,7 @@
                         required
                         :aria-describedby="errors.name ? 'employee-name-error' : null"
                       />
-                      <div
-                        v-if="errors.name"
-                        id="employee-name-error"
-                        class="invalid-feedback"
-                        role="alert"
-                      >
+                      <div v-if="errors.name" id="employee-name-error" class="invalid-feedback" role="alert">
                         {{ errors.name }}
                       </div>
                     </div>
@@ -385,14 +369,8 @@ const { announce, detectPreferences, skipLinks } = useAccessibility()
 const { init: initPerformance, cleanup: cleanupPerformance, monitoring } = usePerformance()
 
 // Employee Types Composable
-const {
-  EMPLOYEE_TYPES,
-  employeeTypeOptions,
-  getEmployeeTypeConfig,
-  isSalaryBased,
-  isHourlyPayment,
-  getFormFields
-} = useEmployeeTypes()
+const { EMPLOYEE_TYPES, employeeTypeOptions, getEmployeeTypeConfig, isSalaryBased, isHourlyPayment, getFormFields } =
+  useEmployeeTypes()
 
 // Form data
 const form = reactive({
@@ -450,16 +428,12 @@ const selectedTypeConfig = computed(() => {
 })
 
 const isTeacher = computed(() => {
-  return (
-    form.employee_type === EMPLOYEE_TYPES.GURU_TETAP ||
-    form.employee_type === EMPLOYEE_TYPES.GURU_HONORER
-  )
+  return form.employee_type === EMPLOYEE_TYPES.GURU_TETAP || form.employee_type === EMPLOYEE_TYPES.GURU_HONORER
 })
 
 const isStaff = computed(() => {
   return (
-    form.employee_type === EMPLOYEE_TYPES.TENAGA_KEPENDIDIKAN ||
-    form.employee_type === EMPLOYEE_TYPES.TENAGA_HONORER
+    form.employee_type === EMPLOYEE_TYPES.TENAGA_KEPENDIDIKAN || form.employee_type === EMPLOYEE_TYPES.TENAGA_HONORER
   )
 })
 
@@ -522,10 +496,7 @@ const validateForm = () => {
   // Announce validation errors to screen readers
   if (Object.keys(newErrors).length > 0) {
     const errorCount = Object.keys(newErrors).length
-    announce(
-      `Form has ${errorCount} error${errorCount > 1 ? 's' : ''}. Please review and correct.`,
-      'assertive'
-    )
+    announce(`Form has ${errorCount} error${errorCount > 1 ? 's' : ''}. Please review and correct.`, 'assertive')
   }
 
   return Object.keys(newErrors).length === 0
@@ -644,11 +615,7 @@ onMounted(() => {
 onUnmounted(() => {
   cleanupPerformance()
   monitoring.mark('employee-create-page-end')
-  monitoring.measure(
-    'employee-create-page-duration',
-    'employee-create-page-start',
-    'employee-create-page-end'
-  )
+  monitoring.measure('employee-create-page-duration', 'employee-create-page-start', 'employee-create-page-end')
 })
 </script>
 

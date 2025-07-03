@@ -123,11 +123,7 @@ describe('Application Integration Tests', () => {
         id: 1,
         name: 'Admin User',
         roles: [{ name: 'admin' }],
-        permissions: [
-          { name: 'dashboard.view' },
-          { name: 'employees.view' },
-          { name: 'reports.view' }
-        ]
+        permissions: [{ name: 'dashboard.view' }, { name: 'employees.view' }, { name: 'reports.view' }]
       }
       authStore.token = 'admin-token'
 
@@ -217,9 +213,7 @@ describe('Application Integration Tests', () => {
           const { employees } = useEmployeeStore()
 
           const employeeCount = computed(() => employees.length)
-          const activeEmployees = computed(
-            () => employees.filter(emp => emp.status === 'active').length
-          )
+          const activeEmployees = computed(() => employees.filter(emp => emp.status === 'active').length)
 
           return {
             authUser,

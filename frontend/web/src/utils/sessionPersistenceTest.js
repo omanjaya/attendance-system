@@ -50,9 +50,7 @@ export class SessionPersistenceTest {
       this.addTestResult(
         'Token Persistence',
         isTokenRestored,
-        isTokenRestored
-          ? 'Token successfully restored from localStorage'
-          : 'Token restoration failed'
+        isTokenRestored ? 'Token successfully restored from localStorage' : 'Token restoration failed'
       )
 
       // Cleanup
@@ -87,9 +85,7 @@ export class SessionPersistenceTest {
       this.addTestResult(
         'User Data Persistence',
         isUserRestored,
-        isUserRestored
-          ? 'User data successfully restored from localStorage'
-          : 'User data restoration failed'
+        isUserRestored ? 'User data successfully restored from localStorage' : 'User data restoration failed'
       )
 
       // Cleanup
@@ -176,8 +172,7 @@ export class SessionPersistenceTest {
       }
 
       // Check axios header
-      const axiosHeaderSet =
-        axios.defaults.headers.common['Authorization'] === `Bearer ${testToken}`
+      const axiosHeaderSet = axios.defaults.headers.common['Authorization'] === `Bearer ${testToken}`
 
       this.addTestResult(
         'Token Validation on Reload',

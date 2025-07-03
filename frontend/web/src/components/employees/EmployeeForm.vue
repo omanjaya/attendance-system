@@ -31,13 +31,7 @@
                   </button>
                 </div>
 
-                <input
-                  ref="photoInput"
-                  type="file"
-                  accept="image/*"
-                  class="d-none"
-                  @change="handlePhotoUpload"
-                />
+                <input ref="photoInput" type="file" accept="image/*" class="d-none" @change="handlePhotoUpload" />
 
                 <div class="small text-muted">
                   Click to upload photo<br />
@@ -326,12 +320,7 @@
           <div class="row">
             <div class="col-12">
               <div class="d-flex justify-content-end gap-3">
-                <button
-                  type="button"
-                  class="btn btn-outline-secondary"
-                  :disabled="loading"
-                  @click="handleCancel"
-                >
+                <button type="button" class="btn btn-outline-secondary" :disabled="loading" @click="handleCancel">
                   Cancel
                 </button>
 
@@ -438,15 +427,7 @@ const departments = ref([
 
 // Computed
 const isFormValid = computed(() => {
-  const requiredFields = [
-    'name',
-    'employee_id',
-    'email',
-    'employee_type',
-    'department_id',
-    'position',
-    'hire_date'
-  ]
+  const requiredFields = ['name', 'employee_id', 'email', 'employee_type', 'department_id', 'position', 'hire_date']
 
   if (props.mode === 'create') {
     requiredFields.push('password', 'password_confirmation')
@@ -489,84 +470,84 @@ const validateField = fieldName => {
   let error = ''
 
   switch (fieldName) {
-  case 'name':
-    if (!value || value.trim().length < 2) {
-      error = 'Name must be at least 2 characters long'
-    }
-    break
+    case 'name':
+      if (!value || value.trim().length < 2) {
+        error = 'Name must be at least 2 characters long'
+      }
+      break
 
-  case 'employee_id':
-    if (!value || value.trim().length < 3) {
-      error = 'Employee ID must be at least 3 characters long'
-    }
-    break
+    case 'employee_id':
+      if (!value || value.trim().length < 3) {
+        error = 'Employee ID must be at least 3 characters long'
+      }
+      break
 
-  case 'email':
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!value) {
-      error = 'Email is required'
-    } else if (!emailRegex.test(value)) {
-      error = 'Please enter a valid email address'
-    }
-    break
-
-  case 'phone':
-    if (value && !/^[\d\s\-\+\(\)]{10,}$/.test(value)) {
-      error = 'Please enter a valid phone number'
-    }
-    break
-
-  case 'password':
-    if (props.mode === 'create') {
+    case 'email':
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!value) {
-        error = 'Password is required'
-      } else if (value.length < 8) {
-        error = 'Password must be at least 8 characters long'
-      } else if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(value)) {
-        error = 'Password must contain at least one letter and one number'
+        error = 'Email is required'
+      } else if (!emailRegex.test(value)) {
+        error = 'Please enter a valid email address'
       }
-    }
-    break
+      break
 
-  case 'password_confirmation':
-    if (props.mode === 'create') {
+    case 'phone':
+      if (value && !/^[\d\s\-\+\(\)]{10,}$/.test(value)) {
+        error = 'Please enter a valid phone number'
+      }
+      break
+
+    case 'password':
+      if (props.mode === 'create') {
+        if (!value) {
+          error = 'Password is required'
+        } else if (value.length < 8) {
+          error = 'Password must be at least 8 characters long'
+        } else if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(value)) {
+          error = 'Password must contain at least one letter and one number'
+        }
+      }
+      break
+
+    case 'password_confirmation':
+      if (props.mode === 'create') {
+        if (!value) {
+          error = 'Please confirm your password'
+        } else if (value !== form.password) {
+          error = 'Passwords do not match'
+        }
+      }
+      break
+
+    case 'hire_date':
       if (!value) {
-        error = 'Please confirm your password'
-      } else if (value !== form.password) {
-        error = 'Passwords do not match'
+        error = 'Hire date is required'
+      } else if (new Date(value) > new Date()) {
+        error = 'Hire date cannot be in the future'
       }
-    }
-    break
+      break
 
-  case 'hire_date':
-    if (!value) {
-      error = 'Hire date is required'
-    } else if (new Date(value) > new Date()) {
-      error = 'Hire date cannot be in the future'
-    }
-    break
+    case 'date_of_birth':
+      if (value) {
+        const birthDate = new Date(value)
+        const today = new Date()
+        const age = today.getFullYear() - birthDate.getFullYear()
 
-  case 'date_of_birth':
-    if (value) {
-      const birthDate = new Date(value)
-      const today = new Date()
-      const age = today.getFullYear() - birthDate.getFullYear()
-
-      if (birthDate > today) {
-        error = 'Date of birth cannot be in the future'
-      } else if (age < 16) {
-        error = 'Employee must be at least 16 years old'
-      } else if (age > 100) {
-        error = 'Please enter a valid date of birth'
+        if (birthDate > today) {
+          error = 'Date of birth cannot be in the future'
+        } else if (age < 16) {
+          error = 'Employee must be at least 16 years old'
+        } else if (age > 100) {
+          error = 'Please enter a valid date of birth'
+        }
       }
-    }
-    break
+      break
 
-  case 'salary':
-    if (value && (isNaN(value) || parseFloat(value) < 0)) {
-      error = 'Salary must be a positive number'
-    }
-    break
+    case 'salary':
+      if (value && (isNaN(value) || parseFloat(value) < 0)) {
+        error = 'Salary must be a positive number'
+      }
+      break
   }
 
   if (error) {

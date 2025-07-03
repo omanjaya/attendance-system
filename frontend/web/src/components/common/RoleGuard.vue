@@ -88,9 +88,7 @@ const hasAccess = computed(() => {
 
   // Check permission requirements
   if (props.permissions) {
-    const permissionArray = Array.isArray(props.permissions)
-      ? props.permissions
-      : [props.permissions]
+    const permissionArray = Array.isArray(props.permissions) ? props.permissions : [props.permissions]
 
     if (props.requireAll) {
       // User must have ALL specified permissions

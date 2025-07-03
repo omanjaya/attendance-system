@@ -12,11 +12,7 @@ import { computed, nextTick, onMounted, onUnmounted } from 'vue'
  * @returns {Object} Utilities untuk komponen yang aman
  */
 export function useComponentSafety(props = {}, options = {}) {
-  const {
-    defaultMessage = 'No message provided',
-    enableTooltips = true,
-    validateRequired = true
-  } = options
+  const { defaultMessage = 'No message provided', enableTooltips = true, validateRequired = true } = options
 
   // Tooltip management
   let tooltipInstances = []

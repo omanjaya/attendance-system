@@ -1,12 +1,7 @@
 <template>
   <div class="quick-actions">
     <!-- Quick Actions Button -->
-    <button
-      class="quick-actions-trigger"
-      :class="{ 'is-open': isOpen }"
-      :title="triggerTitle"
-      @click="toggleActions"
-    >
+    <button class="quick-actions-trigger" :class="{ 'is-open': isOpen }" :title="triggerTitle" @click="toggleActions">
       <svg class="quick-actions-icon" :class="{ rotate: isOpen }">
         <use href="#tabler-plus"></use>
       </svg>

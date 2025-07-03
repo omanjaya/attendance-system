@@ -110,9 +110,7 @@ describe('Auth Integration Tests', () => {
 
       // Verify localStorage was called
       expect(localStorage.getItem('auth_token')).toBe('mock-token-123')
-      expect(JSON.parse(localStorage.getItem('user_data'))).toEqual(
-        mockLoginResponse.data.data.user
-      )
+      expect(JSON.parse(localStorage.getItem('user_data'))).toEqual(mockLoginResponse.data.data.user)
 
       // Verify notification was shown
       expect(mockShowNotification).toHaveBeenCalledWith({

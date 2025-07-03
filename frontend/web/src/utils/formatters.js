@@ -11,19 +11,19 @@ export const formatDate = (date, format = 'MMM DD, YYYY') => {
   const options = {}
 
   switch (format) {
-  case 'MMM DD, YYYY':
-    options.year = 'numeric'
-    options.month = 'short'
-    options.day = '2-digit'
-    break
-  case 'DD/MM/YYYY':
-    return d.toLocaleDateString('en-GB')
-  case 'YYYY-MM-DD':
-    return d.toISOString().split('T')[0]
-  case 'relative':
-    return formatRelativeTime(d)
-  default:
-    return d.toLocaleDateString()
+    case 'MMM DD, YYYY':
+      options.year = 'numeric'
+      options.month = 'short'
+      options.day = '2-digit'
+      break
+    case 'DD/MM/YYYY':
+      return d.toLocaleDateString('en-GB')
+    case 'YYYY-MM-DD':
+      return d.toISOString().split('T')[0]
+    case 'relative':
+      return formatRelativeTime(d)
+    default:
+      return d.toLocaleDateString()
   }
 
   return d.toLocaleDateString('en-US', options)

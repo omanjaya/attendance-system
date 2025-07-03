@@ -112,11 +112,7 @@
                     <div>
                       <span
                         class="badge"
-                        :class="
-                          serviceStatus.services?.face_recognition === 'operational'
-                            ? 'bg-success'
-                            : 'bg-danger'
-                        "
+                        :class="serviceStatus.services?.face_recognition === 'operational' ? 'bg-success' : 'bg-danger'"
                       >
                         {{ serviceStatus.services?.face_recognition || 'unknown' }}
                       </span>
@@ -129,11 +125,7 @@
                     <div>
                       <span
                         class="badge"
-                        :class="
-                          serviceStatus.services?.mediapipe === 'operational'
-                            ? 'bg-success'
-                            : 'bg-danger'
-                        "
+                        :class="serviceStatus.services?.mediapipe === 'operational' ? 'bg-success' : 'bg-danger'"
                       >
                         {{ serviceStatus.services?.mediapipe || 'unknown' }}
                       </span>
@@ -150,8 +142,7 @@
               <div v-else class="alert alert-danger">
                 <h4 class="alert-title">Service Unavailable</h4>
                 <div class="text-muted">
-                  Face recognition service is not responding. Please check if the service is
-                  running.
+                  Face recognition service is not responding. Please check if the service is running.
                 </div>
               </div>
             </div>
@@ -209,21 +200,13 @@
                   </svg>
                 </div>
                 <p class="empty-title">No employees registered</p>
-                <p class="empty-subtitle text-muted">
-                  Start by registering your first employee for face recognition
-                </p>
+                <p class="empty-subtitle text-muted">Start by registering your first employee for face recognition</p>
                 <div class="empty-action">
-                  <button class="btn btn-primary" @click="showRegisterModal = true">
-                    Register First Employee
-                  </button>
+                  <button class="btn btn-primary" @click="showRegisterModal = true">Register First Employee</button>
                 </div>
               </div>
               <div v-else class="row">
-                <div
-                  v-for="employee in registeredEmployees"
-                  :key="employee.employee_id"
-                  class="col-md-6 col-lg-4 mb-3"
-                >
+                <div v-for="employee in registeredEmployees" :key="employee.employee_id" class="col-md-6 col-lg-4 mb-3">
                   <div class="card card-sm">
                     <div class="card-body">
                       <div class="row align-items-center">
@@ -260,18 +243,11 @@
                         </div>
                         <div class="col-auto">
                           <div class="dropdown">
-                            <button
-                              class="btn btn-white btn-sm dropdown-toggle"
-                              data-bs-toggle="dropdown"
-                            >
+                            <button class="btn btn-white btn-sm dropdown-toggle" data-bs-toggle="dropdown">
                               Actions
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
-                              <a
-                                class="dropdown-item"
-                                href="#"
-                                @click.prevent="testRecognition(employee)"
-                              >
+                              <a class="dropdown-item" href="#" @click.prevent="testRecognition(employee)">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="16"
@@ -290,11 +266,7 @@
                                 Test Recognition
                               </a>
                               <div class="dropdown-divider"></div>
-                              <a
-                                class="dropdown-item text-danger"
-                                href="#"
-                                @click.prevent="removeEmployee(employee)"
-                              >
+                              <a class="dropdown-item text-danger" href="#" @click.prevent="removeEmployee(employee)">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="16"
@@ -327,12 +299,7 @@
     </div>
 
     <!-- Register Face Modal -->
-    <div
-      v-if="showRegisterModal"
-      class="modal modal-blur fade show"
-      style="display: block"
-      tabindex="-1"
-    >
+    <div v-if="showRegisterModal" class="modal modal-blur fade show" style="display: block" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -344,11 +311,7 @@
               <div class="col-md-6">
                 <div class="mb-3">
                   <label class="form-label">Select Employee</label>
-                  <select
-                    v-model="selectedEmployee"
-                    class="form-select"
-                    :disabled="registerLoading"
-                  >
+                  <select v-model="selectedEmployee" class="form-select" :disabled="registerLoading">
                     <option value="">Choose an employee...</option>
                     <option v-for="emp in availableEmployees" :key="emp.id" :value="emp">
                       {{ emp.name }} ({{ emp.employee_id }})
@@ -477,12 +440,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              :disabled="registerLoading"
-              @click="closeRegisterModal"
-            >
+            <button type="button" class="btn btn-secondary" :disabled="registerLoading" @click="closeRegisterModal">
               Cancel
             </button>
             <button
@@ -500,11 +458,7 @@
     </div>
 
     <!-- Modal backdrop -->
-    <div
-      v-if="showRegisterModal"
-      class="modal-backdrop fade show"
-      @click="closeRegisterModal"
-    ></div>
+    <div v-if="showRegisterModal" class="modal-backdrop fade show" @click="closeRegisterModal"></div>
 
     <!-- Alerts -->
     <div v-if="alertMessage" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
@@ -539,13 +493,7 @@
           </div>
           <div>
             <h4 class="alert-title">
-              {{
-                alertType === 'success'
-                  ? 'Success!'
-                  : alertType === 'warning'
-                    ? 'Warning!'
-                    : 'Error!'
-              }}
+              {{ alertType === 'success' ? 'Success!' : alertType === 'warning' ? 'Warning!' : 'Error!' }}
             </h4>
             <div class="text-muted">{{ alertMessage }}</div>
           </div>

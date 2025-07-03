@@ -349,8 +349,7 @@ describe('Employee Integration Tests', () => {
           plugins: [pinia, router],
           stubs: {
             DataTable: {
-              template:
-                '<div><button @click="$emit(\'delete\', 1)" class="delete-btn">Delete</button></div>',
+              template: '<div><button @click="$emit(\'delete\', 1)" class="delete-btn">Delete</button></div>',
               emits: ['delete']
             },
             Modal: {
@@ -572,8 +571,7 @@ describe('Employee Integration Tests', () => {
           plugins: [pinia, router],
           stubs: {
             DataTable: {
-              template:
-                '<div><button @click="$emit(\'export\', \'csv\')" class="export-btn">Export CSV</button></div>',
+              template: '<div><button @click="$emit(\'export\', \'csv\')" class="export-btn">Export CSV</button></div>',
               emits: ['export']
             },
             TablerIcon: true

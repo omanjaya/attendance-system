@@ -21,8 +21,7 @@ onMounted(async () => {
   try {
     // Initialize theme with proper detection
     const savedTheme =
-      localStorage.getItem('theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
 
     // Apply theme to document
     document.documentElement.setAttribute('data-bs-theme', savedTheme)

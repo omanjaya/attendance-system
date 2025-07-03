@@ -40,9 +40,7 @@
                   <div class="mb-3">
                     <label class="form-label">Clock In Time</label>
                     <div class="form-control-plaintext">
-                      {{
-                        todayStatus.clock_in ? formatTime(todayStatus.clock_in) : 'Not clocked in'
-                      }}
+                      {{ todayStatus.clock_in ? formatTime(todayStatus.clock_in) : 'Not clocked in' }}
                     </div>
                   </div>
                 </div>
@@ -50,11 +48,7 @@
                   <div class="mb-3">
                     <label class="form-label">Clock Out Time</label>
                     <div class="form-control-plaintext">
-                      {{
-                        todayStatus.clock_out
-                          ? formatTime(todayStatus.clock_out)
-                          : 'Not clocked out'
-                      }}
+                      {{ todayStatus.clock_out ? formatTime(todayStatus.clock_out) : 'Not clocked out' }}
                     </div>
                   </div>
                 </div>
@@ -94,23 +88,17 @@
               <div class="btn-list">
                 <button
                   class="btn btn-success btn-lg"
-                  :disabled="
-                    isLoading || (todayStatus && todayStatus.clock_in && !todayStatus.clock_out)
-                  "
+                  :disabled="isLoading || (todayStatus && todayStatus.clock_in && !todayStatus.clock_out)"
                   @click="clockIn"
                 >
                   <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
                   {{
-                    todayStatus && todayStatus.clock_in && !todayStatus.clock_out
-                      ? 'Already Clocked In'
-                      : 'Clock In'
+                    todayStatus && todayStatus.clock_in && !todayStatus.clock_out ? 'Already Clocked In' : 'Clock In'
                   }}
                 </button>
                 <button
                   class="btn btn-outline-success"
-                  :disabled="
-                    isLoading || (todayStatus && todayStatus.clock_in && !todayStatus.clock_out)
-                  "
+                  :disabled="isLoading || (todayStatus && todayStatus.clock_in && !todayStatus.clock_out)"
                   @click="showFaceClockIn = true"
                 >
                   <svg
@@ -162,9 +150,7 @@
               <p class="text-muted mb-3">End your workday</p>
               <button
                 class="btn btn-danger btn-lg"
-                :disabled="
-                  isLoading || !todayStatus || !todayStatus.clock_in || todayStatus.clock_out
-                "
+                :disabled="isLoading || !todayStatus || !todayStatus.clock_in || todayStatus.clock_out"
                 @click="clockOut"
               >
                 <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
@@ -246,12 +232,7 @@
     </div>
 
     <!-- Face Recognition Modal -->
-    <div
-      v-if="showFaceClockIn"
-      class="modal modal-blur fade show"
-      style="display: block"
-      tabindex="-1"
-    >
+    <div v-if="showFaceClockIn" class="modal modal-blur fade show" style="display: block" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -276,9 +257,7 @@
                         stroke-linejoin="round"
                         class="icon me-2"
                       >
-                        <path
-                          d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
-                        />
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
                         <circle cx="12" cy="13" r="4" />
                       </svg>
                       Start Camera
@@ -314,15 +293,8 @@
                     </div>
                   </div>
                   <div v-if="cameraActive" class="mb-3">
-                    <button
-                      class="btn btn-success"
-                      :disabled="faceVerifying"
-                      @click="captureAndVerify"
-                    >
-                      <span
-                        v-if="faceVerifying"
-                        class="spinner-border spinner-border-sm me-2"
-                      ></span>
+                    <button class="btn btn-success" :disabled="faceVerifying" @click="captureAndVerify">
+                      <span v-if="faceVerifying" class="spinner-border spinner-border-sm me-2"></span>
                       <svg
                         v-else
                         xmlns="http://www.w3.org/2000/svg"
@@ -336,9 +308,7 @@
                         stroke-linejoin="round"
                         class="icon me-2"
                       >
-                        <path
-                          d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
-                        />
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
                         <circle cx="12" cy="13" r="4" />
                       </svg>
                       {{ faceVerifying ? 'Verifying...' : 'Capture & Verify' }}
@@ -373,9 +343,7 @@
                         </svg>
                         <strong>Recognized!</strong>
                       </div>
-                      <div class="mb-2">
-                        <strong>Employee:</strong> {{ faceResult.employee_name }}
-                      </div>
+                      <div class="mb-2"><strong>Employee:</strong> {{ faceResult.employee_name }}</div>
                       <div class="mb-2"><strong>ID:</strong> {{ faceResult.employee_id }}</div>
                       <div class="mb-2">
                         <strong>Confidence:</strong> {{ Math.round(faceResult.confidence * 100) }}%
@@ -575,11 +543,11 @@ const clockIn = async () => {
   try {
     const locationData = currentLocation.value
       ? {
-        latitude: currentLocation.value.latitude,
-        longitude: currentLocation.value.longitude,
-        accuracy: currentLocation.value.accuracy,
-        location_name: locationValid.value?.location || 'Office'
-      }
+          latitude: currentLocation.value.latitude,
+          longitude: currentLocation.value.longitude,
+          accuracy: currentLocation.value.accuracy,
+          location_name: locationValid.value?.location || 'Office'
+        }
       : { location_name: 'Office' }
 
     const response = await attendanceService.clockIn({
@@ -708,10 +676,7 @@ const faceClockIn = async () => {
     })
 
     if (response.success) {
-      showAlert(
-        `Successfully clocked in with face recognition: ${faceResult.value.employee_name}`,
-        'success'
-      )
+      showAlert(`Successfully clocked in with face recognition: ${faceResult.value.employee_name}`, 'success')
       closeFaceModal()
       await fetchTodayStatus()
       await fetchRecentAttendance()
@@ -740,11 +705,7 @@ const getCurrentLocation = async () => {
     currentLocation.value = position
 
     // Validate against allowed locations
-    const validation = locationService.validateLocation(
-      position.latitude,
-      position.longitude,
-      allowedLocations.value
-    )
+    const validation = locationService.validateLocation(position.latitude, position.longitude, allowedLocations.value)
 
     locationValid.value = validation
 

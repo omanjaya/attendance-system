@@ -66,8 +66,7 @@ const props = defineProps({
   type: {
     type: String,
     default: 'spinner',
-    validator: value =>
-      ['spinner', 'dots', 'pulse', 'bars', 'ring', 'ripple', 'icon'].includes(value)
+    validator: value => ['spinner', 'dots', 'pulse', 'bars', 'ring', 'ripple', 'icon'].includes(value)
   },
 
   // Size
@@ -82,9 +81,7 @@ const props = defineProps({
     type: String,
     default: 'primary',
     validator: value =>
-      ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'].includes(
-        value
-      )
+      ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'].includes(value)
   },
 
   // Icon for icon type

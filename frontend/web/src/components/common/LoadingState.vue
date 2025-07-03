@@ -98,8 +98,7 @@ defineProps({
   variant: {
     type: String,
     default: 'spinner',
-    validator: value =>
-      ['spinner', 'dots', 'pulse', 'progress', 'icon', 'skeleton', 'card', 'table'].includes(value)
+    validator: value => ['spinner', 'dots', 'pulse', 'progress', 'icon', 'skeleton', 'card', 'table'].includes(value)
   },
 
   // Size of the loading indicator

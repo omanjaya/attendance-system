@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="lazy-image-container"
-    :class="{ loaded: isLoaded, loading: isLoading, error: hasError }"
-  >
+  <div class="lazy-image-container" :class="{ loaded: isLoaded, loading: isLoading, error: hasError }">
     <img
       ref="imageRef"
       v-lazy="lazyConfig"

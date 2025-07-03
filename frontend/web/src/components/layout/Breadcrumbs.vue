@@ -16,11 +16,7 @@
         class="breadcrumb-item"
         :class="{ active: index === breadcrumbs.length - 1 }"
       >
-        <router-link
-          v-if="crumb.to && index !== breadcrumbs.length - 1"
-          :to="crumb.to"
-          class="breadcrumb-link"
-        >
+        <router-link v-if="crumb.to && index !== breadcrumbs.length - 1" :to="crumb.to" class="breadcrumb-link">
           <svg v-if="crumb.icon" class="breadcrumb-icon">
             <use :href="`#tabler-${crumb.icon}`"></use>
           </svg>

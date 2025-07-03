@@ -105,7 +105,8 @@ export default [
       'comma-dangle': ['error', 'never'],
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'never'],
-      indent: ['error', 2],
+      // Disable indent rule - let Prettier handle it
+      // indent: ['error', 2],
       'max-len': ['warn', { code: 120, ignoreUrls: true }],
       eqeqeq: ['error', 'always'],
       curly: ['error', 'multi-line'],
@@ -140,15 +141,6 @@ export default [
     }
   },
   {
-    ignores: [
-      'dist/',
-      'node_modules/',
-      '.git/',
-      'coverage/',
-      '*.min.js',
-      'public/build/',
-      'storage/',
-      'bootstrap/'
-    ]
+    ignores: ['dist/', 'node_modules/', '.git/', 'coverage/', '*.min.js', 'public/build/', 'storage/', 'bootstrap/']
   }
 ]

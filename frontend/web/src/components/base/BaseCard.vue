@@ -1,11 +1,7 @@
 <template>
   <div :class="cardClasses" v-bind="$attrs">
     <!-- Card Header -->
-    <div
-      v-if="$slots.header || title || subtitle || $slots.actions"
-      class="card-header"
-      :class="headerClasses"
-    >
+    <div v-if="$slots.header || title || subtitle || $slots.actions" class="card-header" :class="headerClasses">
       <div v-if="$slots.header" class="card-header-content">
         <slot name="header" />
       </div>
@@ -60,8 +56,7 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'default',
-    validator: value =>
-      ['default', 'primary', 'secondary', 'success', 'warning', 'danger', 'info'].includes(value)
+    validator: value => ['default', 'primary', 'secondary', 'success', 'warning', 'danger', 'info'].includes(value)
   },
 
   // Card styles

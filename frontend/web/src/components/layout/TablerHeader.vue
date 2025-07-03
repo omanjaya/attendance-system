@@ -6,13 +6,7 @@
       <!-- Brand/Logo -->
       <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
         <router-link to="/">
-          <img
-            src="/logo.svg"
-            width="110"
-            height="32"
-            alt="Attendance System"
-            class="navbar-brand-image"
-          />
+          <img src="/logo.svg" width="110" height="32" alt="Attendance System" class="navbar-brand-image" />
         </router-link>
       </h1>
 
@@ -66,9 +60,7 @@
                 stroke-linejoin="round"
               >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"
-                />
+                <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
               </svg>
             </a>
             <a
@@ -93,9 +85,7 @@
               >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <circle cx="12" cy="12" r="4" />
-                <path
-                  d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"
-                />
+                <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
               </svg>
             </a>
           </div>
@@ -108,16 +98,8 @@
 
         <!-- User Dropdown -->
         <div class="nav-item dropdown">
-          <a
-            href="#"
-            class="nav-link d-flex lh-1 text-reset p-0"
-            data-bs-toggle="dropdown"
-            aria-label="Open user menu"
-          >
-            <span
-              class="avatar avatar-sm"
-              :style="user.avatar ? `background-image: url(${user.avatar})` : ''"
-            >
+          <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+            <span class="avatar avatar-sm" :style="user.avatar ? `background-image: url(${user.avatar})` : ''">
               {{ user.avatar ? '' : user.initials }}
             </span>
             <div class="d-none d-xl-block ps-2">
@@ -181,9 +163,7 @@
                 stroke-linejoin="round"
               >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"
-                />
+                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
                 <path d="M7 12h14l-3 -3m0 6l3 -3" />
               </svg>
               Logout
@@ -208,11 +188,7 @@
       <!-- Mobile Search & User -->
       <div class="navbar-nav flex-row order-md-last d-md-none">
         <div class="nav-item">
-          <a
-            href="#"
-            class="nav-link d-flex lh-1 text-reset p-0"
-            @click.prevent="showSearchModal = true"
-          >
+          <a href="#" class="nav-link d-flex lh-1 text-reset p-0" @click.prevent="showSearchModal = true">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="icon"
@@ -233,10 +209,7 @@
         </div>
         <div class="nav-item ms-3">
           <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown">
-            <span
-              class="avatar avatar-sm"
-              :style="user.avatar ? `background-image: url(${user.avatar})` : ''"
-            >
+            <span class="avatar avatar-sm" :style="user.avatar ? `background-image: url(${user.avatar})` : ''">
               {{ user.avatar ? '' : user.initials }}
             </span>
           </a>
@@ -429,9 +402,7 @@
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M9 12l2 2l4 -4" />
                         <path d="M21 12c-1 0 -3 0 -3 3s2 3 3 3s3 0 3 -3s-2 -3 -3 -3" />
-                        <path
-                          d="M10 12h-6a2 2 0 0 1 -2 -2v-4a2 2 0 0 1 2 -2h16a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6"
-                        />
+                        <path d="M10 12h-6a2 2 0 0 1 -2 -2v-4a2 2 0 0 1 2 -2h16a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6" />
                       </svg>
                       Record Attendance
                       <small class="text-muted">Manual entry</small>

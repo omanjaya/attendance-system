@@ -71,53 +71,26 @@ import Dashboard from '@/pages/Dashboard.vue'
 
 // Employee Management (enhanced lazy loading)
 const EmployeeList = lazyLoad(() => import('@/pages/employees/EmployeeList.vue'), 'EmployeeList')
-const EmployeeCreate = lazyLoad(
-  () => import('@/pages/employees/EmployeeCreate.vue'),
-  'EmployeeCreate'
-)
+const EmployeeCreate = lazyLoad(() => import('@/pages/employees/EmployeeCreate.vue'), 'EmployeeCreate')
 const EmployeeEdit = lazyLoad(() => import('@/pages/employees/EmployeeEdit.vue'), 'EmployeeEdit')
 const EmployeeView = lazyLoad(() => import('@/pages/employees/EmployeeView.vue'), 'EmployeeView')
 
 // Attendance Management (enhanced lazy loading)
-const AttendanceList = lazyLoad(
-  () => import('@/pages/attendance/AttendanceList.vue'),
-  'AttendanceList'
-)
-const AttendanceManage = lazyLoad(
-  () => import('@/pages/attendance/AttendanceManage.vue'),
-  'AttendanceManage'
-)
-const AttendanceHistory = lazyLoad(
-  () => import('@/pages/attendance/AttendanceHistory.vue'),
-  'AttendanceHistory'
-)
-const AttendanceCalendar = lazyLoad(
-  () => import('@/pages/attendance/AttendanceCalendar.vue'),
-  'AttendanceCalendar'
-)
-const AttendanceKiosk = lazyLoad(
-  () => import('@/pages/attendance/AttendanceKiosk.vue'),
-  'AttendanceKiosk'
-)
+const AttendanceList = lazyLoad(() => import('@/pages/attendance/AttendanceList.vue'), 'AttendanceList')
+const AttendanceManage = lazyLoad(() => import('@/pages/attendance/AttendanceManage.vue'), 'AttendanceManage')
+const AttendanceHistory = lazyLoad(() => import('@/pages/attendance/AttendanceHistory.vue'), 'AttendanceHistory')
+const AttendanceCalendar = lazyLoad(() => import('@/pages/attendance/AttendanceCalendar.vue'), 'AttendanceCalendar')
+const AttendanceKiosk = lazyLoad(() => import('@/pages/attendance/AttendanceKiosk.vue'), 'AttendanceKiosk')
 
 // Schedule Management (enhanced lazy loading)
 const ScheduleList = lazyLoad(() => import('@/pages/schedules/ScheduleList.vue'), 'ScheduleList')
-const ScheduleCreate = lazyLoad(
-  () => import('@/pages/schedules/ScheduleCreate.vue'),
-  'ScheduleCreate'
-)
-const ScheduleCalendar = lazyLoad(
-  () => import('@/pages/schedules/ScheduleCalendar.vue'),
-  'ScheduleCalendar'
-)
+const ScheduleCreate = lazyLoad(() => import('@/pages/schedules/ScheduleCreate.vue'), 'ScheduleCreate')
+const ScheduleCalendar = lazyLoad(() => import('@/pages/schedules/ScheduleCalendar.vue'), 'ScheduleCalendar')
 
 // Payroll Management (enhanced lazy loading)
 const PayrollList = lazyLoad(() => import('@/pages/payroll/PayrollList.vue'), 'PayrollList')
 const PayrollCreate = lazyLoad(() => import('@/pages/payroll/PayrollCreate.vue'), 'PayrollCreate')
-const PayrollSummary = lazyLoad(
-  () => import('@/pages/payroll/PayrollSummary.vue'),
-  'PayrollSummary'
-)
+const PayrollSummary = lazyLoad(() => import('@/pages/payroll/PayrollSummary.vue'), 'PayrollSummary')
 
 // Leave Management (enhanced lazy loading)
 const LeaveList = lazyLoad(() => import('@/pages/leaves/LeaveList.vue'), 'LeaveList')
@@ -136,47 +109,23 @@ const FaceRecognitionManage = lazyLoad(
 )
 
 // Reports (enhanced lazy loading)
-const ReportsDashboard = lazyLoad(
-  () => import('@/pages/reports/ReportsDashboard.vue'),
-  'ReportsDashboard'
-)
-const AttendanceReports = lazyLoad(
-  () => import('@/pages/reports/AttendanceReports.vue'),
-  'AttendanceReports'
-)
-const PayrollReports = lazyLoad(
-  () => import('@/pages/reports/PayrollReports.vue'),
-  'PayrollReports'
-)
+const ReportsDashboard = lazyLoad(() => import('@/pages/reports/ReportsDashboard.vue'), 'ReportsDashboard')
+const AttendanceReports = lazyLoad(() => import('@/pages/reports/AttendanceReports.vue'), 'AttendanceReports')
+const PayrollReports = lazyLoad(() => import('@/pages/reports/PayrollReports.vue'), 'PayrollReports')
 const LeaveReports = lazyLoad(() => import('@/pages/reports/LeaveReports.vue'), 'LeaveReports')
 
 // Settings (enhanced lazy loading)
-const SettingsGeneral = lazyLoad(
-  () => import('@/pages/settings/SettingsGeneral.vue'),
-  'SettingsGeneral'
-)
-const SettingsAttendance = lazyLoad(
-  () => import('@/pages/settings/SettingsAttendance.vue'),
-  'SettingsAttendance'
-)
+const SettingsGeneral = lazyLoad(() => import('@/pages/settings/SettingsGeneral.vue'), 'SettingsGeneral')
+const SettingsAttendance = lazyLoad(() => import('@/pages/settings/SettingsAttendance.vue'), 'SettingsAttendance')
 const SettingsLeave = lazyLoad(() => import('@/pages/settings/SettingsLeave.vue'), 'SettingsLeave')
 
 // Other Pages (enhanced lazy loading)
 const Profile = lazyLoad(() => import('@/pages/auth/Profile.vue'), 'Profile')
-const SchoolCalendar = lazyLoad(
-  () => import('@/pages/calendar/SchoolCalendar.vue'),
-  'SchoolCalendar'
-)
-const PeriodManagement = lazyLoad(
-  () => import('@/pages/periods/PeriodManagement.vue'),
-  'PeriodManagement'
-)
+const SchoolCalendar = lazyLoad(() => import('@/pages/calendar/SchoolCalendar.vue'), 'SchoolCalendar')
+const PeriodManagement = lazyLoad(() => import('@/pages/periods/PeriodManagement.vue'), 'PeriodManagement')
 
 // Notifications (enhanced lazy loading)
-const NotificationsPage = lazyLoad(
-  () => import('@/pages/notifications/NotificationsPage.vue'),
-  'NotificationsPage'
-)
+const NotificationsPage = lazyLoad(() => import('@/pages/notifications/NotificationsPage.vue'), 'NotificationsPage')
 
 const routes = [
   // Auth Routes

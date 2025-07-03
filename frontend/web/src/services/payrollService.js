@@ -114,20 +114,20 @@ export const payrollService = {
 
     // Calculate payable hours based on employee type
     switch (employee.type) {
-    case 'honorary_teacher':
-    case 'honorary_staff':
-      // Honorary employees: paid only for scheduled teaching hours
-      calculation.payable_hours = Math.min(calculation.total_hours, calculation.scheduled_hours)
-      break
+      case 'honorary_teacher':
+      case 'honorary_staff':
+        // Honorary employees: paid only for scheduled teaching hours
+        calculation.payable_hours = Math.min(calculation.total_hours, calculation.scheduled_hours)
+        break
 
-    case 'permanent_teacher':
-    case 'permanent_staff':
-      // Permanent employees: salary + overtime
-      calculation.payable_hours = calculation.total_hours
-      break
+      case 'permanent_teacher':
+      case 'permanent_staff':
+        // Permanent employees: salary + overtime
+        calculation.payable_hours = calculation.total_hours
+        break
 
-    default:
-      calculation.payable_hours = calculation.total_hours
+      default:
+        calculation.payable_hours = calculation.total_hours
     }
 
     // Calculate gross pay
@@ -150,14 +150,8 @@ export const payrollService = {
     calculation.allowances = this.calculateAllowances(calculation, employee)
 
     // Calculate net pay
-    const totalDeductions = Object.values(calculation.deductions).reduce(
-      (sum, amount) => sum + amount,
-      0
-    )
-    const totalAllowances = Object.values(calculation.allowances).reduce(
-      (sum, amount) => sum + amount,
-      0
-    )
+    const totalDeductions = Object.values(calculation.deductions).reduce((sum, amount) => sum + amount, 0)
+    const totalAllowances = Object.values(calculation.allowances).reduce((sum, amount) => sum + amount, 0)
 
     calculation.net_pay = calculation.gross_pay + totalAllowances - totalDeductions
 
@@ -241,10 +235,7 @@ export const payrollService = {
     }
 
     // Perfect attendance bonus
-    if (
-      calculation.attendance_summary.absent_days === 0 &&
-      calculation.attendance_summary.late_days === 0
-    ) {
+    if (calculation.attendance_summary.absent_days === 0 && calculation.attendance_summary.late_days === 0) {
       allowances.perfect_attendance = 100000 // 100k bonus
     }
 
@@ -271,14 +262,8 @@ export const payrollService = {
       summary.total_gross_pay += payroll.gross_pay
       summary.total_net_pay += payroll.net_pay
 
-      const totalDeductions = Object.values(payroll.deductions).reduce(
-        (sum, amount) => sum + amount,
-        0
-      )
-      const totalAllowances = Object.values(payroll.allowances).reduce(
-        (sum, amount) => sum + amount,
-        0
-      )
+      const totalDeductions = Object.values(payroll.deductions).reduce((sum, amount) => sum + amount, 0)
+      const totalAllowances = Object.values(payroll.allowances).reduce((sum, amount) => sum + amount, 0)
 
       summary.total_deductions += totalDeductions
       summary.total_allowances += totalAllowances

@@ -11,11 +11,7 @@
       :style="{ transform: `translateY(${pullDistance}px)` }"
     >
       <div class="pull-content">
-        <div
-          v-if="!isRefreshing"
-          class="pull-arrow"
-          :style="{ transform: `rotate(${arrowRotation}deg)` }"
-        >
+        <div v-if="!isRefreshing" class="pull-arrow" :style="{ transform: `rotate(${arrowRotation}deg)` }">
           <TablerIcon name="arrow-down" />
         </div>
         <div v-else class="pull-spinner">

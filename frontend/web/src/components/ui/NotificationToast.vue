@@ -25,13 +25,7 @@
               <div class="toast-message">{{ message }}</div>
             </div>
 
-            <button
-              v-if="dismissible"
-              type="button"
-              class="toast-close"
-              aria-label="Close"
-              @click="dismiss"
-            >
+            <button v-if="dismissible" type="button" class="toast-close" aria-label="Close" @click="dismiss">
               <svg class="toast-close-icon">
                 <use href="#tabler-x"></use>
               </svg>
@@ -104,15 +98,7 @@ const props = defineProps({
     type: String,
     default: 'top-right',
     validator: value =>
-      [
-        'top-left',
-        'top-center',
-        'top-right',
-        'bottom-left',
-        'bottom-center',
-        'bottom-right',
-        'center'
-      ].includes(value)
+      ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'].includes(value)
   },
 
   // Actions

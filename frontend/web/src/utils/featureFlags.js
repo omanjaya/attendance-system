@@ -139,22 +139,22 @@ class FeatureFlagManager {
   evaluateRules(rules, context) {
     return rules.every(rule => {
       switch (rule.operator) {
-      case 'equals':
-        return context[rule.field] === rule.value
-      case 'not_equals':
-        return context[rule.field] !== rule.value
-      case 'contains':
-        return String(context[rule.field] || '').includes(rule.value)
-      case 'greater_than':
-        return Number(context[rule.field]) > Number(rule.value)
-      case 'less_than':
-        return Number(context[rule.field]) < Number(rule.value)
-      case 'in':
-        return Array.isArray(rule.value) && rule.value.includes(context[rule.field])
-      case 'regex':
-        return new RegExp(rule.value).test(String(context[rule.field] || ''))
-      default:
-        return false
+        case 'equals':
+          return context[rule.field] === rule.value
+        case 'not_equals':
+          return context[rule.field] !== rule.value
+        case 'contains':
+          return String(context[rule.field] || '').includes(rule.value)
+        case 'greater_than':
+          return Number(context[rule.field]) > Number(rule.value)
+        case 'less_than':
+          return Number(context[rule.field]) < Number(rule.value)
+        case 'in':
+          return Array.isArray(rule.value) && rule.value.includes(context[rule.field])
+        case 'regex':
+          return new RegExp(rule.value).test(String(context[rule.field] || ''))
+        default:
+          return false
       }
     })
   }
@@ -437,8 +437,7 @@ class FeatureFlagManager {
       currentPhase,
       rolloutProgress: {
         totalPhases: this.rolloutPhases.size,
-        completedPhases: Array.from(this.rolloutPhases.values()).filter(phase => phase.isActive)
-          .length,
+        completedPhases: Array.from(this.rolloutPhases.values()).filter(phase => phase.isActive).length,
         currentPercentage: currentPhase?.percentage || 0
       },
       flagUsage: Object.fromEntries(flagUsage),
@@ -456,8 +455,7 @@ class FeatureFlagManager {
 
     // Check for unused flags
     const unusedFlags = Array.from(this.flags.keys()).filter(
-      flagName =>
-        !this.metrics.flagChecks.has(flagName) || this.metrics.flagChecks.get(flagName).length === 0
+      flagName => !this.metrics.flagChecks.has(flagName) || this.metrics.flagChecks.get(flagName).length === 0
     )
 
     if (unusedFlags.length > 0) {

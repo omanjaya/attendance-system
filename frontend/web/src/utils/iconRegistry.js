@@ -54,17 +54,7 @@ export const iconCategories = {
   ],
 
   // Legacy categories for backward compatibility
-  users: [
-    'user',
-    'users',
-    'user-plus',
-    'user-minus',
-    'user-check',
-    'user-x',
-    'user-circle',
-    'id',
-    'badge'
-  ],
+  users: ['user', 'users', 'user-plus', 'user-minus', 'user-check', 'user-x', 'user-circle', 'id', 'badge'],
 
   attendance: [
     'clock',

@@ -335,11 +335,7 @@ export function usePerformance() {
 
   const measureComponent = (componentName, startAction, endAction) => {
     const measureName = `${componentName}-duration`
-    performanceMonitor.measure(
-      measureName,
-      `${componentName}-${startAction}`,
-      `${componentName}-${endAction}`
-    )
+    performanceMonitor.measure(measureName, `${componentName}-${startAction}`, `${componentName}-${endAction}`)
   }
 
   const trackAsyncOperation = async (operationName, asyncFunction) => {

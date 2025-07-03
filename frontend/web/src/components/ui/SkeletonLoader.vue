@@ -10,12 +10,7 @@
     aria-valuetext="Loading..."
   >
     <div v-if="variant === 'text'" class="skeleton-content">
-      <div
-        v-for="line in lines"
-        :key="line"
-        class="skeleton-line"
-        :style="getLineStyle(line)"
-      ></div>
+      <div v-for="line in lines" :key="line" class="skeleton-line" :style="getLineStyle(line)"></div>
     </div>
 
     <div v-else-if="variant === 'avatar'" class="skeleton-content">
@@ -71,17 +66,7 @@ const props = defineProps({
     type: String,
     default: 'rectangular',
     validator: value =>
-      [
-        'rectangular',
-        'circular',
-        'rounded',
-        'text',
-        'avatar',
-        'card',
-        'table',
-        'button',
-        'input'
-      ].includes(value)
+      ['rectangular', 'circular', 'rounded', 'text', 'avatar', 'card', 'table', 'button', 'input'].includes(value)
   },
 
   // Size presets
@@ -181,12 +166,7 @@ const getLineStyle = lineNumber => {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--skeleton-highlight, rgba(255, 255, 255, 0.4)),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, var(--skeleton-highlight, rgba(255, 255, 255, 0.4)), transparent);
   animation: skeleton-shimmer 1.5s infinite;
 }
 

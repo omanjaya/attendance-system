@@ -49,21 +49,14 @@
         <!-- Select options -->
         <template v-if="type === 'select'">
           <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
-          <option
-            v-for="option in options"
-            :key="getOptionValue(option)"
-            :value="getOptionValue(option)"
-          >
+          <option v-for="option in options" :key="getOptionValue(option)" :value="getOptionValue(option)">
             {{ getOptionLabel(option) }}
           </option>
         </template>
       </component>
 
       <!-- Suffix icon/content -->
-      <div
-        v-if="$slots.suffix || suffixIcon || clearable || type === 'password'"
-        class="input-suffix"
-      >
+      <div v-if="$slots.suffix || suffixIcon || clearable || type === 'password'" class="input-suffix">
         <!-- Clear button -->
         <button
           v-if="clearable && modelValue && !disabled && !readonly"
@@ -77,12 +70,7 @@
         </button>
 
         <!-- Password toggle -->
-        <button
-          v-if="type === 'password'"
-          type="button"
-          class="input-password-toggle"
-          @click="togglePassword"
-        >
+        <button v-if="type === 'password'" type="button" class="input-password-toggle" @click="togglePassword">
           <svg class="icon">
             <use :href="showPassword ? '#tabler-eye-off' : '#tabler-eye'"></use>
           </svg>
@@ -108,11 +96,7 @@
     </div>
 
     <!-- Character count -->
-    <div
-      v-if="showCharCount && maxlength"
-      class="form-char-count"
-      :class="{ 'text-danger': isCharLimitExceeded }"
-    >
+    <div v-if="showCharCount && maxlength" class="form-char-count" :class="{ 'text-danger': isCharLimitExceeded }">
       {{ characterCount }}/{{ maxlength }}
     </div>
   </div>

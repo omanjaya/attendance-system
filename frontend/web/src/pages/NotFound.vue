@@ -13,9 +13,7 @@
         </div>
         <p class="empty-title">404</p>
         <p class="empty-subtitle text-muted">Oops… You just found an error page</p>
-        <p class="empty-subtitle text-muted">
-          We are sorry but the page you are looking for was not found
-        </p>
+        <p class="empty-subtitle text-muted">We are sorry but the page you are looking for was not found</p>
         <div class="empty-action">
           <router-link to="/" class="btn btn-primary">
             <svg

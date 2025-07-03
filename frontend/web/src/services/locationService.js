@@ -59,9 +59,7 @@ export const locationService = {
     const Δφ = ((lat2 - lat1) * Math.PI) / 180
     const Δλ = ((lon2 - lon1) * Math.PI) / 180
 
-    const a =
-      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
     return R * c // Distance in meters
@@ -70,12 +68,7 @@ export const locationService = {
   // Validate if location is within allowed area
   validateLocation(currentLat, currentLon, allowedLocations, toleranceMeters = 100) {
     for (const location of allowedLocations) {
-      const distance = this.calculateDistance(
-        currentLat,
-        currentLon,
-        location.latitude,
-        location.longitude
-      )
+      const distance = this.calculateDistance(currentLat, currentLon, location.latitude, location.longitude)
 
       if (distance <= (location.radius || toleranceMeters)) {
         return {
@@ -92,12 +85,7 @@ export const locationService = {
     let nearestDistance = Infinity
 
     for (const location of allowedLocations) {
-      const distance = this.calculateDistance(
-        currentLat,
-        currentLon,
-        location.latitude,
-        location.longitude
-      )
+      const distance = this.calculateDistance(currentLat, currentLon, location.latitude, location.longitude)
 
       if (distance < nearestDistance) {
         nearestDistance = distance

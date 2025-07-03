@@ -156,13 +156,7 @@ class ArchitectureMigrator {
 
   isComponentCandidate(filename) {
     // Components that should be in modules (not pages)
-    const componentPatterns = [
-      /Form\.vue$/,
-      /Card\.vue$/,
-      /Table\.vue$/,
-      /Modal\.vue$/,
-      /Widget\.vue$/
-    ]
+    const componentPatterns = [/Form\.vue$/, /Card\.vue$/, /Table\.vue$/, /Modal\.vue$/, /Widget\.vue$/]
 
     return componentPatterns.some(pattern => pattern.test(filename))
   }

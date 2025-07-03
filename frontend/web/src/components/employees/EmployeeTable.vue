@@ -32,11 +32,7 @@
         </RoleGuard>
 
         <div v-if="selectedEmployees.length > 0" class="dropdown">
-          <button
-            class="btn btn-outline-secondary btn-sm dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
+          <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
             <TablerIcon name="settings" size="sm" class="me-1" />
             Bulk Actions ({{ selectedEmployees.length }})
           </button>
@@ -55,11 +51,7 @@
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <a
-                class="dropdown-item text-danger"
-                href="#"
-                @click.prevent="handleBulkAction('delete')"
-              >
+              <a class="dropdown-item text-danger" href="#" @click.prevent="handleBulkAction('delete')">
                 <TablerIcon name="trash" size="sm" class="me-2" />
                 Delete Selected
               </a>
@@ -71,10 +63,7 @@
       <!-- Custom cell renderers -->
       <template #cell-avatar="{ item }">
         <div class="d-flex align-items-center">
-          <span
-            class="avatar avatar-sm me-3"
-            :style="item.photo ? `background-image: url(${item.photo})` : ''"
-          >
+          <span class="avatar avatar-sm me-3" :style="item.photo ? `background-image: url(${item.photo})` : ''">
             {{ !item.photo ? getInitials(item.name) : '' }}
           </span>
           <div>
@@ -177,11 +166,7 @@
       <div v-if="selectedEmployees.length > 0" class="mt-3">
         <strong>Selected employees:</strong>
         <ul class="list-unstyled mt-2">
-          <li
-            v-for="employee in selectedEmployeesList"
-            :key="employee.id"
-            class="d-flex align-items-center mb-1"
-          >
+          <li v-for="employee in selectedEmployeesList" :key="employee.id" class="d-flex align-items-center mb-1">
             <span
               class="avatar avatar-xs me-2"
               :style="employee.photo ? `background-image: url(${employee.photo})` : ''"
@@ -369,15 +354,15 @@ const handleAction = ({ action, item }) => {
   selectedEmployee.value = item
 
   switch (action) {
-  case 'view':
-    showDetailsModal.value = true
-    break
-  case 'edit':
-    showEditModal.value = true
-    break
-  case 'delete':
-    handleDelete(item)
-    break
+    case 'view':
+      showDetailsModal.value = true
+      break
+    case 'edit':
+      showEditModal.value = true
+      break
+    case 'delete':
+      handleDelete(item)
+      break
   }
 }
 
@@ -416,30 +401,30 @@ const handleBulkAction = actionType => {
   const count = selectedEmployees.value.length
 
   switch (actionType) {
-  case 'activate':
-    bulkAction.value = {
-      type: 'activate',
-      title: 'Activate Employees',
-      message: `Are you sure you want to activate ${count} employee(s)?`,
-      variant: 'success'
-    }
-    break
-  case 'deactivate':
-    bulkAction.value = {
-      type: 'deactivate',
-      title: 'Deactivate Employees',
-      message: `Are you sure you want to deactivate ${count} employee(s)?`,
-      variant: 'warning'
-    }
-    break
-  case 'delete':
-    bulkAction.value = {
-      type: 'delete',
-      title: 'Delete Employees',
-      message: `Are you sure you want to delete ${count} employee(s)? This action cannot be undone.`,
-      variant: 'danger'
-    }
-    break
+    case 'activate':
+      bulkAction.value = {
+        type: 'activate',
+        title: 'Activate Employees',
+        message: `Are you sure you want to activate ${count} employee(s)?`,
+        variant: 'success'
+      }
+      break
+    case 'deactivate':
+      bulkAction.value = {
+        type: 'deactivate',
+        title: 'Deactivate Employees',
+        message: `Are you sure you want to deactivate ${count} employee(s)?`,
+        variant: 'warning'
+      }
+      break
+    case 'delete':
+      bulkAction.value = {
+        type: 'delete',
+        title: 'Delete Employees',
+        message: `Are you sure you want to delete ${count} employee(s)? This action cannot be undone.`,
+        variant: 'danger'
+      }
+      break
   }
 
   showBulkConfirmModal.value = true
@@ -453,30 +438,30 @@ const confirmBulkAction = async () => {
     const actionType = bulkAction.value.type
 
     switch (actionType) {
-    case 'activate':
-      await employeeStore.bulkUpdate(ids, { is_active: true })
-      showNotification({
-        type: 'success',
-        title: 'Employees Activated',
-        message: `${ids.length} employee(s) have been activated`
-      })
-      break
-    case 'deactivate':
-      await employeeStore.bulkUpdate(ids, { is_active: false })
-      showNotification({
-        type: 'success',
-        title: 'Employees Deactivated',
-        message: `${ids.length} employee(s) have been deactivated`
-      })
-      break
-    case 'delete':
-      await employeeStore.bulkDelete(ids)
-      showNotification({
-        type: 'success',
-        title: 'Employees Deleted',
-        message: `${ids.length} employee(s) have been deleted`
-      })
-      break
+      case 'activate':
+        await employeeStore.bulkUpdate(ids, { is_active: true })
+        showNotification({
+          type: 'success',
+          title: 'Employees Activated',
+          message: `${ids.length} employee(s) have been activated`
+        })
+        break
+      case 'deactivate':
+        await employeeStore.bulkUpdate(ids, { is_active: false })
+        showNotification({
+          type: 'success',
+          title: 'Employees Deactivated',
+          message: `${ids.length} employee(s) have been deactivated`
+        })
+        break
+      case 'delete':
+        await employeeStore.bulkDelete(ids)
+        showNotification({
+          type: 'success',
+          title: 'Employees Deleted',
+          message: `${ids.length} employee(s) have been deleted`
+        })
+        break
     }
 
     selectedEmployees.value = []

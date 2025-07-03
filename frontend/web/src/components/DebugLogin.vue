@@ -6,12 +6,7 @@
     <div class="card-body">
       <div class="mb-3">
         <label class="form-label">Email</label>
-        <input
-          v-model="email"
-          type="email"
-          class="form-control"
-          placeholder="superadmin@school.edu"
-        />
+        <input v-model="email" type="email" class="form-control" placeholder="superadmin@school.edu" />
       </div>
 
       <div class="mb-3">
@@ -20,9 +15,7 @@
       </div>
 
       <div class="mb-3">
-        <button class="btn btn-secondary me-2" :disabled="loading" @click="testCsrf">
-          Test CSRF
-        </button>
+        <button class="btn btn-secondary me-2" :disabled="loading" @click="testCsrf">Test CSRF</button>
         <button class="btn btn-primary" :disabled="loading" @click="testLogin">Test Login</button>
       </div>
 

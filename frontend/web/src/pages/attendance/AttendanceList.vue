@@ -125,9 +125,7 @@
                     >
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                       <path d="M8 3v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-1" />
-                      <path
-                        d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"
-                      />
+                      <path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z" />
                       <path d="M10 14l2 2l4 -4" />
                     </svg>
                   </span>
@@ -150,11 +148,7 @@
           <h3 class="card-title">Daily Attendance</h3>
           <div class="card-actions">
             <div class="d-flex">
-              <input
-                v-model="selectedDate"
-                type="date"
-                class="form-control d-inline-block w-auto me-3"
-              />
+              <input v-model="selectedDate" type="date" class="form-control d-inline-block w-auto me-3" />
               <input
                 v-model="searchQuery"
                 type="search"
@@ -214,9 +208,7 @@
               >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M8 3v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-1" />
-                <path
-                  d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"
-                />
+                <path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z" />
               </svg>
             </div>
             <p class="empty-title">No attendance records found</p>
@@ -263,11 +255,7 @@
                 <td>
                   <span
                     class="avatar avatar-sm"
-                    :style="
-                      record.employee.avatar
-                        ? `background-image: url(${record.employee.avatar})`
-                        : ''
-                    "
+                    :style="record.employee.avatar ? `background-image: url(${record.employee.avatar})` : ''"
                     :class="!record.employee.avatar ? 'bg-primary-lt' : ''"
                   >
                     {{ record.employee.avatar ? '' : getInitials(record.employee.name) }}
@@ -298,9 +286,7 @@
                   </div>
                 </td>
                 <td>
-                  <span class="text-muted">{{
-                    calculateWorkingHours(record.check_in, record.check_out)
-                  }}</span>
+                  <span class="text-muted">{{ calculateWorkingHours(record.check_in, record.check_out) }}</span>
                 </td>
                 <td>
                   <span class="badge" :class="getStatusBadgeClass(record.status)">
@@ -313,10 +299,7 @@
                 <td>
                   <div class="btn-list flex-nowrap">
                     <div class="dropdown">
-                      <button
-                        class="btn btn-white btn-sm dropdown-toggle align-text-top"
-                        data-bs-toggle="dropdown"
-                      >
+                      <button class="btn btn-white btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">
                         Actions
                       </button>
                       <div class="dropdown-menu dropdown-menu-end">
@@ -334,9 +317,7 @@
                             stroke-linejoin="round"
                           >
                             <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                            <path
-                              d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
-                            />
+                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
                             <path d="M16 5l3 3" />
                           </svg>
                           Edit
@@ -362,11 +343,7 @@
                           View Details
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a
-                          href="#"
-                          class="dropdown-item text-danger"
-                          @click.prevent="deleteRecord(record)"
-                        >
+                        <a href="#" class="dropdown-item text-danger" @click.prevent="deleteRecord(record)">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="icon dropdown-item-icon"
@@ -406,11 +383,7 @@
           </p>
           <ul class="pagination m-0 ms-auto">
             <li class="page-item" :class="{ disabled: currentPage === 1 }">
-              <a
-                class="page-link"
-                href="#"
-                @click.prevent="currentPage = Math.max(1, currentPage - 1)"
-              >
+              <a class="page-link" href="#" @click.prevent="currentPage = Math.max(1, currentPage - 1)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="icon"
@@ -428,20 +401,11 @@
                 prev
               </a>
             </li>
-            <li
-              v-for="page in visiblePages"
-              :key="page"
-              class="page-item"
-              :class="{ active: page === currentPage }"
-            >
+            <li v-for="page in visiblePages" :key="page" class="page-item" :class="{ active: page === currentPage }">
               <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
             </li>
             <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-              <a
-                class="page-link"
-                href="#"
-                @click.prevent="currentPage = Math.min(totalPages, currentPage + 1)"
-              >
+              <a class="page-link" href="#" @click.prevent="currentPage = Math.min(totalPages, currentPage + 1)">
                 next
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -571,9 +535,7 @@ const visiblePages = computed(() => {
 })
 
 const presentToday = computed(() => {
-  return filteredAttendance.value.filter(
-    record => record.status === 'Present' || record.status === 'Late'
-  ).length
+  return filteredAttendance.value.filter(record => record.status === 'Present' || record.status === 'Late').length
 })
 
 const absentToday = computed(() => {

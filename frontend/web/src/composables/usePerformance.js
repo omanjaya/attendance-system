@@ -31,19 +31,19 @@ export const usePerformance = () => {
 
           entries.forEach(entry => {
             switch (entry.entryType) {
-            case 'navigation':
-              metrics.value.pageLoad = entry.loadEventEnd - entry.loadEventStart
-              break
-            case 'paint':
-              if (entry.name === 'first-contentful-paint') {
-                metrics.value.firstContentfulPaint = entry.startTime
-              }
-              break
-            case 'measure':
-              if (entry.name.startsWith('vue-render')) {
-                metrics.value.renderTime = entry.duration
-              }
-              break
+              case 'navigation':
+                metrics.value.pageLoad = entry.loadEventEnd - entry.loadEventStart
+                break
+              case 'paint':
+                if (entry.name === 'first-contentful-paint') {
+                  metrics.value.firstContentfulPaint = entry.startTime
+                }
+                break
+              case 'measure':
+                if (entry.name.startsWith('vue-render')) {
+                  metrics.value.renderTime = entry.duration
+                }
+                break
             }
           })
         })
@@ -244,10 +244,7 @@ export const usePerformance = () => {
         total: allSelectors.size,
         used: usedSelectors.size,
         unused: allSelectors.size - usedSelectors.size,
-        unusedPercentage: (
-          ((allSelectors.size - usedSelectors.size) / allSelectors.size) *
-          100
-        ).toFixed(2)
+        unusedPercentage: (((allSelectors.size - usedSelectors.size) / allSelectors.size) * 100).toFixed(2)
       }
     }
   }
@@ -347,12 +344,7 @@ export const usePerformance = () => {
       const offsetY = ref(0)
 
       const updateVisibleItems = scrollTop => {
-        const result = virtualScrolling.calculateVisibleItems(
-          containerHeight,
-          itemHeight,
-          scrollTop,
-          items.length
-        )
+        const result = virtualScrolling.calculateVisibleItems(containerHeight, itemHeight, scrollTop, items.length)
 
         visibleItems.value = items.slice(result.startIndex, result.endIndex + 1)
         offsetY.value = result.offsetY

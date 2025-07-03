@@ -12,19 +12,14 @@
               <!-- Avatar -->
               <div class="row align-items-center mb-3">
                 <div class="col-auto">
-                  <span
-                    class="avatar avatar-xl"
-                    :style="`background-image: url(${userAvatar})`"
-                  ></span>
+                  <span class="avatar avatar-xl" :style="`background-image: url(${userAvatar})`"></span>
                 </div>
                 <div class="col">
                   <div class="mb-2">
                     <strong>{{ user?.name }}</strong>
                   </div>
                   <div class="text-muted">{{ user?.email }}</div>
-                  <div v-if="user?.employee_id" class="text-muted small">
-                    Employee ID: {{ user.employee_id }}
-                  </div>
+                  <div v-if="user?.employee_id" class="text-muted small">Employee ID: {{ user.employee_id }}</div>
                 </div>
               </div>
 
@@ -57,12 +52,7 @@
               <!-- Phone -->
               <div class="mb-3">
                 <label class="form-label">Phone Number</label>
-                <input
-                  v-model="form.phone"
-                  type="tel"
-                  class="form-control"
-                  placeholder="Enter phone number"
-                />
+                <input v-model="form.phone" type="tel" class="form-control" placeholder="Enter phone number" />
               </div>
 
               <!-- Submit -->

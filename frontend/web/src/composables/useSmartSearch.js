@@ -120,9 +120,7 @@ export const useSmartSearch = (options = {}) => {
         // Word-based fuzzy matching
         const matchingWords = queryWords.filter(word => {
           return (
-            fieldValueLower.includes(word) ||
-            fuzzyMatch(fieldValueLower, word) ||
-            soundexMatch(fieldValueLower, word)
+            fieldValueLower.includes(word) || fuzzyMatch(fieldValueLower, word) || soundexMatch(fieldValueLower, word)
           )
         })
 
@@ -306,11 +304,7 @@ export const useSmartSearch = (options = {}) => {
 
           if (Array.isArray(value)) {
             return value.includes(itemValue)
-          } else if (
-            typeof value === 'object' &&
-            value.min !== undefined &&
-            value.max !== undefined
-          ) {
+          } else if (typeof value === 'object' && value.min !== undefined && value.max !== undefined) {
             return itemValue >= value.min && itemValue <= value.max
           } else {
             return itemValue === value

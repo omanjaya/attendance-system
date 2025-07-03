@@ -1897,9 +1897,7 @@
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
-    "css": [
-      "assets/app-X_6Dlzn1.css"
-    ]
+    "css": ["assets/app-X_6Dlzn1.css"]
   },
   "resources/js/components/ajax-handler.js": {
     "file": "assets/ajax-handler-gKb2YiDs.js",

@@ -227,9 +227,7 @@ export const useContextualActions = () => {
    * Get secondary actions
    */
   const getSecondaryActions = () => {
-    return availableActions.value.filter(
-      action => action.group !== 'primary' && action.variant !== 'primary'
-    )
+    return availableActions.value.filter(action => action.group !== 'primary' && action.variant !== 'primary')
   }
 
   /**

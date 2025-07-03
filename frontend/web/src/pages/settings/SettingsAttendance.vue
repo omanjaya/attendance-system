@@ -21,9 +21,7 @@
               </svg>
             </div>
             <p class="empty-title">Attendance Settings</p>
-            <p class="empty-subtitle text-muted">
-              This feature is coming soon! This is a placeholder component.
-            </p>
+            <p class="empty-subtitle text-muted">This feature is coming soon! This is a placeholder component.</p>
           </div>
         </div>
       </div>

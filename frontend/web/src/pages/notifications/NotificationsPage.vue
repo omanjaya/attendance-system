@@ -189,9 +189,7 @@
           <div>
             <h4 class="alert-title">Real-time Connection Lost</h4>
             <div class="text-muted">
-              You may not receive new notifications in real-time. Reconnecting... ({{
-                reconnectAttempts
-              }}/5)
+              You may not receive new notifications in real-time. Reconnecting... ({{ reconnectAttempts }}/5)
             </div>
           </div>
         </div>
@@ -439,9 +437,7 @@
                           </svg>
                           {{ formatTime(notification.created_at) }}
                         </small>
-                        <span v-if="notification.priority === 'high'" class="badge bg-danger ms-2"
-                          >High Priority</span
-                        >
+                        <span v-if="notification.priority === 'high'" class="badge bg-danger ms-2">High Priority</span>
                         <span v-if="!notification.read_at" class="badge bg-primary ms-2">New</span>
                       </div>
                     </div>
@@ -551,11 +547,7 @@
               {{ filteredNotifications.length }} notifications
             </div>
             <div class="btn-list">
-              <button
-                class="btn btn-outline-secondary"
-                :disabled="currentPage === 1"
-                @click="currentPage--"
-              >
+              <button class="btn btn-outline-secondary" :disabled="currentPage === 1" @click="currentPage--">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -572,11 +564,7 @@
                 </svg>
                 Previous
               </button>
-              <button
-                class="btn btn-outline-secondary"
-                :disabled="currentPage === totalPages"
-                @click="currentPage++"
-              >
+              <button class="btn btn-outline-secondary" :disabled="currentPage === totalPages" @click="currentPage++">
                 Next
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -736,9 +724,7 @@ const deleteNotification = async notificationId => {
 const clearFiltered = async () => {
   if (confirm(`Are you sure you want to clear all ${getFilterTitle().toLowerCase()}?`)) {
     // Delete filtered notifications
-    const promises = filteredNotifications.value.map(n =>
-      notificationService.deleteNotification(n.id)
-    )
+    const promises = filteredNotifications.value.map(n => notificationService.deleteNotification(n.id))
     await Promise.all(promises)
 
     // Reset to first page

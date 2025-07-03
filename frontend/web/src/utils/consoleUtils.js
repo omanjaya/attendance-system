@@ -96,11 +96,7 @@ console.log = (...args) => {
   }
 
   // Only show important app lifecycle logs
-  if (
-    firstArg.includes('Navigation') ||
-    firstArg.includes('component') ||
-    firstArg.includes('mounted')
-  ) {
+  if (firstArg.includes('Navigation') || firstArg.includes('component') || firstArg.includes('mounted')) {
     originalConsole.log(...args)
     return
   }

@@ -16,9 +16,7 @@
       </div>
       <div class="mt-3">
         <button class="btn btn-sm btn-outline-primary" @click="testApiCall">Test API Call</button>
-        <button class="btn btn-sm btn-outline-secondary ms-2" @click="logCurrentConfig">
-          Log Current Config
-        </button>
+        <button class="btn btn-sm btn-outline-secondary ms-2" @click="logCurrentConfig">Log Current Config</button>
       </div>
     </div>
   </div>

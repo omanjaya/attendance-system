@@ -110,13 +110,8 @@
                       {{ employee.avatar ? '' : getInitials(employee.name) }}
                     </span>
                     <div class="flex-fill">
-                      <div
-                        class="font-weight-medium"
-                        v-html="highlightMatch(employee.name, searchQuery)"
-                      ></div>
-                      <div class="text-muted small">
-                        {{ employee.employee_id }} • {{ employee.department }}
-                      </div>
+                      <div class="font-weight-medium" v-html="highlightMatch(employee.name, searchQuery)"></div>
+                      <div class="text-muted small">{{ employee.employee_id }} • {{ employee.department }}</div>
                     </div>
                     <div class="text-muted">
                       <svg
@@ -154,9 +149,7 @@
                     stroke-linejoin="round"
                   >
                     <path d="M8 3v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-1" />
-                    <path
-                      d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z"
-                    />
+                    <path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z" />
                     <path d="M10 14l2 2l4 -4" />
                   </svg>
                   Attendance
@@ -187,13 +180,8 @@
                       </svg>
                     </span>
                     <div class="flex-fill">
-                      <div
-                        class="font-weight-medium"
-                        v-html="highlightMatch(record.employee.name, searchQuery)"
-                      ></div>
-                      <div class="text-muted small">
-                        {{ formatDate(record.date) }} • {{ record.status }}
-                      </div>
+                      <div class="font-weight-medium" v-html="highlightMatch(record.employee.name, searchQuery)"></div>
+                      <div class="text-muted small">{{ formatDate(record.date) }} • {{ record.status }}</div>
                     </div>
                     <div class="text-muted">
                       <svg
@@ -264,13 +252,8 @@
                       </svg>
                     </span>
                     <div class="flex-fill">
-                      <div
-                        class="font-weight-medium"
-                        v-html="highlightMatch(schedule.name, searchQuery)"
-                      ></div>
-                      <div class="text-muted small">
-                        {{ schedule.employee.name }} • {{ schedule.department }}
-                      </div>
+                      <div class="font-weight-medium" v-html="highlightMatch(schedule.name, searchQuery)"></div>
+                      <div class="text-muted small">{{ schedule.employee.name }} • {{ schedule.department }}</div>
                     </div>
                     <div class="text-muted">
                       <svg
@@ -398,19 +381,11 @@ const results = ref({
 
 // Computed
 const hasResults = computed(() => {
-  return (
-    results.value.employees.length > 0 ||
-    results.value.attendance.length > 0 ||
-    results.value.schedules.length > 0
-  )
+  return results.value.employees.length > 0 || results.value.attendance.length > 0 || results.value.schedules.length > 0
 })
 
 const totalResults = computed(() => {
-  return (
-    results.value.employees.length +
-    results.value.attendance.length +
-    results.value.schedules.length
-  )
+  return results.value.employees.length + results.value.attendance.length + results.value.schedules.length
 })
 
 // Methods
@@ -440,11 +415,7 @@ const performSearch = async () => {
 
   // Search attendance
   results.value.attendance = mockData.attendance
-    .filter(
-      record =>
-        record.employee.name.toLowerCase().includes(query) ||
-        record.status.toLowerCase().includes(query)
-    )
+    .filter(record => record.employee.name.toLowerCase().includes(query) || record.status.toLowerCase().includes(query))
     .slice(0, 5)
 
   // Search schedules

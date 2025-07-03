@@ -5,9 +5,7 @@
       <div class="row align-items-center">
         <div class="col">
           <h2 class="page-title">Reports & Analytics Dashboard</h2>
-          <div class="text-muted mt-1">
-            Comprehensive insights into attendance, payroll, and performance
-          </div>
+          <div class="text-muted mt-1">Comprehensive insights into attendance, payroll, and performance</div>
         </div>
         <div class="col-auto ms-auto d-print-none">
           <div class="btn-list">
@@ -32,11 +30,7 @@
                 Export Reports
               </button>
               <div class="dropdown-menu">
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  @click.prevent="exportReport('attendance', 'excel')"
-                >
+                <a class="dropdown-item" href="#" @click.prevent="exportReport('attendance', 'excel')">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -49,9 +43,7 @@
                     stroke-linejoin="round"
                     class="icon me-2"
                   >
-                    <path
-                      d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
-                    />
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
                     <polyline points="14 2 14 8 20 8" />
                   </svg>
                   Attendance Report (Excel)
@@ -69,18 +61,12 @@
                     stroke-linejoin="round"
                     class="icon me-2"
                   >
-                    <path
-                      d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
-                    />
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
                     <polyline points="14 2 14 8 20 8" />
                   </svg>
                   Payroll Report (Excel)
                 </a>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  @click.prevent="exportReport('performance', 'pdf')"
-                >
+                <a class="dropdown-item" href="#" @click.prevent="exportReport('performance', 'pdf')">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -93,9 +79,7 @@
                     stroke-linejoin="round"
                     class="icon me-2"
                   >
-                    <path
-                      d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
-                    />
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
                     <polyline points="14 2 14 8 20 8" />
                   </svg>
                   Performance Report (PDF)
@@ -282,22 +266,13 @@
                 <h3 class="card-title">Attendance Trends</h3>
                 <div class="card-actions">
                   <div class="dropdown">
-                    <button
-                      class="btn btn-outline-secondary btn-sm dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                    >
+                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
                       {{ selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1) }}
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#" @click.prevent="changePeriod('daily')"
-                        >Daily</a
-                      >
-                      <a class="dropdown-item" href="#" @click.prevent="changePeriod('weekly')"
-                        >Weekly</a
-                      >
-                      <a class="dropdown-item" href="#" @click.prevent="changePeriod('monthly')"
-                        >Monthly</a
-                      >
+                      <a class="dropdown-item" href="#" @click.prevent="changePeriod('daily')">Daily</a>
+                      <a class="dropdown-item" href="#" @click.prevent="changePeriod('weekly')">Weekly</a>
+                      <a class="dropdown-item" href="#" @click.prevent="changePeriod('monthly')">Monthly</a>
                     </div>
                   </div>
                 </div>
@@ -360,8 +335,7 @@
                                 :style="`width: ${dept.attendance_rate}%`"
                                 :class="{
                                   'bg-success': dept.attendance_rate >= 90,
-                                  'bg-warning':
-                                    dept.attendance_rate >= 75 && dept.attendance_rate < 90,
+                                  'bg-warning': dept.attendance_rate >= 75 && dept.attendance_rate < 90,
                                   'bg-danger': dept.attendance_rate < 75
                                 }"
                               ></div>
@@ -406,9 +380,7 @@
                     </div>
                     <div class="text-end">
                       <div class="font-weight-medium">{{ performer.performance_score }}%</div>
-                      <div class="text-muted small">
-                        {{ formatPercentage(performer.attendance_rate) }} attendance
-                      </div>
+                      <div class="text-muted small">{{ formatPercentage(performer.attendance_rate) }} attendance</div>
                     </div>
                   </div>
                 </div>
@@ -495,12 +467,7 @@ let employeeTypeChartInstance = null
 const refreshDashboard = async () => {
   loading.value = true
   try {
-    await Promise.all([
-      loadMetrics(),
-      loadDepartmentStats(),
-      loadTopPerformers(),
-      generateInsights()
-    ])
+    await Promise.all([loadMetrics(), loadDepartmentStats(), loadTopPerformers(), generateInsights()])
 
     await nextTick()
     renderCharts()

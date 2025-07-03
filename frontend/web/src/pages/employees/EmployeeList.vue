@@ -4,11 +4,7 @@
     <!-- Employee Type Filter Cards -->
     <div class="col-12">
       <div class="row row-cards">
-        <div
-          v-for="typeOption in employeeTypeOptions"
-          :key="typeOption.value"
-          class="col-sm-6 col-lg-3"
-        >
+        <div v-for="typeOption in employeeTypeOptions" :key="typeOption.value" class="col-sm-6 col-lg-3">
           <div
             class="card card-sm cursor-pointer"
             :class="{ 'card-active': selectedType === typeOption.value }"
@@ -226,10 +222,7 @@
                   <div class="text-muted small">{{ employee.phone || '-' }}</div>
                 </td>
                 <td>
-                  <span
-                    class="badge"
-                    :class="employee.status === 'active' ? 'bg-success' : 'bg-danger'"
-                  >
+                  <span class="badge" :class="employee.status === 'active' ? 'bg-success' : 'bg-danger'">
                     {{ employee.status === 'active' ? 'Active' : 'Inactive' }}
                   </span>
                 </td>
@@ -238,14 +231,9 @@
                 </td>
                 <td>
                   <div class="btn-list flex-nowrap">
-                    <router-link :to="`/employees/${employee.id}`" class="btn btn-white btn-sm">
-                      View
-                    </router-link>
+                    <router-link :to="`/employees/${employee.id}`" class="btn btn-white btn-sm"> View </router-link>
                     <div class="dropdown">
-                      <button
-                        class="btn btn-white btn-sm dropdown-toggle align-text-top"
-                        data-bs-toggle="dropdown"
-                      >
+                      <button class="btn btn-white btn-sm dropdown-toggle align-text-top" data-bs-toggle="dropdown">
                         Actions
                       </button>
                       <div class="dropdown-menu dropdown-menu-end">
@@ -283,19 +271,13 @@
                             stroke-linejoin="round"
                           >
                             <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                            <path
-                              d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
-                            />
+                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
                             <path d="M16 5l3 3" />
                           </svg>
                           Edit
                         </router-link>
                         <div class="dropdown-divider"></div>
-                        <a
-                          href="#"
-                          class="dropdown-item text-danger"
-                          @click.prevent="deleteEmployee(employee)"
-                        >
+                        <a href="#" class="dropdown-item text-danger" @click.prevent="deleteEmployee(employee)">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="icon dropdown-item-icon"
@@ -335,11 +317,7 @@
           </p>
           <ul class="pagination m-0 ms-auto">
             <li class="page-item" :class="{ disabled: currentPage === 1 }">
-              <a
-                class="page-link"
-                href="#"
-                @click.prevent="currentPage = Math.max(1, currentPage - 1)"
-              >
+              <a class="page-link" href="#" @click.prevent="currentPage = Math.max(1, currentPage - 1)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="icon"
@@ -357,20 +335,11 @@
                 prev
               </a>
             </li>
-            <li
-              v-for="page in visiblePages"
-              :key="page"
-              class="page-item"
-              :class="{ active: page === currentPage }"
-            >
+            <li v-for="page in visiblePages" :key="page" class="page-item" :class="{ active: page === currentPage }">
               <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
             </li>
             <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-              <a
-                class="page-link"
-                href="#"
-                @click.prevent="currentPage = Math.min(totalPages, currentPage + 1)"
-              >
+              <a class="page-link" href="#" @click.prevent="currentPage = Math.min(totalPages, currentPage + 1)">
                 next
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -535,9 +504,7 @@ const getInitials = name => {
 
 const getEmployeeTypeLabel = type => {
   const typeOption = employeeTypeOptions.find(opt => opt.value === type)
-  return typeOption
-    ? typeOption.label
-    : type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
+  return typeOption ? typeOption.label : type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
 }
 
 const getEmployeeTypeColor = type => {

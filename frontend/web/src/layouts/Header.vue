@@ -43,13 +43,7 @@
 
         <!-- Quick Actions -->
         <div class="nav-item dropdown d-none d-md-flex me-3">
-          <a
-            href="#"
-            class="nav-link px-0"
-            data-bs-toggle="dropdown"
-            tabindex="-1"
-            aria-label="Show quick actions"
-          >
+          <a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show quick actions">
             <TablerIcon name="apps" />
           </a>
           <div class="dropdown-menu dropdown-menu-end dropdown-menu-card">
@@ -80,9 +74,7 @@
 
       <!-- Mobile Bottom Bar -->
       <div id="navbar-menu" class="collapse navbar-collapse">
-        <div
-          class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center"
-        >
+        <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
           <ul class="navbar-nav">
             <!-- Mobile only items -->
             <li class="nav-item d-md-none">
@@ -112,11 +104,7 @@
     <transition name="slide-down">
       <div v-if="showMobileSearch" class="navbar-search-overlay">
         <div class="container-xl">
-          <GlobalSearch
-            :autofocus="true"
-            @close="showMobileSearch = false"
-            @search="handleMobileSearch"
-          />
+          <GlobalSearch :autofocus="true" @close="showMobileSearch = false" @search="handleMobileSearch" />
         </div>
       </div>
     </transition>
@@ -208,14 +196,14 @@ const handleQuickAction = action => {
   }
 
   switch (action.action) {
-  case 'check-in':
-    // Emit check-in event
-    window.dispatchEvent(new Event('quick-check-in'))
-    break
-  case 'show-help':
-    // Show help modal
-    window.dispatchEvent(new Event('shortcuts-help-toggle'))
-    break
+    case 'check-in':
+      // Emit check-in event
+      window.dispatchEvent(new Event('quick-check-in'))
+      break
+    case 'show-help':
+      // Show help modal
+      window.dispatchEvent(new Event('shortcuts-help-toggle'))
+      break
   }
 }
 

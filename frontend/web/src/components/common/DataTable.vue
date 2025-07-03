@@ -25,11 +25,7 @@
 
             <!-- Export -->
             <div v-if="exportable" class="dropdown">
-              <button
-                class="btn btn-outline-secondary btn-sm dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-              >
+              <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
                 <TablerIcon name="download" size="sm" />
                 Export
               </button>
@@ -41,12 +37,7 @@
             </div>
 
             <!-- Refresh -->
-            <button
-              v-if="refreshable"
-              class="btn btn-outline-secondary btn-sm"
-              :disabled="loading"
-              @click="refresh"
-            >
+            <button v-if="refreshable" class="btn btn-outline-secondary btn-sm" :disabled="loading" @click="refresh">
               <TablerIcon name="refresh" size="sm" :class="{ spin: loading }" />
             </button>
 
@@ -139,12 +130,7 @@
               @click="column.sortable && handleSort(column.key)"
             >
               {{ column.label }}
-              <TablerIcon
-                v-if="column.sortable"
-                :name="getSortIcon(column.key)"
-                size="sm"
-                class="sort-icon"
-              />
+              <TablerIcon v-if="column.sortable" :name="getSortIcon(column.key)" size="sm" class="sort-icon" />
             </th>
 
             <!-- Actions -->
@@ -175,12 +161,7 @@
               :key="column.key"
               :class="[`text-${column.align || 'start'}`, column.cellClass]"
             >
-              <slot
-                :name="`cell-${column.key}`"
-                :item="item"
-                :value="getCellValue(item, column.key)"
-                :index="index"
-              >
+              <slot :name="`cell-${column.key}`" :item="item" :value="getCellValue(item, column.key)" :index="index">
                 <component
                   :is="column.component"
                   v-if="column.component"
@@ -218,11 +199,7 @@
 
     <!-- Card View -->
     <div v-else class="row row-cards">
-      <div
-        v-for="(item, index) in paginatedData"
-        :key="getRowKey(item, index)"
-        class="col-sm-6 col-lg-4"
-      >
+      <div v-for="(item, index) in paginatedData" :key="getRowKey(item, index)" class="col-sm-6 col-lg-4">
         <slot name="card" :item="item" :index="index">
           <div class="card card-sm">
             <div class="card-body">
@@ -237,42 +214,26 @@
     </div>
 
     <!-- Pagination -->
-    <div
-      v-if="paginated && totalPages > 1"
-      class="d-flex align-items-center justify-content-between mt-3"
-    >
+    <div v-if="paginated && totalPages > 1" class="d-flex align-items-center justify-content-between mt-3">
       <div class="text-muted">
-        Showing {{ (currentPage - 1) * pageSize + 1 }} to
-        {{ Math.min(currentPage * pageSize, total) }} of {{ total }} entries
+        Showing {{ (currentPage - 1) * pageSize + 1 }} to {{ Math.min(currentPage * pageSize, total) }} of
+        {{ total }} entries
       </div>
 
       <nav>
         <ul class="pagination pagination-sm">
           <li class="page-item" :class="{ disabled: currentPage === 1 }">
-            <button
-              class="page-link"
-              :disabled="currentPage === 1"
-              @click="goToPage(currentPage - 1)"
-            >
+            <button class="page-link" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
               <TablerIcon name="chevron-left" size="sm" />
             </button>
           </li>
 
-          <li
-            v-for="page in visiblePages"
-            :key="page"
-            class="page-item"
-            :class="{ active: page === currentPage }"
-          >
+          <li v-for="page in visiblePages" :key="page" class="page-item" :class="{ active: page === currentPage }">
             <button class="page-link" @click="goToPage(page)">{{ page }}</button>
           </li>
 
           <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-            <button
-              class="page-link"
-              :disabled="currentPage === totalPages"
-              @click="goToPage(currentPage + 1)"
-            >
+            <button class="page-link" :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">
               <TablerIcon name="chevron-right" size="sm" />
             </button>
           </li>
@@ -493,18 +454,18 @@ const formatCellValue = (item, column) => {
 
   if (column.format) {
     switch (column.format) {
-    case 'date':
-      return formatters.date(value)
-    case 'datetime':
-      return formatters.dateTime(value)
-    case 'currency':
-      return formatters.currency(value)
-    case 'number':
-      return formatters.number(value)
-    case 'percentage':
-      return formatters.percentage(value)
-    default:
-      return value
+      case 'date':
+        return formatters.date(value)
+      case 'datetime':
+        return formatters.dateTime(value)
+      case 'currency':
+        return formatters.currency(value)
+      case 'number':
+        return formatters.number(value)
+      case 'percentage':
+        return formatters.percentage(value)
+      default:
+        return value
     }
   }
 
