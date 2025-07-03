@@ -8,7 +8,7 @@ import { useAuth } from '@/composables/useAuth'
 import AppLayout from '@/layouts/AppLayout.vue'
 import Sidebar from '@/layouts/Sidebar.vue'
 import Header from '@/layouts/Header.vue'
-import UserDropdown from '@/layouts/UserDropdown.vue'
+// import UserDropdown from '@/layouts/UserDropdown.vue'
 
 // Mock router routes
 const routes = [

@@ -141,8 +141,8 @@
               <div class="input-group input-group-flat">
                 <input
                   id="email"
-                  v-model="form.email"
                   ref="emailInput"
+                  v-model="form.email"
                   type="email"
                   class="form-control"
                   :class="{
@@ -265,8 +265,8 @@
               <div class="input-group input-group-flat">
                 <input
                   id="password"
-                  v-model="form.password"
                   ref="passwordInput"
+                  v-model="form.password"
                   :type="showPassword ? 'text' : 'password'"
                   class="form-control"
                   :class="{

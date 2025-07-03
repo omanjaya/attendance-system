@@ -114,7 +114,7 @@ export class SessionPersistenceTest {
       localStorage.setItem('user_data', JSON.stringify(testUser))
 
       // Test initialization
-      const initResult = await this.authStore.initAuth()
+      const _initResult = await this.authStore.initAuth()
 
       const isInitialized = this.authStore.initialized
       const hasToken = this.authStore.token === testToken
