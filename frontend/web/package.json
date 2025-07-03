@@ -3,15 +3,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "build:analyze": "npm run build -- --mode analyze",
-    "build:report": "npm run build && npm run analyze",
+    "build": "npm run build:only",
+    "build:only": "vite build",
+    "build:with-lint": "npm run lint && npm run build:only",
+    "build:analyze": "npm run build:only -- --mode analyze",
+    "build:report": "npm run build:only && npm run analyze",
     "dev": "vite",
     "dev:analyze": "vite --mode analyze",
     "watch": "vite build --watch",
     "preview": "vite preview",
     "analyze": "node scripts/analyze-bundle.cjs",
-    "lint": "eslint --ext .js,.vue,.ts src/",
+    "lint": "eslint --ext .js,.vue,.ts src/ --max-warnings 50",
     "lint:fix": "eslint --fix --ext .js,.vue,.ts src/",
     "lint:check": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs",
     "format": "prettier --write \"src/**/*.{js,vue,ts,json,css,scss}\"",
@@ -68,8 +70,10 @@
     "concurrently": "^9.0.1",
     "eslint": "^9.30.0",
     "eslint-plugin-vue": "^10.2.0",
+    "husky": "^9.1.7",
     "jsdom": "^26.1.0",
     "laravel-vite-plugin": "^1.2.0",
+    "lint-staged": "^16.1.2",
     "playwright": "^1.53.1",
     "prettier": "^3.6.2",
     "sass": "^1.71.1",
@@ -77,5 +81,9 @@
     "vite": "^6.2.4",
     "vitest": "^3.2.4",
     "webpack-bundle-analyzer": "^4.10.2"
+  },
+  "lint-staged": {
+    "*.{js,vue,ts}": ["eslint --fix", "prettier --write"],
+    "*.{json,css,scss,md}": ["prettier --write"]
   }
 }
