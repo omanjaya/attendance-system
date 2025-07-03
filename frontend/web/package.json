@@ -5,7 +5,7 @@
     "scripts": {
         "build": "vite build",
         "build:analyze": "npm run build -- --mode analyze",
-        "build:report": "npm run build && npx bundlesize",
+        "build:report": "npm run build && npm run analyze",
         "dev": "vite",
         "dev:analyze": "vite --mode analyze",
         "watch": "vite build --watch",
@@ -49,7 +49,7 @@
         "datatables.net-vue3": "^2.1.2",
         "jquery": "^3.7.1",
         "pinia": "^2.1.7",
-        "sweetalert2": "^11.6.13",
+        "sweetalert2": "^11.22.2",
         "vue": "^3.4.21",
         "vue-router": "^4.3.0"
     },
@@ -64,7 +64,6 @@
         "@vue/compiler-sfc": "^3.4.21",
         "@vue/eslint-config-prettier": "^10.2.0",
         "@vue/test-utils": "^2.4.6",
-        "bundlesize": "^0.18.1",
         "concurrently": "^9.0.1",
         "eslint": "^9.30.0",
         "eslint-plugin-vue": "^10.2.0",
